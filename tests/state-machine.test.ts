@@ -22,10 +22,13 @@ describe("CharacterStateMachine", () => {
       priority: 40,
       interruptible: true,
       activeAction: "setExpression",
+      actionElapsedMs: 0,
+      actionProgress: 0,
     });
 
     machine.advance(2_399);
     expect(machine.snapshot().expression).toBe("happy");
+    expect(machine.snapshot().actionElapsedMs).toBe(2_399);
     machine.advance(1);
     expect(machine.snapshot()).toMatchObject({
       expression: "neutral",
@@ -33,6 +36,8 @@ describe("CharacterStateMachine", () => {
       mode: "safeIdle",
       priority: 0,
       activeAction: null,
+      actionElapsedMs: 0,
+      actionProgress: 0,
       queuedActions: [],
     });
   });
@@ -98,6 +103,7 @@ describe("CharacterStateMachine", () => {
     expect(machine.snapshot()).toMatchObject({
       motion: "greet",
       activeAction: "playMotion",
+      actionElapsedMs: 0,
       priority: 50,
       queuedActions: ["setExpression", "lookAtCharacter"],
     });
@@ -107,6 +113,7 @@ describe("CharacterStateMachine", () => {
       expression: "happy",
       motion: "idle",
       activeAction: "setExpression",
+      actionElapsedMs: 0,
       queuedActions: ["lookAtCharacter"],
     });
 
@@ -115,6 +122,7 @@ describe("CharacterStateMachine", () => {
       expression: "neutral",
       gazeTarget: { kind: "character", target: "noa" },
       activeAction: "lookAtCharacter",
+      actionElapsedMs: 0,
       queuedActions: [],
     });
 
@@ -124,8 +132,108 @@ describe("CharacterStateMachine", () => {
       motion: "idle",
       mode: "safeIdle",
       activeAction: null,
+      actionElapsedMs: 0,
+      actionProgress: 0,
       queuedActions: [],
     });
+  });
+
+  it("is snapshot-identical for one-step and chunked action time", () => {
+    const singleStep = new CharacterStateMachine("riai", 0x1234);
+    const chunked = new CharacterStateMachine("riai", 0x1234);
+    const action = {
+      action: "playMotion",
+      character: "riai",
+      motion: "greet",
+    } as const;
+    singleStep.dispatch(action, "single");
+    chunked.dispatch(action, "single");
+
+    singleStep.advance(600);
+    for (let index = 0; index < 6; index += 1) {
+      chunked.advance(100);
+    }
+
+    expect(singleStep.snapshot()).toEqual(chunked.snapshot());
+    expect(singleStep.snapshot()).toMatchObject({
+      motion: "greet",
+      actionElapsedMs: 600,
+      actionProgress: 0.5,
+    });
+  });
+
+  it("canonicalizes fractional fixed steps at an exact action boundary", () => {
+    const singleStep = new CharacterStateMachine("riai", 0x2345);
+    const fixedStep = new CharacterStateMachine("riai", 0x2345);
+    const action = {
+      action: "playMotion",
+      character: "riai",
+      motion: "greet",
+    } as const;
+    singleStep.dispatch(action, "fractional");
+    fixedStep.dispatch(action, "fractional");
+
+    singleStep.advance(1_200);
+    for (let index = 0; index < 72; index += 1) {
+      fixedStep.advance(1_200 / 72);
+    }
+
+    expect(fixedStep.snapshot()).toEqual(singleStep.snapshot());
+    expect(fixedStep.snapshot()).toMatchObject({
+      motion: "idle",
+      mode: "safeIdle",
+      activeAction: null,
+      actionElapsedMs: 0,
+      actionProgress: 0,
+    });
+  });
+
+  it("preserves deterministic elapsed time when a queued motion starts mid-step", () => {
+    const singleStep = new CharacterStateMachine("riai", 0x5678);
+    const chunked = new CharacterStateMachine("riai", 0x5678);
+    for (const machine of [singleStep, chunked]) {
+      machine.dispatch(
+        { action: "playMotion", character: "riai", motion: "reactLight" },
+        "locked",
+      );
+      machine.dispatch(
+        { action: "playMotion", character: "riai", motion: "greet" },
+        "queued",
+      );
+    }
+
+    singleStep.advance(2_100);
+    for (let index = 0; index < 3; index += 1) {
+      chunked.advance(700);
+    }
+
+    expect(singleStep.snapshot()).toEqual(chunked.snapshot());
+    expect(singleStep.snapshot()).toMatchObject({
+      motion: "greet",
+      activeAction: "playMotion",
+      actionElapsedMs: 300,
+      actionProgress: 0.25,
+      queuedActions: [],
+    });
+  });
+
+  it("treats advance(0) as a true no-op, including revision and action time", () => {
+    const machine = new CharacterStateMachine("noa", 0x9abc);
+    machine.dispatch(
+      { action: "playMotion", character: "noa", motion: "tailSway" },
+      "tail",
+    );
+    const atStart = machine.snapshot();
+
+    machine.advance(0);
+    expect(machine.snapshot()).toEqual(atStart);
+
+    machine.advance(250);
+    const inMotion = machine.snapshot();
+    machine.advance(0);
+    expect(machine.snapshot()).toEqual(inMotion);
+    expect(machine.snapshot().revision).toBe(atStart.revision);
+    expect(machine.snapshot().actionElapsedMs).toBe(250);
   });
 
   it("emergencyStop clears an uninterruptible action and all queued work", () => {
@@ -153,6 +261,8 @@ describe("CharacterStateMachine", () => {
       priority: 0,
       interruptible: true,
       activeAction: null,
+      actionElapsedMs: 0,
+      actionProgress: 0,
       queuedActions: [],
     });
   });

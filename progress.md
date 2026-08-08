@@ -39,3 +39,25 @@ Original prompt: Execute Phase 1 of the Riai + Noa Live2D project: create exact 
 - Browser safe-idle render is verified, but preset interaction is not.
 - Nine secondary files still exist only at ephemeral Photos `NSItemProvider` paths; durable archive originals remain required.
 - No layered PSD, `.cmo3`, `.moc3`, `.model3.json`, texture, motion, expression, or physics asset exists.
+
+## 2026-08-09 08:31 JST — End-of-day checkpoint
+
+- Resumed from commit `e80c0e3` and implemented the six independent safety-audit corrections:
+  - sole `emergencyStop` is idempotent and reasserts safe idle even for a duplicate accepted request ID;
+  - runtime `render`／`emergencyReset` exceptions fail closed, return `RUNTIME_FAILED`, audit the failure, and restore the controller to neutral safe idle without remembering a failed request;
+  - a cheap request-attempt limiter runs before full validation, while an exact-shape bounded emergency candidate retains access to mandatory full validation during a flood;
+  - oversized code-unit input is rejected before `TextEncoder` allocation, with the exact UTF-8 limit still checked on bounded input;
+  - MOCK greet／tail／ear motion now uses deterministic action progress rather than frame/update-count revision, and zero-time advance is a no-op;
+  - replay-window eviction is deterministic, explicitly documented, returned by `ReplayGuard`, and emitted as a `REPLAY_WINDOW_EVICTED` audit event.
+- Added regression coverage for those paths. Final local verification at 08:30 JST: TypeScript typecheck PASS, Vitest 5 files / 66 tests PASS, Vite production build PASS. Current JS bundle is 42.26 kB / 10.93 kB gzip.
+- Rechecked future Live2D assumptions against official Editor and Web SDK manuals and recorded the links in `docs/phase1-status.md`.
+- Browser probe found `#preset-light-btn` visually stable and unobscured. The provided skill client sometimes succeeds but can spend 3.75–4.36 seconds in Playwright's stable check and narrowly exceed its fixed 5-second click timeout. This is tooling-timing flakiness, not observed DOM movement. Complete preset/rejection/emergency screenshots are still deferred.
+- Stopped the Vite development server. No Cubism project, PSD, model, or export was created or modified.
+
+## Resume next session — exact first actions
+
+1. Start the Vite server with the bundled Node command in `README.md`.
+2. Run the provided develop-web-game Playwright client for central-light, look-at-character, invalid-action rejection, and emergency-stop scenarios. Retry the selector click if its fixed 5-second stable wait flakes; do not weaken CSP or validation to work around the tool.
+3. Inspect every generated screenshot with `view_image`, verify `state-*.json`, and require no `errors-*.json` console/page errors.
+4. Perform one final read-only diff/security audit of the end-of-day safety patch, then rerun typecheck, all 66+ tests, and build.
+5. Update `docs/phase1-status.md` browser rows and acceptance conclusion. If all Phase 1 gates pass, create a final Phase 1 commit and stop before real Cubism rigging／SDK／voice／lip-sync／LLM／Phase 2.

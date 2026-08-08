@@ -1,9 +1,12 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import {
   CharacterActionValidator,
   MAX_ACTION_JSON_BYTES,
+  MAX_EMERGENCY_CANDIDATE_CODE_UNITS,
+  isStrictSoleEmergencyCandidateJson,
 } from "../src/actions/validator";
+import { actionEnvelope } from "./test-helpers";
 
 describe("CharacterActionValidator", () => {
   const validator = new CharacterActionValidator();
@@ -143,12 +146,8 @@ describe("CharacterActionValidator", () => {
   );
 
   it("rejects UTF-8 payloads above the byte limit before parsing", () => {
-    const rawJson = JSON.stringify({
-      version: 1,
-      requestId: "oversize",
-      actions: [{ action: "setExpression", character: "riai", expression: "happy" }],
-      padding: "界".repeat(MAX_ACTION_JSON_BYTES),
-    });
+    const rawJson = "界".repeat(Math.floor(MAX_ACTION_JSON_BYTES / 3) + 1);
+    expect(rawJson.length).toBeLessThan(MAX_ACTION_JSON_BYTES);
     expect(new TextEncoder().encode(rawJson).byteLength).toBeGreaterThan(
       MAX_ACTION_JSON_BYTES,
     );
@@ -160,6 +159,52 @@ describe("CharacterActionValidator", () => {
       throw new Error("Expected oversized-input rejection.");
     }
     expect(result.code).toBe("INPUT_TOO_LARGE");
+  });
+
+  it("rejects overlong code-unit input before allocating a UTF-8 copy", () => {
+    const encode = vi.spyOn(TextEncoder.prototype, "encode");
+    const rawJson = "x".repeat(MAX_ACTION_JSON_BYTES + 1);
+
+    const result = validator.validateJson(rawJson);
+
+    expect(encode).not.toHaveBeenCalled();
+    encode.mockRestore();
+    expect(result.ok).toBe(false);
+    if (result.ok) {
+      throw new Error("Expected oversized-input rejection.");
+    }
+    expect(result.code).toBe("INPUT_TOO_LARGE");
+    expect(result.byteLength).toBe(rawJson.length);
+  });
+
+  it("admits only a small exact-shape sole emergency as a cheap candidate", () => {
+    const valid = actionEnvelope("emergency-candidate", [
+      { action: "emergencyStop" },
+    ]);
+    expect(isStrictSoleEmergencyCandidateJson(valid)).toBe(true);
+
+    const rejected = [
+      actionEnvelope("emergency/invalid", [{ action: "emergencyStop" }]),
+      JSON.stringify({
+        version: 1,
+        requestId: "emergency-extra-envelope",
+        actions: [{ action: "emergencyStop" }],
+        extra: true,
+      }),
+      JSON.stringify({
+        version: 1,
+        requestId: "emergency-extra-action",
+        actions: [{ action: "emergencyStop", extra: true }],
+      }),
+      actionEnvelope("emergency-mixed", [
+        { action: "emergencyStop" },
+        { action: "setExpression", character: "riai", expression: "happy" },
+      ]),
+      `${" ".repeat(MAX_EMERGENCY_CANDIDATE_CODE_UNITS)}${valid}`,
+    ];
+    for (const candidate of rejected) {
+      expect(isStrictSoleEmergencyCandidateJson(candidate)).toBe(false);
+    }
   });
 
   it("rejects strings above the structural string limit", () => {

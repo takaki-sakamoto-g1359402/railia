@@ -4,7 +4,7 @@
 
 **条件付きGO。ただしPhase 1は未完了です。**
 
-安全な高レベルCharacter Action API、Riai／Noa状態機械、runtime抽象化、可視Canvas `MOCK`、制作仕様書は実装済みです。2026-08-09 08:15 JSTのtypecheck、50/50 baseline tests、production buildは成功し、safe-idle Canvasも目視しました。一方、独立安全監査で6項目の未修正点が確認され、preset browser interactionも未完了です。したがってPhase 1完了は主張しません。
+安全な高レベルCharacter Action API、Riai／Noa状態機械、runtime抽象化、可視Canvas `MOCK`、制作仕様書は実装済みです。独立安全監査6項目を修正し、2026-08-09 08:30 JSTのtypecheck、66/66 tests、production buildは成功しました。safe-idle Canvasも目視済みです。一方、全preset／rejection／emergencyのブラウザ画面証拠と最終diff監査は未完了なので、Phase 1完了はまだ主張しません。
 
 Live2D Cubism Editorは起動中で、人間から起動・使用の承認も得ています。しかし、分離PSDとリグ済みモデルは存在しません。Editorが動いていることは、Live2Dモデルが完成したことを意味しません。実モデル制作は引き続き **REQUIRES MANUAL LIVE2D WORK** です。
 
@@ -33,19 +33,29 @@ Live2D Cubism Editorは起動中で、人間から起動・使用の承認も得
 | 通常PATH | `node`と`npm`は見つからず、pnpm fallback wrapperのみ検出 | MISSING FROM NORMAL PATH |
 | Codex bundled runtime | Node `v24.14.0`、pnpm `11.16.0`を実行確認 | IMPLEMENTED |
 | Git | Git 2.39.5、repository初期化済み、branch `main` | IMPLEMENTED |
-| Git record | 調査時点でcommitはなく、プロジェクトファイルはuntracked | PENDING |
+| Git record | `e80c0e3 chore: checkpoint phase 1 safe mock foundation` | SAVED CHECKPOINT |
 | dependency state | `pnpm-lock.yaml`、`node_modules/`あり | IMPLEMENTED; CLEAN INSTALL PENDING |
-| build artifact | `dist/`あり。ただし存在だけでは現在ソースのbuild成功証拠にならない | PENDING |
-| tests | 5 files / 50 Vitest casesあり | BASELINE PASS; AUDIT REGRESSION TESTS REQUIRED |
+| build artifact | current sourceから08:30 JSTに再生成。JS 42.26 kB / gzip 10.93 kB | PASS |
+| tests | 5 files / 66 Vitest cases | PASS; FINAL DIFF AUDIT PENDING |
 | app choice | browser-first TypeScript＋Vite。Electron／PixiJSなし | IMPLEMENTED |
 | Cubism SDK for Web | package／Core／adapterなし | FUTURE WORK / BLOCKED FOR REAL RUNTIME |
 | Live2D character assets | PSD、`.cmo3`、`.moc3`、`.model3.json`、textures、motions、expressions、physicsなし | REQUIRES MANUAL LIVE2D WORK |
+
+### Live2D公式資料との照合
+
+2026-08-09に現行のLive2D公式マニュアルへ再照合しました。
+
+- [Notes on PSD creation](https://docs.live2d.com/en/cubism-editor-manual/precautions-for-psd-data/) は、モデル用PSDをRGB・8 bit/channel・sRGBで準備し、重複レイヤー名を避け、line／fill／clipping maskを1 partのレイヤーへまとめ、layer maskをimport copyに残さないよう案内しています。本リポジトリのlayer naming／8-bit sRGB／import-copy分離方針と一致します。
+- 同公式ページではPNGはmodeling guide／animation background等の例外用途とされます。したがって、承認済みflattened PNGを分離済みcharacter PSDの代わりに直接model textureとして扱いません。
+- [Import PSDs](https://docs.live2d.com/en/cubism-editor-manual/psd-import/) はPSD leafをArtMeshへ変換する工程を示します。現状はPSD leafがないため、Editor起動済みでもArtMesh作成開始条件を満たしません。
+- [Standard Parameter List](https://docs.live2d.com/en/cubism-editor-manual/standard-parameter-list/) の標準ID／範囲を`docs/live2d-model-spec.md`の提案値と照合しました。実モデルのexported boundsは将来startup時に再検証し、文書値を無条件に適用しません。
+- [About Models (Web)](https://docs.live2d.com/en/cubism-sdk-manual/model-web/) は`.moc3`がparameterに対するvertex等の動きを持ち、`.model3.json`が関連ファイル参照をまとめる構成を説明しています。これらが存在しない現在のruntimeは引き続き`MOCK / NOT LIVE2D`です。
 
 ## Feasibility
 
 ### Safe MOCK vertical slice
 
-**Feasible / implementation foundation present.** Strict schema、bounded validator、安全policy、state machine、runtime adapter、Canvas MOCKのコードは存在します。実動証拠は`PENDING`なので、Phase 1 acceptanceはまだ通過していません。
+**Feasible / verified foundation present.** Strict schema、bounded validator、安全policy、state machine、runtime adapter、Canvas MOCKが存在し、typecheck／66 tests／buildは通過しました。browser scenario matrixとfinal diff auditが`PENDING`なので、Phase 1 acceptanceはまだ通過していません。
 
 ### Real Live2D Riai + Noa
 
@@ -96,11 +106,11 @@ Untrusted JSON
 | Concern | Current file(s) | Status |
 | --- | --- | --- |
 | Action schema | `src/actions/character-action.schema.json` | IMPLEMENTED |
-| Parse／structure／schema validation | `src/actions/validator.ts` | IMPLEMENTED; BEHAVIOR TEST PENDING |
-| Capability／self-target／queue policy | `src/safety/policy.ts`, `src/characters/catalog.ts` | IMPLEMENTED; BEHAVIOR TEST PENDING |
-| Rate limiting／replay guard | `src/safety/rate-limiter.ts`, `src/safety/replay-guard.ts` | IMPLEMENTED; BEHAVIOR TEST PENDING |
+| Parse／structure／schema validation | `src/actions/validator.ts` | IMPLEMENTED; TESTED |
+| Capability／self-target／queue policy | `src/safety/policy.ts`, `src/characters/catalog.ts` | IMPLEMENTED; TESTED |
+| Rate limiting／replay guard | `src/safety/rate-limiter.ts`, `src/safety/replay-guard.ts` | IMPLEMENTED; TESTED; SESSION-LOCAL |
 | Character Action API | `src/actions/character-action-api.ts` | IMPLEMENTED / PROTOTYPE |
-| Priority／interrupt／queue／safe idle | `src/state/*` | IMPLEMENTED / PROTOTYPE; TEST PENDING |
+| Priority／interrupt／queue／safe idle | `src/state/*` | IMPLEMENTED / PROTOTYPE; TESTED |
 | Runtime boundary | `src/runtime/runtime-adapter.ts` | IMPLEMENTED |
 | Visible placeholder renderer | `src/mock/canvas-mock-runtime.ts` | MOCK; VISUAL QA PENDING |
 | Audit logging | `src/logging/audit-logger.ts` | IMPLEMENTED; MEMORY ONLY |
@@ -140,9 +150,9 @@ Untrusted JSON
 
 | Requirement / command | Authoritative evidence required | Current result |
 | --- | --- | --- |
-| `pnpm typecheck` | current sourceに対するexit 0と実行ログ | PASS — 2026-08-09 08:15 JST、bundled Node 24.14.0 |
-| `pnpm build` | current sourceに対するexit 0、fresh `dist/` | PASS — 2026-08-09 08:15 JST、Vite 8.2.1; JS 39.49 kB / gzip 10.14 kB |
-| `pnpm test` | exit 0、valid／malformed／unknown／unsafe／state／priority／emergency／seed tests | BASELINE PASS — 5 files / 50 tests、2026-08-09 08:15 JST; independent safety audit findings remain open |
+| `pnpm typecheck` | current sourceに対するexit 0と実行ログ | PASS — 2026-08-09 08:30 JST、bundled Node 24.14.0 |
+| `pnpm build` | current sourceに対するexit 0、fresh `dist/` | PASS — 2026-08-09 08:30 JST、Vite 8.2.1; JS 42.26 kB / gzip 10.93 kB |
+| `pnpm test` | exit 0、valid／malformed／unknown／unsafe／state／priority／emergency／seed tests | PASS — 5 files / 66 tests、2026-08-09 08:30 JST |
 | Valid command | accepted audit、state transition、visible MOCK reaction | PENDING |
 | Malformed JSON | renderer crashなし、`VALIDATION_REJECTED` | PENDING |
 | Unknown property／action／character | fail closed、rejected audit | PENDING |
@@ -157,7 +167,7 @@ Untrusted JSON
 | Original artwork untouched | registered hashes match、no modified source | POLICY IMPLEMENTED; FINAL HANDOFF RECHECK PENDING |
 | Real Live2D model | PSD、rig、runtime bundle、Viewer evidence | REQUIRES MANUAL LIVE2D WORK |
 
-Build／baseline testsは通過しましたが、独立監査でemergency replay、runtime例外のpartial commit、rejected-flood rate bypass、oversize preallocation、step-dependent motion、replay evictionの未修正点が確認されています。さらにpreset browser interactionが未確認のため、Phase 1 success criteriaは未達です。正確な再開順は`progress.md`の`Resume here`を優先してください。
+独立監査6項目と回帰テストは通過しましたが、全preset browser interactionとfinal diff auditが未確認のため、Phase 1 success criteriaはまだ未達です。正確な再開順は`progress.md`の`Resume next session`を優先してください。
 
 ## 欠落依存・blocker
 
@@ -166,8 +176,8 @@ Build／baseline testsは通過しましたが、独立監査でemergency replay
 3. 隠れ面を人間が再描画した高解像度・透明・分離PSD。
 4. Cubism Editorで作る`.cmo3`と、Viewer／runtime用`.moc3`、`.model3.json`、textures、physics、motions、expressions。
 5. Live2D Cubism SDK for Web／Coreの取得、version pin、license／redistribution判断。
-6. 独立安全監査6項目の修正とregression tests。
-7. preset／rejection／emergencyを含むbrowser visual／interaction QA。
+6. preset／rejection／emergencyを含むbrowser visual／interaction QA。
+7. end-of-day patchのfinal read-only diff audit。
 8. 検証済みの意図的Git checkpoint。関係ないファイルを混ぜないこと。
 
 ## Exact human next-step checklist

@@ -7,6 +7,11 @@ import { SeededIdleBehavior } from "./seeded-idle";
 import type { CharacterSnapshot, GazeTarget, IdleState } from "./types";
 
 export const MAX_QUEUED_ACTIONS_PER_CHARACTER = 16;
+const TIME_CANONICAL_SCALE = 1_000_000;
+
+function canonicalizeMilliseconds(value: number): number {
+  return Math.round(value * TIME_CANONICAL_SCALE) / TIME_CANONICAL_SCALE;
+}
 
 export type DispatchDisposition = "started" | "queued" | "interrupted";
 
@@ -25,6 +30,8 @@ interface ScheduledAction {
 }
 
 interface ActiveAction extends ScheduledAction {
+  readonly durationMs: number;
+  elapsedMs: number;
   remainingMs: number;
 }
 
@@ -46,6 +53,8 @@ export class CharacterStateMachine {
   readonly #state: MutableCharacterState;
   #active: ActiveAction | null = null;
   #sequence = 0;
+  #rawElapsedMs = 0;
+  #canonicalElapsedMs = 0;
 
   public constructor(
     public readonly character: CharacterId,
@@ -117,19 +126,38 @@ export class CharacterStateMachine {
     if (!Number.isFinite(deltaMs) || deltaMs < 0 || deltaMs > 60_000) {
       throw new Error("State-machine delta must be between 0 and 60000 ms.");
     }
-    this.#state.idle = this.#idle.advance(deltaMs);
+    if (deltaMs === 0) {
+      return;
+    }
+    this.#rawElapsedMs += deltaMs;
+    const nextCanonicalElapsedMs = canonicalizeMilliseconds(
+      this.#rawElapsedMs,
+    );
+    const effectiveDeltaMs =
+      nextCanonicalElapsedMs - this.#canonicalElapsedMs;
+    this.#canonicalElapsedMs = nextCanonicalElapsedMs;
+    if (effectiveDeltaMs === 0) {
+      return;
+    }
+    this.#state.idle = this.#idle.advance(effectiveDeltaMs);
 
-    let unconsumedMs = deltaMs;
+    let unconsumedMs = effectiveDeltaMs;
     while (
       this.#active !== null &&
-      unconsumedMs >= this.#active.remainingMs
+      unconsumedMs + 1 / TIME_CANONICAL_SCALE >= this.#active.remainingMs
     ) {
-      unconsumedMs -= this.#active.remainingMs;
+      this.#active.elapsedMs = this.#active.durationMs;
+      unconsumedMs = Math.max(0, unconsumedMs - this.#active.remainingMs);
       this.#completeActive();
       this.#startNext();
     }
     if (this.#active !== null) {
-      this.#active.remainingMs -= unconsumedMs;
+      this.#active.elapsedMs = canonicalizeMilliseconds(
+        this.#active.elapsedMs + unconsumedMs,
+      );
+      this.#active.remainingMs = canonicalizeMilliseconds(
+        this.#active.remainingMs - unconsumedMs,
+      );
     } else {
       this.#state.gazeTarget = {
         kind: "point",
@@ -137,7 +165,6 @@ export class CharacterStateMachine {
         y: this.#state.idle.gazeY,
       };
     }
-    this.#touch();
   }
 
   public emergencyStop(): void {
@@ -154,6 +181,11 @@ export class CharacterStateMachine {
   }
 
   public snapshot(): CharacterSnapshot {
+    const actionElapsedMs = this.#active?.elapsedMs ?? 0;
+    const actionProgress =
+      this.#active === null
+        ? 0
+        : Math.min(1, actionElapsedMs / this.#active.durationMs);
     const gazeTarget =
       this.#state.gazeTarget.kind === "point"
         ? { ...this.#state.gazeTarget }
@@ -169,6 +201,8 @@ export class CharacterStateMachine {
       priority: this.#state.priority,
       interruptible: this.#state.interruptible,
       activeAction: this.#state.activeAction,
+      actionElapsedMs,
+      actionProgress,
       queuedActions: Object.freeze(
         this.#queue.map((item) => item.action.action),
       ),
@@ -178,9 +212,12 @@ export class CharacterStateMachine {
   }
 
   #start(scheduled: ScheduledAction): void {
+    const durationMs = Math.max(1, scheduled.descriptor.durationMs);
     this.#active = {
       ...scheduled,
-      remainingMs: Math.max(1, scheduled.descriptor.durationMs),
+      durationMs,
+      elapsedMs: 0,
+      remainingMs: durationMs,
     };
     this.#applyAction(scheduled.action);
     this.#state.mode = "acting";
@@ -197,6 +234,7 @@ export class CharacterStateMachine {
       this.#state.priority = 0;
       this.#state.interruptible = true;
       this.#state.activeAction = null;
+      this.#touch();
       return;
     }
     this.#start(next);
@@ -265,4 +303,3 @@ export class CharacterStateMachine {
     this.#state.revision += 1;
   }
 }
-

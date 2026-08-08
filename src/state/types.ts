@@ -27,8 +27,13 @@ export interface CharacterSnapshot {
   readonly priority: number;
   readonly interruptible: boolean;
   readonly activeAction: string | null;
+  /** Milliseconds consumed by the currently active high-level action. */
+  readonly actionElapsedMs: number;
+  /** Normalized deterministic progress of the current action, or 0 in safe idle. */
+  readonly actionProgress: number;
   readonly queuedActions: readonly string[];
   readonly idle: IdleState;
+  /** Monotonic revision of discrete queue/action/mode transitions, not a frame clock. */
   readonly revision: number;
 }
 
@@ -37,4 +42,3 @@ export interface WorldSnapshot {
   readonly emergencyStopCount: number;
   readonly characters: Readonly<Record<CharacterId, CharacterSnapshot>>;
 }
-

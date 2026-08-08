@@ -1,8 +1,10 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { CharacterActionApi } from "../src/actions/character-action-api";
+import { CharacterActionValidator } from "../src/actions/validator";
 import { AuditLogger } from "../src/logging/audit-logger";
 import { RecordingMockRuntime } from "../src/runtime/runtime-adapter";
+import { ReplayGuard } from "../src/safety/replay-guard";
 import { actionEnvelope, mutableClock } from "./test-helpers";
 
 describe("CharacterActionApi", () => {
@@ -119,6 +121,30 @@ describe("CharacterActionApi", () => {
     expect(api.logger.entries().at(-1)?.code).toBe("DUPLICATE_REQUEST");
   });
 
+  it("documents deterministic oldest-first replay-window eviction", () => {
+    const guard = new ReplayGuard(2);
+
+    expect(guard.remember("request-a")).toEqual({
+      remembered: true,
+      evictedRequestId: null,
+    });
+    expect(guard.remember("request-b")).toEqual({
+      remembered: true,
+      evictedRequestId: null,
+    });
+    expect(guard.remember("request-b")).toEqual({
+      remembered: false,
+      evictedRequestId: null,
+    });
+    expect(guard.remember("request-c")).toEqual({
+      remembered: true,
+      evictedRequestId: "request-a",
+    });
+    expect(guard.has("request-a")).toBe(false);
+    expect(guard.has("request-b")).toBe(true);
+    expect(guard.has("request-c")).toBe(true);
+  });
+
   it("rate-limits whole requests atomically and recovers after the window", () => {
     const clock = mutableClock(1_000);
     const runtime = new RecordingMockRuntime();
@@ -160,6 +186,89 @@ describe("CharacterActionApi", () => {
     );
     expect(recovered.accepted).toBe(true);
     expect(runtime.renderCount()).toBe(2);
+  });
+
+  it("rate-limits rejected attempts while always admitting a sole emergency stop", () => {
+    const clock = mutableClock(1_000);
+    const runtime = new RecordingMockRuntime();
+    const api = new CharacterActionApi({
+      runtime,
+      clock: clock.now,
+      maxAttemptsPerWindow: 2,
+      attemptWindowMs: 100,
+      maxActionCostPerWindow: 100,
+    });
+
+    expect(api.executeJson("{").code).toBe("VALIDATION_REJECTED");
+    expect(
+      api.executeJson(
+        actionEnvelope("attempt-policy", [
+          { action: "lookAtCharacter", character: "noa", target: "noa" },
+        ]),
+      ).code,
+    ).toBe("POLICY_REJECTED");
+    expect(api.executeJson("{").code).toBe("RATE_LIMITED");
+    expect(
+      api.executeJson(
+        actionEnvelope("attempt-valid", [
+          { action: "setExpression", character: "riai", expression: "happy" },
+        ]),
+      ).code,
+    ).toBe("RATE_LIMITED");
+
+    const emergency = api.executeJson(
+      actionEnvelope("attempt-emergency", [{ action: "emergencyStop" }]),
+    );
+    expect(emergency.code).toBe("EMERGENCY_STOPPED");
+    expect(emergency.snapshot.characters.riai.mode).toBe("safeIdle");
+
+    clock.advance(101);
+    expect(
+      api.executeJson(
+        actionEnvelope("attempt-recovered", [
+          { action: "setExpression", character: "riai", expression: "happy" },
+        ]),
+      ).code,
+    ).toBe("ACCEPTED");
+  });
+
+  it("does not invoke full validation for an over-budget non-emergency", () => {
+    const clock = mutableClock(1_000);
+    const validateJson = vi.spyOn(
+      CharacterActionValidator.prototype,
+      "validateJson",
+    );
+
+    try {
+      const api = new CharacterActionApi({
+        runtime: new RecordingMockRuntime(),
+        clock: clock.now,
+        maxAttemptsPerWindow: 1,
+        attemptWindowMs: 100,
+        maxActionCostPerWindow: 100,
+      });
+      const first = api.executeJson(
+        actionEnvelope("attempt-first", [
+          { action: "setExpression", character: "riai", expression: "happy" },
+        ]),
+      );
+      expect(first.code).toBe("ACCEPTED");
+      expect(validateJson).toHaveBeenCalledTimes(1);
+
+      const denied = api.executeJson(
+        actionEnvelope("attempt-denied-before-validation", [
+          { action: "setExpression", character: "noa", expression: "happy" },
+        ]),
+      );
+      expect(denied).toMatchObject({
+        accepted: false,
+        code: "RATE_LIMITED",
+        requestId: null,
+      });
+      expect(validateJson).toHaveBeenCalledTimes(1);
+    } finally {
+      validateJson.mockRestore();
+    }
   });
 
   it("rejects a policy-invalid batch atomically even when its first action is valid", () => {
@@ -315,6 +424,45 @@ describe("CharacterActionApi", () => {
       outcome: "accepted",
       code: "EMERGENCY_STOPPED",
       action: "emergencyStop",
+    });
+  });
+
+  it("idempotently reasserts a duplicate emergency request after later activity", () => {
+    const runtime = new RecordingMockRuntime();
+    const api = new CharacterActionApi({ runtime });
+    const emergencyJson = actionEnvelope("same-emergency", [
+      { action: "emergencyStop" },
+    ]);
+
+    expect(api.executeJson(emergencyJson).code).toBe("EMERGENCY_STOPPED");
+    expect(
+      api.executeJson(
+        actionEnvelope("activity-after-stop", [
+          { action: "setExpression", character: "riai", expression: "happy" },
+        ]),
+      ).code,
+    ).toBe("ACCEPTED");
+    expect(api.snapshot().characters.riai.mode).toBe("acting");
+
+    const repeated = api.executeJson(emergencyJson);
+
+    expect(repeated).toMatchObject({
+      accepted: true,
+      code: "EMERGENCY_STOPPED",
+      requestId: "same-emergency",
+    });
+    expect(repeated.snapshot.characters.riai).toMatchObject({
+      expression: "neutral",
+      motion: "idle",
+      mode: "safeIdle",
+      activeAction: null,
+      queuedActions: [],
+    });
+    expect(runtime.emergencyResetCount()).toBe(2);
+    expect(api.logger.entries().at(-1)).toMatchObject({
+      outcome: "accepted",
+      code: "EMERGENCY_STOP_REASSERTED",
+      requestId: "same-emergency",
     });
   });
 });

@@ -35,14 +35,6 @@ export class CharacterSafetyPolicy {
     envelope: Readonly<ActionEnvelope>,
     context: PolicyContext,
   ): PolicyResult {
-    if (context.duplicateRequest) {
-      return {
-        ok: false,
-        code: "DUPLICATE_REQUEST",
-        message: "The requestId has already been accepted.",
-      };
-    }
-
     const emergencyActions = envelope.actions.filter(isEmergencyStop);
     if (emergencyActions.length > 0 && envelope.actions.length !== 1) {
       return {
@@ -52,7 +44,17 @@ export class CharacterSafetyPolicy {
       };
     }
     if (emergencyActions.length === 1) {
+      // A sole emergency stop is deliberately idempotent. Re-delivery with an
+      // accepted requestId must reassert safety after any later activity.
       return { ok: true };
+    }
+
+    if (context.duplicateRequest) {
+      return {
+        ok: false,
+        code: "DUPLICATE_REQUEST",
+        message: "The requestId has already been accepted.",
+      };
     }
 
     const scopedActions = envelope.actions.filter(isCharacterScopedAction);
@@ -100,4 +102,3 @@ export class CharacterSafetyPolicy {
     return { ok: true };
   }
 }
-

@@ -4,7 +4,7 @@
 
 このリポジトリは、Riai／Noaを将来Live2Dへ接続するための、安全な高レベルCharacter Action APIとブラウザ上の可視 `MOCK` を分離して検証するPhase 1 PoCです。
 
-現時点の結論は **条件付きGO / Phase 1未完了** です。TypeScript＋Viteの基盤、厳格なJSON境界、状態機械、監査ログ、Canvasプレースホルダーは実装済みで、2026-08-09 08:15 JST時点のtypecheck、50/50 baseline tests、production buildは成功しました。ただし独立安全監査6項目とpreset browser interactionが未完了です。合格テストだけを根拠にPhase 1完了とは扱いません。
+現時点の結論は **条件付きGO / Phase 1未完了** です。TypeScript＋Viteの基盤、厳格なJSON境界、状態機械、監査ログ、Canvasプレースホルダーを実装し、独立安全監査6項目も修正しました。2026-08-09 08:30 JST時点のtypecheck、66/66 tests、production buildは成功しています。ただし全presetのブラウザ画面証拠とfinal diff auditが未完了なので、Phase 1完了とは扱いません。
 
 > **MOCK / NOT LIVE2D**  
 > 画面に出るRiai／Noaは抽象的なラベル付きプレースホルダーです。分離PSD、Cubismリグ、`.moc3`、`.model3.json`、Live2D Cubism SDK、実テクスチャ、実モーション、表情、物理はロードされません。
@@ -155,7 +155,7 @@ PATH="$RIAI_NODE_DIR:$PATH" "$RIAI_PNPM" test
 - これは単一ブラウザ内PoCであり、production security boundaryではありません。
 - auditとreplay stateはリロードで消えます。
 - auth、権限分離、永続ログ、署名、サーバー側rate limit、明示的async timeoutは未実装です。
-- baseline実行テストは50/50 PASSですが、`progress.md`の独立安全監査6項目に対する修正とregression testsは`PENDING`です。
+- 実行テストは66/66 PASSです。残る受入作業は`progress.md`の`Resume next session`に記録したbrowser scenario matrixとfinal diff auditです。
 
 ## リファレンス方針
 

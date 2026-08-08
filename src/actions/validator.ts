@@ -3,10 +3,12 @@ import validateSchema from "virtual:character-action-validator";
 import type { ActionEnvelope } from "./types";
 
 export const MAX_ACTION_JSON_BYTES = 4_096;
+export const MAX_EMERGENCY_CANDIDATE_CODE_UNITS = 256;
 const MAX_STRUCTURE_DEPTH = 6;
 const MAX_STRUCTURE_NODES = 96;
 const MAX_ANY_STRING_LENGTH = 256;
 const DANGEROUS_KEYS = new Set(["__proto__", "prototype", "constructor"]);
+const REQUEST_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,63}$/;
 
 export type ValidationFailureCode =
   | "EMPTY_INPUT"
@@ -32,6 +34,62 @@ export interface ValidationFailure {
 }
 
 export type ValidationResult = ValidationSuccess | ValidationFailure;
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+function hasExactKeys(
+  value: Readonly<Record<string, unknown>>,
+  expectedKeys: readonly string[],
+): boolean {
+  const actualKeys = Object.keys(value);
+  return (
+    actualKeys.length === expectedKeys.length &&
+    expectedKeys.every((key) => Object.hasOwn(value, key))
+  );
+}
+
+/**
+ * Cheap, fail-closed admission check used only after the entry attempt budget
+ * is exhausted. It deliberately mirrors the strict schema shape for a sole
+ * emergency stop without invoking structural scanning or the compiled schema.
+ * Full validation is still mandatory before the emergency is executed.
+ */
+export function isStrictSoleEmergencyCandidateJson(rawJson: string): boolean {
+  if (
+    rawJson.length === 0 ||
+    rawJson.length > MAX_EMERGENCY_CANDIDATE_CODE_UNITS
+  ) {
+    return false;
+  }
+
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(rawJson) as unknown;
+  } catch {
+    return false;
+  }
+
+  if (
+    !isRecord(parsed) ||
+    !hasExactKeys(parsed, ["version", "requestId", "actions"]) ||
+    parsed.version !== 1 ||
+    typeof parsed.requestId !== "string" ||
+    !REQUEST_ID_PATTERN.test(parsed.requestId) ||
+    !Array.isArray(parsed.actions) ||
+    parsed.actions.length !== 1
+  ) {
+    return false;
+  }
+
+  const action = parsed.actions[0];
+  return (
+    isRecord(action) &&
+    hasExactKeys(action, ["action"]) &&
+    action.action === "emergencyStop"
+  );
+}
 
 interface ScanBudget {
   nodes: number;
@@ -105,6 +163,18 @@ function scanFailureMessage(code: ValidationFailureCode): string {
 
 export class CharacterActionValidator {
   public validateJson(rawJson: string): ValidationResult {
+    // UTF-8 cannot use fewer bytes than this UTF-16 code-unit count. Rejecting
+    // here prevents an attacker-controlled oversized string from first being
+    // copied into an equally unbounded TextEncoder allocation.
+    if (rawJson.length > MAX_ACTION_JSON_BYTES) {
+      return {
+        ok: false,
+        code: "INPUT_TOO_LARGE",
+        message: `Action JSON exceeds ${MAX_ACTION_JSON_BYTES} bytes.`,
+        byteLength: rawJson.length,
+      };
+    }
+
     const byteLength = new TextEncoder().encode(rawJson).byteLength;
     if (rawJson.trim().length === 0) {
       return {

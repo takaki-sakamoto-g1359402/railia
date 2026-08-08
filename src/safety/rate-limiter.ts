@@ -13,7 +13,12 @@ export class SlidingWindowRateLimiter {
     private readonly windowMs: number,
     private readonly clock: Clock = Date.now,
   ) {
-    if (maxCost < 1 || windowMs < 1) {
+    if (
+      !Number.isSafeInteger(maxCost) ||
+      maxCost < 1 ||
+      !Number.isFinite(windowMs) ||
+      windowMs < 1
+    ) {
       throw new Error("Rate-limit configuration must be positive.");
     }
   }
@@ -23,6 +28,9 @@ export class SlidingWindowRateLimiter {
       return false;
     }
     const now = this.clock();
+    if (!Number.isFinite(now)) {
+      return false;
+    }
     const cutoff = now - this.windowMs;
     while (
       this.#entries.length > 0 &&
@@ -42,4 +50,3 @@ export class SlidingWindowRateLimiter {
     this.#entries.length = 0;
   }
 }
-

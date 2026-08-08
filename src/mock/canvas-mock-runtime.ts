@@ -9,6 +9,10 @@ interface StagePoint {
   readonly y: number;
 }
 
+function actionOscillation(character: CharacterSnapshot): number {
+  return Math.sin(character.actionProgress * Math.PI * 2);
+}
+
 const STAR_FIELD: readonly StagePoint[] = Array.from({ length: 64 }, (_, index) => ({
   x: (index * 137.5 + 43) % LOGICAL_WIDTH,
   y: (index * 79.3 + 29) % (LOGICAL_HEIGHT * 0.78),
@@ -182,9 +186,8 @@ export class CanvasMockRuntime implements CharacterRuntimeAdapter {
     scale: number,
   ): void {
     const context = this.#context;
-    const motionTime = character.revision * 0.3;
     const isRiai = character.id === "riai";
-    const bob = character.motion === "greet" ? Math.sin(motionTime) * 8 : 0;
+    const bob = character.motion === "greet" ? actionOscillation(character) * 8 : 0;
     const lean = character.motion === "reactLight" ? (isRiai ? 8 : -8) : 0;
     const bodyLift = (character.idle.breath - 0.5) * 5;
     const sway = character.idle.sway * 3;
@@ -216,7 +219,9 @@ export class CanvasMockRuntime implements CharacterRuntimeAdapter {
     const context = this.#context;
     const isRiai = character.id === "riai";
     const tailMotion =
-      character.motion === "tailSway" ? Math.sin(character.revision * 0.8) * 16 : character.idle.sway * 7;
+      character.motion === "tailSway"
+        ? actionOscillation(character) * 16
+        : character.idle.sway * 7;
     context.save();
     context.translate(isRiai ? -48 : 48, 40);
     context.rotate((tailMotion * Math.PI) / 180);
@@ -280,7 +285,9 @@ export class CanvasMockRuntime implements CharacterRuntimeAdapter {
     const headY = isRiai ? -75 : -62;
     const radius = isRiai ? 54 : 48;
     const earTwitch =
-      character.motion === "earTwitch" ? Math.sin(character.revision) * 0.22 : 0;
+      character.motion === "earTwitch"
+        ? actionOscillation(character) * 0.22
+        : 0;
 
     context.fillStyle = "#dbe8f8";
     for (const side of [-1, 1] as const) {
