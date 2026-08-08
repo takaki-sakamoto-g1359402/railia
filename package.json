@@ -1,0 +1,29 @@
+{
+  "name": "riai-noa-safe-live2d-poc",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Phase 1 safe MOCK character-action vertical slice for future Riai and Noa Live2D models.",
+  "packageManager": "pnpm@11.16.0",
+  "engines": {
+    "node": ">=24.14.0 <25"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "ajv": "8.20.0"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.3",
+    "playwright": "1.62.1",
+    "typescript": "5.9.3",
+    "vite": "8.2.1",
+    "vitest": "4.1.10"
+  }
+}

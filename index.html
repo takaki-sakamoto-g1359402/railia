@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' ws://127.0.0.1:*; object-src 'none'; base-uri 'none'; form-action 'self'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <title>Riai + Noa Safe Action Lab — MOCK</title>
+  </head>
+  <body>
+    <div id="app" class="app-shell">
+      <header class="app-header">
+        <div>
+          <p class="eyebrow">Riai + Noa / Phase 1</p>
+          <h1>Safe Character Action Lab</h1>
+        </div>
+        <div class="status-stack" aria-label="Implementation status">
+          <span class="status-pill status-mock">MOCK</span>
+          <span class="status-pill">NOT LIVE2D</span>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <section class="stage-panel" aria-labelledby="stage-title">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Visible reaction proof</p>
+              <h2 id="stage-title">Deterministic MOCK stage</h2>
+            </div>
+            <button id="fullscreen-btn" class="button button-secondary" type="button">
+              Fullscreen (F)
+            </button>
+          </div>
+          <div id="canvas-wrap" class="canvas-wrap">
+            <canvas
+              id="mock-stage"
+              width="960"
+              height="540"
+              aria-label="Mock stage with labeled Riai and Noa placeholders"
+            ></canvas>
+          </div>
+          <p class="stage-disclaimer">
+            Abstract placeholders only. No Cubism SDK, PSD separation, rig, moc3,
+            texture, motion, expression, or physics asset is loaded.
+          </p>
+          <div class="preset-row" aria-label="Safe action presets">
+            <button id="preset-light-btn" class="button" type="button">
+              Central-light reaction
+            </button>
+            <button id="preset-conversation-btn" class="button" type="button">
+              Look at each other
+            </button>
+            <button id="preset-invalid-btn" class="button button-secondary" type="button">
+              Prove rejection
+            </button>
+            <button id="emergency-stop-btn" class="button button-danger" type="button">
+              Emergency stop
+            </button>
+          </div>
+        </section>
+
+        <aside class="control-panel" aria-label="Action controls and evidence">
+          <section class="control-section" aria-labelledby="composer-title">
+            <div class="panel-heading compact">
+              <div>
+                <p class="eyebrow">Strict JSON boundary</p>
+                <h2 id="composer-title">Character Action API</h2>
+              </div>
+              <span class="allowlist-note">5 actions only</span>
+            </div>
+            <textarea
+              id="action-json"
+              aria-label="Character Action JSON"
+              spellcheck="false"
+              autocomplete="off"
+            ></textarea>
+            <button id="submit-action-btn" class="button button-wide" type="button">
+              Validate and dispatch
+            </button>
+            <div id="execution-result" class="execution-result" role="status" aria-live="polite">
+              Ready. Input is untrusted until validated.
+            </div>
+          </section>
+
+          <section class="control-section" aria-labelledby="state-title">
+            <div class="panel-heading compact">
+              <div>
+                <p class="eyebrow">Authoritative MOCK state</p>
+                <h2 id="state-title">Character states</h2>
+              </div>
+            </div>
+            <div class="state-grid">
+              <article class="state-card">
+                <h3>Riai</h3>
+                <pre id="riai-state"></pre>
+              </article>
+              <article class="state-card">
+                <h3>Noa</h3>
+                <pre id="noa-state"></pre>
+              </article>
+            </div>
+          </section>
+
+          <section class="control-section audit-section" aria-labelledby="audit-title">
+            <div class="panel-heading compact">
+              <div>
+                <p class="eyebrow">Bounded in-memory evidence</p>
+                <h2 id="audit-title">Audit log</h2>
+              </div>
+            </div>
+            <ol id="audit-log" class="audit-log" aria-live="polite"></ol>
+          </section>
+        </aside>
+      </main>
+
+      <footer class="app-footer">
+        Coordinates: normalized stage space, X −1 left → +1 right, Y −1 bottom → +1 top.
+        Press F outside a form control to toggle fullscreen.
+      </footer>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

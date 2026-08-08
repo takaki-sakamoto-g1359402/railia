@@ -1,0 +1,376 @@
+:root {
+  color-scheme: dark;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background: #060914;
+  color: #eef4ff;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: #060914;
+}
+
+button,
+textarea {
+  font: inherit;
+}
+
+button:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #9ddcff;
+  outline-offset: 2px;
+}
+
+.app-shell {
+  min-height: 100vh;
+  padding: 24px;
+  background:
+    radial-gradient(circle at 12% 0%, rgb(30 70 130 / 28%), transparent 36%),
+    radial-gradient(circle at 88% 12%, rgb(89 45 145 / 24%), transparent 30%),
+    #060914;
+}
+
+.app-header,
+.workspace,
+.app-footer {
+  width: min(1480px, 100%);
+  margin-inline: auto;
+}
+
+.app-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 18px;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 0;
+  font-size: clamp(1.8rem, 3vw, 3.1rem);
+  letter-spacing: -0.04em;
+}
+
+h2 {
+  margin-bottom: 0;
+  font-size: 1.1rem;
+}
+
+h3 {
+  margin-bottom: 8px;
+  color: #bfe7ff;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  margin-bottom: 4px;
+  color: #88a6c8;
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.status-stack,
+.preset-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.status-pill,
+.allowlist-note {
+  border: 1px solid #2e496b;
+  border-radius: 999px;
+  padding: 7px 11px;
+  background: #101a2a;
+  color: #b8cbe3;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.status-mock {
+  border-color: #a26d26;
+  background: #37230d;
+  color: #ffd792;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(360px, 0.85fr);
+  gap: 16px;
+}
+
+.stage-panel,
+.control-section {
+  border: 1px solid #1d2e47;
+  border-radius: 18px;
+  background: rgb(10 17 31 / 92%);
+  box-shadow: 0 24px 70px rgb(0 0 0 / 24%);
+}
+
+.stage-panel {
+  align-self: start;
+  padding: 16px;
+}
+
+.control-panel {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+
+.control-section {
+  min-width: 0;
+  padding: 14px;
+}
+
+.panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.panel-heading.compact {
+  margin-bottom: 10px;
+}
+
+.canvas-wrap {
+  overflow: hidden;
+  width: 100%;
+  border: 1px solid #365376;
+  border-radius: 14px;
+  background: #030713;
+  aspect-ratio: 16 / 9;
+}
+
+#mock-stage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+.stage-disclaimer {
+  margin: 10px 2px 14px;
+  color: #9fb0c6;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.button {
+  min-height: 38px;
+  border: 1px solid #3e7eb6;
+  border-radius: 10px;
+  padding: 8px 12px;
+  background: linear-gradient(180deg, #1b6da6, #124a76);
+  color: #f6fbff;
+  cursor: pointer;
+  font-weight: 750;
+  transition:
+    transform 120ms ease,
+    filter 120ms ease;
+}
+
+.button:hover {
+  filter: brightness(1.14);
+}
+
+.button:active {
+  filter: brightness(0.96);
+}
+
+.button-secondary {
+  border-color: #405675;
+  background: #141f31;
+  color: #c9d8ea;
+}
+
+.button-danger {
+  border-color: #b84b64;
+  background: linear-gradient(180deg, #9d304b, #6b1d32);
+}
+
+.button-wide {
+  width: 100%;
+  margin-top: 8px;
+}
+
+#action-json {
+  display: block;
+  width: 100%;
+  min-height: 156px;
+  resize: vertical;
+  border: 1px solid #2e4665;
+  border-radius: 10px;
+  padding: 11px;
+  background: #050a14;
+  color: #d8ecff;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  tab-size: 2;
+}
+
+.execution-result {
+  min-height: 44px;
+  margin-top: 9px;
+  border-left: 3px solid #567ba2;
+  border-radius: 4px;
+  padding: 8px 10px;
+  background: #101a29;
+  color: #b7c9de;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.execution-result.accepted {
+  border-left-color: #50c890;
+  color: #baf1d6;
+}
+
+.execution-result.rejected {
+  border-left-color: #ef6a84;
+  color: #ffc4d0;
+}
+
+.state-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.state-card {
+  min-width: 0;
+  border: 1px solid #263a55;
+  border-radius: 10px;
+  padding: 10px;
+  background: #090f1c;
+}
+
+.state-card pre {
+  overflow: hidden;
+  margin: 0;
+  color: #9eb4cf;
+  font-size: 0.66rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.audit-section {
+  min-height: 168px;
+}
+
+.audit-log {
+  display: grid;
+  overflow-y: auto;
+  max-height: 210px;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.audit-log li {
+  border-left: 3px solid #3f6e9f;
+  padding: 7px 9px;
+  background: #0a1220;
+  color: #aebfd3;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.65rem;
+  line-height: 1.35;
+}
+
+.audit-log li.rejected {
+  border-left-color: #c94d68;
+}
+
+.audit-log li.accepted {
+  border-left-color: #3bb77d;
+}
+
+.app-footer {
+  padding: 15px 4px 4px;
+  color: #71849d;
+  font-size: 0.7rem;
+  line-height: 1.5;
+}
+
+#canvas-wrap:fullscreen {
+  display: grid;
+  place-items: center;
+  width: 100vw;
+  height: 100vh;
+  border: 0;
+  border-radius: 0;
+  background: #02040b;
+}
+
+#canvas-wrap:fullscreen #mock-stage {
+  width: 100vw;
+  height: 100vh;
+}
+
+@media (max-width: 1080px) {
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .control-panel {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .audit-section {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 680px) {
+  .app-shell {
+    padding: 14px;
+  }
+
+  .app-header,
+  .panel-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .control-panel,
+  .state-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .audit-section {
+    grid-column: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+}
