@@ -1,4 +1,5 @@
 import type { IdleState } from "./types";
+import { CanonicalElapsedTime } from "./canonical-time";
 
 class XorShift32 {
   #state: number;
@@ -29,7 +30,7 @@ export class SeededIdleBehavior {
   readonly #blinkRandom: XorShift32;
   readonly #gazeRandom: XorShift32;
   readonly #phase: number;
-  #elapsedMs = 0;
+  readonly #time = new CanonicalElapsedTime();
   #nextBlinkAtMs: number;
   #blinkUntilMs = -1;
   #nextGazeAtMs: number;
@@ -49,16 +50,16 @@ export class SeededIdleBehavior {
     if (!Number.isFinite(deltaMs) || deltaMs < 0) {
       throw new Error("Idle delta must be a finite non-negative number.");
     }
-    this.#elapsedMs += deltaMs;
+    const elapsedMs = this.#time.advance(deltaMs).elapsedMs;
 
-    while (this.#elapsedMs >= this.#nextBlinkAtMs) {
+    while (elapsedMs >= this.#nextBlinkAtMs) {
       this.#blinkUntilMs = this.#nextBlinkAtMs + 115;
       this.#nextBlinkAtMs =
         this.#blinkUntilMs + this.#blinkRandom.range(1_600, 3_600);
       this.#eventSequence += 1;
     }
 
-    while (this.#elapsedMs >= this.#nextGazeAtMs) {
+    while (elapsedMs >= this.#nextGazeAtMs) {
       this.#gazeX = this.#gazeRandom.range(-0.22, 0.22);
       this.#gazeY = this.#gazeRandom.range(-0.12, 0.18);
       this.#nextGazeAtMs += this.#gazeRandom.range(1_300, 2_900);
@@ -69,14 +70,15 @@ export class SeededIdleBehavior {
   }
 
   public snapshot(): IdleState {
+    const elapsedMs = this.#time.elapsedMs();
     const breathAngle =
-      (this.#elapsedMs / 3_200 + this.#phase) * Math.PI * 2;
+      (elapsedMs / 3_200 + this.#phase) * Math.PI * 2;
     const swayAngle =
-      (this.#elapsedMs / 4_600 + this.#phase * 0.5) * Math.PI * 2;
+      (elapsedMs / 4_600 + this.#phase * 0.5) * Math.PI * 2;
     return Object.freeze({
       blinkOpen:
-        this.#elapsedMs >= this.#blinkUntilMs - 115 &&
-        this.#elapsedMs < this.#blinkUntilMs
+        elapsedMs >= this.#blinkUntilMs - 115 &&
+        elapsedMs < this.#blinkUntilMs
           ? 0.08
           : 1,
       breath: 0.5 + Math.sin(breathAngle) * 0.5,
@@ -87,4 +89,3 @@ export class SeededIdleBehavior {
     });
   }
 }
-

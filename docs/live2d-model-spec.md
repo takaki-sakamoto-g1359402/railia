@@ -297,11 +297,11 @@ D_Noa_Root [Warp: placement-neutral]
 
 ## 8. モーションセットと命名
 
-API aliasは小文字snake_case、Cubism motion groupはPascalCase、ファイルは小文字snake_caseと連番で統一する。ファイル名にキャラクター名を重複させる必要はない（モデルディレクトリで分離済み）。
+本節のCubism asset aliasは小文字snake_case、Cubism motion groupはPascalCase、ファイルは小文字snake_caseと連番で統一する。Character Action API v1が受け取る公開motion IDとの対応は8.3で別途固定する。ファイル名にキャラクター名を重複させる必要はない（モデルディレクトリで分離済み）。
 
 ### 8.1 Riai
 
-| API motion alias | Cubism group | 推奨ファイル | priority | interruptible | 用途 |
+| Cubism asset alias | Cubism group | 推奨ファイル | priority | interruptible | 用途 |
 | --- | --- | --- | ---: | --- | --- |
 | `idle_primary` | `Idle` | `motions/idle_01.motion3.json` | 0 | yes | 呼吸・僅かな姿勢変化 |
 | `idle_observe` | `Idle` | `motions/idle_observe_01.motion3.json` | 0 | yes | 周囲を観察する短いidle variation |
@@ -314,7 +314,7 @@ API aliasは小文字snake_case、Cubism motion groupはPascalCase、ファイ�
 
 ### 8.2 Noa
 
-| API motion alias | Cubism group | 推奨ファイル | priority | interruptible | 用途 |
+| Cubism asset alias | Cubism group | 推奨ファイル | priority | interruptible | 用途 |
 | --- | --- | --- | ---: | --- | --- |
 | `idle_primary` | `Idle` | `motions/idle_01.motion3.json` | 0 | yes | 座位の呼吸・僅かな重心変化 |
 | `idle_tail` | `Idle` | `motions/idle_tail_01.motion3.json` | 0 | yes | 低振幅の尾基部動作 |
@@ -328,6 +328,21 @@ API aliasは小文字snake_case、Cubism motion groupはPascalCase、ファイ�
 priority値はアプリの提案値でありCubism SDKのmotion priority定数そのものとはみなさない。Runtime Adapterが自分の優先度モデルからSDKの予約・開始方式へ明示変換する。`emergencyStop` はpriority比較を迂回できる唯一のシステム操作で、キューを破棄して安全状態へ戻す。
 
 blink、breath、bounded gaze driftは再利用モーションファイルへ固定せず、seeded idle controllerが安全範囲内で生成する。髪、ローブ、クローク、尾先は物理が受け持つ。これによりidleモーション同士の同期と、全パラメータの一枚モーション化を避ける。
+
+### 8.3 Character Action API v1 crosswalk
+
+公開APIのmotion ID、アプリ内priority、duration、interruptibleの唯一の実装上の正本は `src/actions/types.ts` の `MOTION_CONTRACT_V1` とする。`src/state/action-priority.ts` はこの定義を直接参照し、別のmotion priority表を持たない。8.1／8.2は将来手作業で作るCubism資産のインベントリであり、表中のpriorityは資産制作側の提案値で、下表のアプリ内スケジューラpriorityとは別レイヤーである。
+
+| Character Action API v1 motion ID | Riai Cubism asset alias | Noa Cubism asset alias | app priority | duration ms | interruptible | v1の意味 |
+| --- | --- | --- | ---: | ---: | --- | --- |
+| `idle` | `idle_primary` | `idle_primary` | 60 | 1 | yes | 明示動作を1 tickで解放し、seeded safe idleへ戻す要求 |
+| `greet` | — | — | 50 | 1200 | yes | Phase 1 MOCKのみ。両キャラクターとも専用資産aliasを今後追加する |
+| `listen` | `listen` | — | 45 | 1500 | yes | Riaiは直接対応。Noaは専用資産aliasを今後追加する |
+| `reactLight` | `notice_light` | `notice_light` | 80 | 1800 | no | 中央光への優先反応。完了まで通常動作で割り込まない |
+| `earTwitch` | — | `ear_twitch` | 25 | 650 | yes | Noaは直接対応。Riaiは専用資産ができるまでMOCKのみ |
+| `tailSway` | — | `tail_wag_soft` | 25 | 1000 | yes | Noaの低振幅の尾反応。Riaiは専用資産ができるまでMOCKのみ |
+
+`—` は意図的な未対応を表す。将来の実Live2D Runtime Adapterは、`cubismAssetAliases` が `null` の組み合わせを別の似たmotionへ黙って置換せず、資産追加と契約更新が完了するまでfail closedにする。これにより、Phase 1 MOCKで許可された共通motion IDと、手作業で制作する2体別々のCubism資産を混同しない。
 
 ## 9. ランタイム書き出しとマニフェスト契約
 

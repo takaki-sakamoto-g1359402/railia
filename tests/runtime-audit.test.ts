@@ -364,6 +364,62 @@ describe("AuditLogger", () => {
     expect(observed).toHaveLength(2);
   });
 
+  it("isolates subscriber exceptions and continues notifying healthy listeners", () => {
+    const logger = new AuditLogger(() => 0);
+    const observed: (readonly AuditEntry[])[] = [];
+
+    expect(() =>
+      logger.subscribe((entries) => {
+        if (entries.length > 0) {
+          (entries as AuditEntry[]).length = 0;
+        }
+        throw new Error("broken audit subscriber");
+      }),
+    ).not.toThrow();
+    logger.subscribe((entries) => observed.push(entries));
+
+    expect(() => logger.record(auditInput("SAFE"))).not.toThrow();
+    expect(logger.entries().map((entry) => entry.code)).toEqual(["SAFE"]);
+    expect(observed.at(-1)?.map((entry) => entry.code)).toEqual(["SAFE"]);
+  });
+
+  it("does not let a throwing subscriber partially fail a valid API action", () => {
+    const runtime = new RecordingMockRuntime();
+    const logger = new AuditLogger(() => Date.UTC(2026, 7, 9));
+    const observed: (readonly AuditEntry[])[] = [];
+    logger.subscribe((entries) => {
+      if (entries.length > 0) {
+        throw new Error("injected subscriber failure");
+      }
+    });
+    logger.subscribe((entries) => observed.push(entries));
+    const api = new CharacterActionApi({ runtime, logger });
+
+    const result = api.executeJson(
+      actionEnvelope("subscriber-safe-action", [
+        { action: "setExpression", character: "riai", expression: "happy" },
+      ]),
+    );
+
+    expect(result).toMatchObject({
+      accepted: true,
+      code: "ACCEPTED",
+      requestId: "subscriber-safe-action",
+      dispatchedActions: 1,
+    });
+    expect(result.snapshot.characters.riai).toMatchObject({
+      expression: "happy",
+      mode: "acting",
+      activeAction: "setExpression",
+    });
+    expect(logger.entries()).toHaveLength(1);
+    expect(observed.at(-1)?.at(-1)).toMatchObject({
+      outcome: "accepted",
+      code: "STARTED",
+      requestId: "subscriber-safe-action",
+    });
+  });
+
   it("captures accepted, rejected, and emergency API outcomes", () => {
     const runtime = new RecordingMockRuntime();
     const logger = new AuditLogger(() => Date.UTC(2026, 7, 9));

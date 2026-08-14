@@ -5,13 +5,13 @@ import type {
 import { describeAction, type ActionDescriptor } from "./action-priority";
 import { SeededIdleBehavior } from "./seeded-idle";
 import type { CharacterSnapshot, GazeTarget, IdleState } from "./types";
+import {
+  CanonicalElapsedTime,
+  TIME_CANONICAL_SCALE,
+  canonicalizeMilliseconds,
+} from "./canonical-time";
 
 export const MAX_QUEUED_ACTIONS_PER_CHARACTER = 16;
-const TIME_CANONICAL_SCALE = 1_000_000;
-
-function canonicalizeMilliseconds(value: number): number {
-  return Math.round(value * TIME_CANONICAL_SCALE) / TIME_CANONICAL_SCALE;
-}
 
 export type DispatchDisposition = "started" | "queued" | "interrupted";
 
@@ -53,8 +53,7 @@ export class CharacterStateMachine {
   readonly #state: MutableCharacterState;
   #active: ActiveAction | null = null;
   #sequence = 0;
-  #rawElapsedMs = 0;
-  #canonicalElapsedMs = 0;
+  readonly #time = new CanonicalElapsedTime();
 
   public constructor(
     public readonly character: CharacterId,
@@ -129,13 +128,7 @@ export class CharacterStateMachine {
     if (deltaMs === 0) {
       return;
     }
-    this.#rawElapsedMs += deltaMs;
-    const nextCanonicalElapsedMs = canonicalizeMilliseconds(
-      this.#rawElapsedMs,
-    );
-    const effectiveDeltaMs =
-      nextCanonicalElapsedMs - this.#canonicalElapsedMs;
-    this.#canonicalElapsedMs = nextCanonicalElapsedMs;
+    const effectiveDeltaMs = this.#time.advance(deltaMs).deltaMs;
     if (effectiveDeltaMs === 0) {
       return;
     }

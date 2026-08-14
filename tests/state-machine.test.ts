@@ -1,8 +1,22 @@
 import { describe, expect, it } from "vitest";
 
 import { CharacterStateMachine } from "../src/state/character-state-machine";
+import { CharacterController } from "../src/state/character-controller";
+import {
+  MOTION_CONTRACT_V1,
+  MOTION_IDS,
+} from "../src/actions/types";
+import { describeAction } from "../src/state/action-priority";
 
 describe("CharacterStateMachine", () => {
+  it("uses the API v1 motion contract as its scheduling source of truth", () => {
+    for (const motion of MOTION_IDS) {
+      expect(
+        describeAction({ action: "playMotion", character: "riai", motion }),
+      ).toBe(MOTION_CONTRACT_V1[motion]);
+    }
+  });
+
   it("transitions a bounded expression action back to neutral safe idle", () => {
     const machine = new CharacterStateMachine("riai", 1234);
     expect(machine.snapshot()).toMatchObject({
@@ -186,6 +200,26 @@ describe("CharacterStateMachine", () => {
       actionElapsedMs: 0,
       actionProgress: 0,
     });
+  });
+
+  it("canonicalizes world elapsed time across equivalent fractional partitions", () => {
+    const singleStep = new CharacterController(0x3456);
+    const fractionalSteps = new CharacterController(0x3456);
+    const action = {
+      action: "playMotion",
+      character: "riai",
+      motion: "greet",
+    } as const;
+    singleStep.dispatchBatch([action], "fractional-world");
+    fractionalSteps.dispatchBatch([action], "fractional-world");
+
+    singleStep.advanceTime(1);
+    for (let index = 0; index < 10; index += 1) {
+      fractionalSteps.advanceTime(0.1);
+    }
+
+    expect(fractionalSteps.snapshot()).toEqual(singleStep.snapshot());
+    expect(fractionalSteps.snapshot().elapsedMs).toBe(1);
   });
 
   it("preserves deterministic elapsed time when a queued motion starts mid-step", () => {

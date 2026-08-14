@@ -6,10 +6,27 @@ import {
   MAX_EMERGENCY_CANDIDATE_CODE_UNITS,
   isStrictSoleEmergencyCandidateJson,
 } from "../src/actions/validator";
+import { MOTION_IDS } from "../src/actions/types";
+import actionSchema from "../src/actions/character-action.schema.json" with {
+  type: "json",
+};
 import { actionEnvelope } from "./test-helpers";
 
 describe("CharacterActionValidator", () => {
   const validator = new CharacterActionValidator();
+
+  it("keeps the schema motion allowlist aligned with the v1 motion contract", () => {
+    const motionBranch = actionSchema.properties.actions.items.oneOf.find(
+      (branch) => "motion" in branch.properties,
+    );
+    if (motionBranch === undefined || !("motion" in motionBranch.properties)) {
+      throw new Error("Motion action schema branch is missing.");
+    }
+
+    expect([...motionBranch.properties.motion.enum].sort()).toEqual(
+      [...MOTION_IDS].sort(),
+    );
+  });
 
   it("accepts the complete allowlisted high-level action set and freezes it", () => {
     const result = validator.validateJson(

@@ -15,6 +15,18 @@ describe("SeededIdleBehavior", () => {
     expect(chunked.snapshot()).toEqual(singleSnapshot);
   });
 
+  it("canonicalizes equivalent fractional step partitions", () => {
+    const singleStep = new SeededIdleBehavior(0x87654321);
+    const fractionalSteps = new SeededIdleBehavior(0x87654321);
+
+    const singleSnapshot = singleStep.advance(1);
+    for (let index = 0; index < 10; index += 1) {
+      fractionalSteps.advance(0.1);
+    }
+
+    expect(fractionalSteps.snapshot()).toEqual(singleSnapshot);
+  });
+
   it("uses the seed to produce a distinct deterministic stream", () => {
     const left = new SeededIdleBehavior(111);
     const right = new SeededIdleBehavior(222);

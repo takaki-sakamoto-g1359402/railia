@@ -7,10 +7,11 @@ import {
   type DispatchRecord,
 } from "./character-state-machine";
 import type { WorldSnapshot } from "./types";
+import { CanonicalElapsedTime } from "./canonical-time";
 
 export class CharacterController {
   readonly #machines: Readonly<Record<CharacterId, CharacterStateMachine>>;
-  #elapsedMs = 0;
+  readonly #time = new CanonicalElapsedTime();
   #emergencyStopCount = 0;
 
   public constructor(seed = 0x52494149) {
@@ -47,7 +48,7 @@ export class CharacterController {
     if (!Number.isFinite(deltaMs) || deltaMs < 0 || deltaMs > 60_000) {
       throw new Error("Controller delta must be between 0 and 60000 ms.");
     }
-    this.#elapsedMs += deltaMs;
+    this.#time.advance(deltaMs);
     this.#machines.riai.advance(deltaMs);
     this.#machines.noa.advance(deltaMs);
   }
@@ -60,7 +61,7 @@ export class CharacterController {
 
   public snapshot(): WorldSnapshot {
     return Object.freeze({
-      elapsedMs: this.#elapsedMs,
+      elapsedMs: this.#time.elapsedMs(),
       emergencyStopCount: this.#emergencyStopCount,
       characters: Object.freeze({
         riai: this.#machines.riai.snapshot(),
@@ -69,4 +70,3 @@ export class CharacterController {
     });
   }
 }
-
