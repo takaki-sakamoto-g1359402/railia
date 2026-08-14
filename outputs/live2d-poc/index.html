@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>理愛とノア — Whole-raster Live2D PoC</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Hiragino Sans", sans-serif;
+        background: #040817;
+        color: #f6f8ff;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 50% 44%, rgba(49, 118, 255, .25), transparent 26rem),
+          radial-gradient(circle at 50% 52%, rgba(255, 207, 133, .13), transparent 11rem),
+          linear-gradient(#061026, #030611 72%);
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: .33;
+        background-image:
+          radial-gradient(circle, #fff 0 1px, transparent 1.5px),
+          radial-gradient(circle, #73a8ff 0 1px, transparent 1.5px);
+        background-position: 0 0, 47px 61px;
+        background-size: 93px 93px, 127px 127px;
+      }
+      header {
+        position: fixed;
+        z-index: 10;
+        inset: 20px 24px auto;
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        align-items: start;
+      }
+      h1 { margin: 0 0 6px; font-size: clamp(20px, 2.4vw, 34px); letter-spacing: .04em; }
+      .meta { margin: 0; color: #aab8da; font-size: 13px; }
+      .badge {
+        border: 1px solid rgba(255, 207, 133, .65);
+        color: #ffe0a7;
+        background: rgba(28, 19, 17, .7);
+        border-radius: 999px;
+        padding: 9px 14px;
+        font-size: 12px;
+        letter-spacing: .08em;
+      }
+      main {
+        position: relative;
+        height: 100vh;
+        max-width: 1220px;
+        margin: 0 auto;
+      }
+      .character {
+        position: absolute;
+        bottom: 5vh;
+        transform-origin: 50% 92%;
+        filter: drop-shadow(0 20px 32px rgba(0, 0, 0, .55));
+        will-change: transform;
+        user-select: none;
+        -webkit-user-drag: none;
+      }
+      .riai {
+        left: 3%;
+        height: min(79vh, 820px);
+        animation: riai-breath 4s ease-in-out infinite;
+      }
+      .noa {
+        right: 4%;
+        height: min(52vh, 540px);
+        animation: noa-breath 4s ease-in-out infinite;
+      }
+      .light {
+        position: absolute;
+        left: 50%; top: 49%;
+        width: 122px; height: 122px;
+        transform: translate(-50%, -50%);
+        border-radius: 48% 52% 56% 44%;
+        background: radial-gradient(circle at 46% 38%, #fff 0 7%, #cce6ff 18%, #4a8cff 42%, rgba(39, 83, 255, .08) 72%);
+        box-shadow: 0 0 30px #fff, 0 0 74px #4f8cff, 0 0 150px rgba(72, 109, 255, .7);
+        animation: light-pulse 2s ease-in-out infinite;
+      }
+      .ring {
+        position: absolute;
+        left: 50%; bottom: 8vh;
+        width: min(44vw, 520px); aspect-ratio: 2.7;
+        transform: translateX(-50%) perspective(400px) rotateX(64deg);
+        border: 2px solid rgba(114, 169, 255, .5);
+        border-radius: 50%;
+        box-shadow: inset 0 0 30px #4e86ff, 0 0 40px rgba(73, 123, 255, .5);
+      }
+      .controls {
+        position: fixed;
+        z-index: 10;
+        left: 24px; bottom: 20px;
+        display: flex; align-items: center; gap: 12px;
+        color: #b8c7eb; font-size: 12px;
+      }
+      button {
+        border: 1px solid rgba(119, 166, 255, .55);
+        border-radius: 10px;
+        padding: 9px 13px;
+        color: #eaf1ff;
+        background: rgba(9, 22, 55, .8);
+        cursor: pointer;
+      }
+      body.paused .character, body.paused .light { animation-play-state: paused; }
+      @keyframes riai-breath {
+        0%, 100% { transform: translate3d(0, 0, 0) rotate(-.22deg) scale(1); }
+        50% { transform: translate3d(0, -8px, 0) rotate(.22deg) scale(1.004, 1.008); }
+      }
+      @keyframes noa-breath {
+        0%, 100% { transform: translate3d(0, -6px, 0) rotate(.25deg) scale(1.004, 1.009); }
+        50% { transform: translate3d(0, 2px, 0) rotate(-.25deg) scale(1); }
+      }
+      @keyframes light-pulse {
+        0%, 100% { transform: translate(-50%, -50%) scale(.94) rotate(-4deg); opacity: .78; }
+        50% { transform: translate(-50%, -50%) scale(1.08) rotate(4deg); opacity: 1; }
+      }
+      @media (max-width: 760px) {
+        .riai { left: -12%; height: 72vh; }
+        .noa { right: -15%; height: 44vh; }
+        .light { top: 46%; width: 86px; height: 86px; }
+        .badge { max-width: 155px; text-align: center; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .character, .light { animation-duration: 8s; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1>理愛とノア — 呼吸ループ</h1>
+        <p class="meta">4秒・位相差・全身ラスターPoC／原画は非破壊</p>
+      </div>
+      <div class="badge">POC · NOT PRODUCTION LIVE2D</div>
+    </header>
+    <main aria-label="理愛とノアの動作プレビュー">
+      <div class="ring" aria-hidden="true"></div>
+      <div class="light" aria-hidden="true"></div>
+      <img class="character riai" src="riai_poc_cutout_v001.png" alt="理愛" />
+      <img class="character noa" src="noa_poc_cutout_v001.png" alt="ノア" />
+    </main>
+    <div class="controls">
+      <button id="toggle" type="button">一時停止</button>
+      <span>許可範囲：全体移動・微小回転・低振幅スケールのみ</span>
+    </div>
+    <script>
+      const button = document.querySelector('#toggle');
+      button.addEventListener('click', () => {
+        document.body.classList.toggle('paused');
+        button.textContent = document.body.classList.contains('paused') ? '再生' : '一時停止';
+      });
+    </script>
+  </body>
+</html>
