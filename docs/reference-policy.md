@@ -3,7 +3,7 @@
 ## Status and scope
 
 - Policy document: **IMPLEMENTED**.
-- Source inspection: **IMPLEMENTED** for the twelve files listed below.
+- Source inspection: **IMPLEMENTED** for the fourteen files listed below.
 - Separated character artwork and production PSDs: **REQUIRES MANUAL LIVE2D WORK**.
 - Cubism models, meshes, deformers, physics, and runtime exports: **FUTURE WORK**.
 
@@ -11,7 +11,7 @@ This policy governs all Phase 1 art preparation for Riai and Noa. It does not cl
 
 ## Source register and authority
 
-The three primary/scene files in `/Users/sakamototakaki/.codex/attachments/9ea0a0ec-88e1-411c-ab7b-a7b774e459cb/` are immutable inputs. Nine additional scene images were human-approved as Live2D secondary references and inspected through `com.apple.Photos.NSItemProvider` temporary paths. Those Photos paths are ephemeral and are not production archive locations. Filenames and hashes below identify the inspected bytes; a human must provide durable originals before the secondary references enter the production archive.
+The three primary/scene files in `/Users/sakamototakaki/.codex/attachments/9ea0a0ec-88e1-411c-ab7b-a7b774e459cb/` are immutable inputs. Nine additional scene images were human-approved as Live2D secondary references, and two later images were supplied as scene/UI reference information only. All eleven were inspected through `com.apple.Photos.NSItemProvider` temporary paths. Those Photos paths are ephemeral and are not production archive locations. Filenames and hashes below identify the inspected bytes; a human must provide durable originals before any Photos reference enters the production archive.
 
 | Role | Source filename | Verified properties | SHA-256 | Permitted use |
 | --- | --- | --- | --- | --- |
@@ -27,6 +27,8 @@ The three primary/scene files in `/Users/sakamototakaki/.codex/attachments/9ea0a
 | Riai + Noa secondary; support only | `A69D0A24-1500-4515-99A6-EC8CD32430D9.png` | 1122 x 1402 PNG; flattened RGB scene art; no alpha; inspected from an ephemeral Photos path | `35feab3c63383afe7f8fcb6657e18f8fbb4f46fdf5f14a66179736e0e9e9752e` | Visible hood-up Riai/Noa composition, robe/cloak, ears, tails, and scene reaction mood only |
 | Noa primary | `image-8.png` | 1122 x 1402 PNG; flattened RGB; no alpha | `d60451ba9149582dd6a764e5968a77c9ce40e8160a9dc9da61de4918c751ffab` | Noa silhouette, visible anatomy, cloak, tail, palette, crystal, and accessory design |
 | Scene/VFX only | `image-2.png` | 1448 x 1086 PNG; flattened RGB; no alpha | `566611099062f67f60a48d2f937608bd9fd54ae6ed4207616b814992ddf075c3` | Central magical light, scene composition, lighting mood, and optional external VFX reference only |
+| Scene/UI reference only | `5CC268CF-6D28-4FF8-939C-C31656A9E006.png` | 1448 x 1086 PNG; flattened RGB scene art; no alpha; inspected from an ephemeral Photos path | `e624ad726feb813559a77fedc214391ef1aa07aadce23a38128bc64f75595286` | Riai/Noa relationship, human/AI collaboration theme, spatial composition, and environmental/UI mood only; never a character texture or cut source |
+| Scene/UI reference only | `EED3B93A-5277-4C02-A774-B0F5091348A1.png` | 1448 x 1086 PNG; flattened RGB scene art; no alpha; inspected from an ephemeral Photos path | `556f006e6e713680ba1a5ea7054860e921085fae4ac7b256eb31b52caf2d40bf` | Riai/Noa conversational staging, large holographic UI, central crystal/table composition, and blue/gold interface mood only; never a character texture or cut source |
 
 `image-2.png` is not a character construction source. It must not override Riai or Noa anatomy, costume, colors, proportions, expressions, or accessory placement.
 
@@ -38,6 +40,8 @@ The three primary/scene files in `/Users/sakamototakaki/.codex/attachments/9ea0a
 - Ignore baked perspective, wind, pose, environmental color cast, rim light, bloom, particles, text, architecture, landscape, and background occlusion. Palette, motifs, identity, and final silhouette remain governed by `image-9.png`.
 - When a secondary clarifies a visible region, the working-file provenance note must record the exact filename, hash, region, and limited decision it supported.
 - Current Photos temporary paths may disappear without notice. Production use of these secondaries is **BLOCKED** until a human supplies durable original files whose hashes can be rechecked against this register. This policy update does not copy or modify them.
+
+The two scene/UI-only references are lower authority than every character source. They cannot clarify anatomy, costume construction, proportions, palette, expression, accessory placement, layer boundaries, or hidden regions, and were not used to generate the prototype character cutouts.
 
 ## Reference precedence
 
@@ -55,7 +59,7 @@ For the MVP pose, Riai is a front-facing neutral upper body with the hood down, 
 
 1. Never edit, rename, move, resave, crop, color-correct, overwrite, or metadata-normalize any attachment or Photos-provided source file.
 2. Before art work begins, verify the source hash against the register above. A hash mismatch is **BLOCKED** until the source is reconciled.
-3. For the nine Photos-provided secondary files, a human must first provide durable originals; do not treat or promote an ephemeral `NSItemProvider` path as the archive. After that handoff, create a byte-identical, read-only project copy for traceability, then create a separate editable working document. Do not paint on the source or traceability copy.
+3. For the eleven Photos-provided files, a human must first provide durable originals; do not treat or promote an ephemeral `NSItemProvider` path as the archive. After that handoff, create a byte-identical, read-only project copy for traceability, then create a separate editable working document. Do not paint on the source or traceability copy.
 4. Recommended future locations are:
    - immutable copies: `art/reference/immutable/`;
    - editable work: `art/work/`;

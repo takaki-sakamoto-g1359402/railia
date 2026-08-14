@@ -5,3 +5,9 @@ coverage/
 *.log
 work/
 
+# Local redundant copies of the combined two-character Cubism checkpoint.
+# Their filenames imply separation that the bytes do not contain; keep them
+# recoverable locally but never treat them as independent character models.
+art/live2d/prototype/models/noa_poc_not_production_v001.cmo3
+art/live2d/prototype/models/riai_noa_combined_poc_not_production_v001.cmo3
+art/live2d/prototype/models/riai_poc_not_production_v001.cmo3

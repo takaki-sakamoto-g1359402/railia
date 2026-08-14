@@ -1,0 +1,35 @@
+{
+  "status": "GENERATED_PROTOTYPE_NOT_CANONICAL_MASTER",
+  "generatedAt": "2026-08-14T00:49:44.743Z",
+  "generator": {
+    "library": "ag-psd",
+    "version": "31.0.2",
+    "compatibility": "UNGUARANTEED_UNTIL_CUBISM_EDITOR_IMPORT_SMOKE_TEST"
+  },
+  "models": [
+    {
+      "character": "riai",
+      "source": "art/live2d/prototype/cutouts/riai_poc_cutout_v001.png",
+      "sourceSha256": "28268672233055520fa59e1fbc7e16b90d00ed5528deeefecb94b589d331c688",
+      "psd": "art/live2d/prototype/import/riai_poc_v001.psd",
+      "psdSha256": "c5a2ad63677d8390cae570b589bf8bd0139cc3ef8b44585b535acbc6374a4e75",
+      "width": 957,
+      "height": 1643,
+      "layerName": "riai_poc_full",
+      "transparentPixels": 1008181,
+      "opaquePixels": 553164
+    },
+    {
+      "character": "noa",
+      "source": "art/live2d/prototype/cutouts/noa_poc_cutout_v001.png",
+      "sourceSha256": "c204086a7ef8c22a649a49523253ef22b0ae33d6146a28cbe5494da8806f8d8f",
+      "psd": "art/live2d/prototype/import/noa_poc_v001.psd",
+      "psdSha256": "31e115cf7df50bb726345865236cd5357b4cae1fee9d1d958b91119cd0f68d41",
+      "width": 1254,
+      "height": 1254,
+      "layerName": "noa_poc_full",
+      "transparentPixels": 953365,
+      "opaquePixels": 611741
+    }
+  ]
+}

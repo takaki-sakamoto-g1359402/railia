@@ -1,0 +1,10 @@
+# Cubism and raster authoring artifacts are opaque binary assets. This PoC
+# stores the current bounded snapshot in regular Git because every file is
+# below GitHub's per-file warning threshold. Reassess Git LFS before adding
+# iterative production revisions.
+*.cmo3 -diff -merge -text
+*.can3 -diff -merge -text
+*.moc3 -diff -merge -text
+*.psd -diff -merge -text
+*.png -diff -merge -text
+*.jpeg -diff -merge -text
