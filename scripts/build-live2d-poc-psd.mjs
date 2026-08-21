@@ -10,6 +10,8 @@ const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(scriptDirectory, "..");
 const prototypeRoot = path.join(projectRoot, "art", "live2d", "prototype");
 const importDirectory = path.join(prototypeRoot, "import");
+const nearOpaqueAlphaThreshold = 250;
+const minimumNearOpaqueVisibleRatio = 0.5;
 
 // ag-psd's raw image-data reader still asks for an ImageData constructor for
 // 8-bit RGBA. Supply only that constructor so validation never routes pixels
@@ -25,7 +27,7 @@ initializeCanvas(
   }),
 );
 
-const assets = [
+const baseAssets = [
   {
     character: "riai",
     displayName: "Riai",
@@ -50,6 +52,59 @@ const assets = [
   },
 ];
 
+const interactionAssets = [
+  {
+    character: "riai",
+    displayName: "Riai — mutual-gaze smile pose",
+    input: path.join(
+      prototypeRoot,
+      "interaction",
+      "riai_look_noa_smile_poc_v001.png",
+    ),
+    output: path.join(
+      importDirectory,
+      "riai_look_noa_smile_poc_v001.psd",
+    ),
+    layerName: "riai_look_noa_smile_poc_full",
+  },
+  {
+    character: "noa",
+    displayName: "Noa — mutual-gaze smile pose",
+    input: path.join(
+      prototypeRoot,
+      "interaction",
+      "noa_look_riai_smile_poc_v001.png",
+    ),
+    output: path.join(
+      importDirectory,
+      "noa_look_riai_smile_poc_v001.psd",
+    ),
+    layerName: "noa_look_riai_smile_poc_full",
+  },
+];
+
+const assetGroups = {
+  base: {
+    assets: baseAssets,
+    manifestName: "prototype-psd-manifest.json",
+  },
+  interaction: {
+    assets: interactionAssets,
+    manifestName: "interaction-psd-manifest.json",
+  },
+};
+
+const groupArgument = process.argv.find((argument) =>
+  argument.startsWith("--group="),
+);
+const requestedGroup = groupArgument?.slice("--group=".length) || "base";
+const assetGroup = assetGroups[requestedGroup];
+if (assetGroup === undefined) {
+  throw new Error(
+    `Unknown asset group \"${requestedGroup}\". Expected one of: ${Object.keys(assetGroups).join(", ")}.`,
+  );
+}
+
 function sha256(bytes) {
   return createHash("sha256").update(bytes).digest("hex");
 }
@@ -71,17 +126,34 @@ function validateDecodedPng(asset, decoded) {
 
   let transparentPixels = 0;
   let opaquePixels = 0;
+  let partialAlphaPixels = 0;
+  let nearOpaquePixels = 0;
   for (let index = 3; index < decoded.data.length; index += 4) {
     const alpha = decoded.data[index];
     if (alpha === 0) transparentPixels += 1;
     if (alpha === 255) opaquePixels += 1;
+    if (alpha > 0 && alpha < 255) partialAlphaPixels += 1;
+    if (alpha >= nearOpaqueAlphaThreshold) nearOpaquePixels += 1;
   }
   if (transparentPixels === 0 || opaquePixels === 0) {
     throw new Error(
       `${asset.character}: the prototype requires both transparent and opaque pixels.`,
     );
   }
-  return { transparentPixels, opaquePixels };
+  const visiblePixels = opaquePixels + partialAlphaPixels;
+  const nearOpaqueVisibleRatio = nearOpaquePixels / visiblePixels;
+  if (nearOpaqueVisibleRatio < minimumNearOpaqueVisibleRatio) {
+    throw new Error(
+      `${asset.character}: only ${(nearOpaqueVisibleRatio * 100).toFixed(2)}% of visible pixels have alpha >= ${nearOpaqueAlphaThreshold}; expected at least ${(minimumNearOpaqueVisibleRatio * 100).toFixed(0)}% to reject accidentally translucent matte extraction.`,
+    );
+  }
+  return {
+    transparentPixels,
+    opaquePixels,
+    partialAlphaPixels,
+    nearOpaquePixels,
+    nearOpaqueVisibleRatio,
+  };
 }
 
 function makePsd(asset, decoded) {
@@ -165,6 +237,7 @@ function validateWrittenPsd(
 await mkdir(importDirectory, { recursive: true });
 const manifest = {
   status: "GENERATED_PROTOTYPE_NOT_CANONICAL_MASTER",
+  assetGroup: requestedGroup,
   generatedAt: new Date().toISOString(),
   generator: {
     library: "ag-psd",
@@ -174,7 +247,7 @@ const manifest = {
   models: [],
 };
 
-for (const asset of assets) {
+for (const asset of assetGroup.assets) {
   const inputBytes = await readFile(asset.input);
   const decoded = PNG.sync.read(inputBytes, { skipRescale: true });
   const alpha = validateDecodedPng(asset, decoded);
@@ -204,9 +277,12 @@ for (const asset of assets) {
     layerName: asset.layerName,
     transparentPixels: alpha.transparentPixels,
     opaquePixels: alpha.opaquePixels,
+    partialAlphaPixels: alpha.partialAlphaPixels,
+    nearOpaquePixels: alpha.nearOpaquePixels,
+    nearOpaqueVisibleRatio: alpha.nearOpaqueVisibleRatio,
   });
 }
 
-const manifestPath = path.join(importDirectory, "prototype-psd-manifest.json");
+const manifestPath = path.join(importDirectory, assetGroup.manifestName);
 await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
 process.stdout.write(`${JSON.stringify(manifest, null, 2)}\n`);

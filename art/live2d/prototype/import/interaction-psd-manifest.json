@@ -1,0 +1,42 @@
+{
+  "status": "GENERATED_PROTOTYPE_NOT_CANONICAL_MASTER",
+  "assetGroup": "interaction",
+  "generatedAt": "2026-08-21T12:29:47.925Z",
+  "generator": {
+    "library": "ag-psd",
+    "version": "31.0.2",
+    "compatibility": "UNGUARANTEED_UNTIL_CUBISM_EDITOR_IMPORT_SMOKE_TEST"
+  },
+  "models": [
+    {
+      "character": "riai",
+      "source": "art/live2d/prototype/interaction/riai_look_noa_smile_poc_v001.png",
+      "sourceSha256": "a3507f824a3eb3f5510b686d078613c2ef2b7b7866aaf8cf16cb04b661eee1cc",
+      "psd": "art/live2d/prototype/import/riai_look_noa_smile_poc_v001.psd",
+      "psdSha256": "f33a7d59e921d48b9a53c0acb86b99460611026faf2de4b073bd945b402d763b",
+      "width": 956,
+      "height": 1645,
+      "layerName": "riai_look_noa_smile_poc_full",
+      "transparentPixels": 1016592,
+      "opaquePixels": 556028,
+      "partialAlphaPixels": 0,
+      "nearOpaquePixels": 556028,
+      "nearOpaqueVisibleRatio": 1
+    },
+    {
+      "character": "noa",
+      "source": "art/live2d/prototype/interaction/noa_look_riai_smile_poc_v001.png",
+      "sourceSha256": "92b8de9423a57a872e325a576e7adb3b360874c4008de87e7e543b47e3f091ba",
+      "psd": "art/live2d/prototype/import/noa_look_riai_smile_poc_v001.psd",
+      "psdSha256": "bae75d6e7b6af134306f64c69d475f3f6ebd9f9439b6e7d98a3f2fb2a8ec5553",
+      "width": 1254,
+      "height": 1254,
+      "layerName": "noa_look_riai_smile_poc_full",
+      "transparentPixels": 773526,
+      "opaquePixels": 784307,
+      "partialAlphaPixels": 14683,
+      "nearOpaquePixels": 784307,
+      "nearOpaqueVisibleRatio": 0.981623049099488
+    }
+  ]
+}

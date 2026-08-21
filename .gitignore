@@ -11,3 +11,8 @@ work/
 art/live2d/prototype/models/noa_poc_not_production_v001.cmo3
 art/live2d/prototype/models/riai_noa_combined_poc_not_production_v001.cmo3
 art/live2d/prototype/models/riai_poc_not_production_v001.cmo3
+
+# Local Cubism import staging copies. The canonical, byte-identical PSDs live
+# under art/live2d/prototype/import/ and are the versions kept in Git.
+art/live2d/prototype/models/noa_look_riai_smile_poc_import_v001.psd
+art/live2d/prototype/models/riai_look_noa_smile_poc_import_v001.psd

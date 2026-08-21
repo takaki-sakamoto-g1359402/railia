@@ -6,9 +6,9 @@
 - Riai Cubism モデル制作: `REQUIRES MANUAL LIVE2D WORK`
 - Noa Cubism モデル制作: `REQUIRES MANUAL LIVE2D WORK`
 - Cubism SDK for Web 接続: `FUTURE WORK`
-- 実モデルを使ったランタイム検証: `BLOCKED`（`.cmo3` / `.moc3` / `.model3.json` が未作成）
+- 実モデルを使ったランタイム検証: `BLOCKED`（flat one-ArtMeshの理愛CMO3 PoCのみ存在し、production CMO3、`.moc3`、`.model3.json` が未作成）
 
-本書は、手作業で制作する2体の独立したCubismモデルと、将来の安全なRuntime Adapterとの契約を定義する。現時点ではLive2D用PSD、Cubismリグ、ランタイム書き出し、モーション、表情、物理、SDKのいずれも存在しない。本書にあるパラメータ、メッシュ、デフォーマ、物理、表情、モーションはすべて制作提案であり、実装済みではない。
+本書は、手作業で制作する2体の独立したCubismモデルと、将来の安全なRuntime Adapterとの契約を定義する。2026-08-21時点では、相互注視と微笑みを一枚絵へ焼き込んだprototype PSDと、理愛のone-ArtMesh CMO3 PoCだけが存在する。production用の部位分離PSD、Cubismリグ、ランタイム書き出し、モーション、表情、物理、SDKは存在しない。本書にあるパラメータ、メッシュ、デフォーマ、物理、表情、モーションはすべて制作提案であり、実装済みではない。
 
 数値範囲は初期制作と安全制御のための**推奨値**である。最終的なモデルパラメータの最小値・既定値・最大値は、実モデル書き出し後にRuntimeから列挙して検出し、キャラクターマニフェストの許可範囲およびアプリ側の固定ポリシーとの積集合だけを使用する。推奨値を実モデルの事実として扱ってはならない。
 

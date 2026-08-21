@@ -6,7 +6,7 @@
 
 安全な高レベルCharacter Action API、Riai／Noa状態機械、runtime抽象化、可視Canvas `MOCK`、制作仕様書は実装済みです。独立安全監査6項目を修正し、2026-08-09 08:30 JSTのtypecheck、66/66 tests、production buildは成功しました。safe-idle Canvasも目視済みです。一方、全preset／rejection／emergencyのブラウザ画面証拠と最終diff監査は未完了なので、Phase 1完了はまだ主張しません。
 
-Live2D Cubism Editorは起動中で、人間から起動・使用の承認も得ています。しかし、分離PSDとリグ済みモデルは存在しません。Editorが動いていることは、Live2Dモデルが完成したことを意味しません。実モデル制作は引き続き **REQUIRES MANUAL LIVE2D WORK** です。
+Live2D Cubism Editorは起動中で、人間から起動・使用の承認も得ています。2026-08-21には相互注視と微笑みを焼き込んだ一枚絵PSDから、理愛のone-ArtMesh CMO3 PoCを保存しました。ただし、production-readyな手作業分離PSDとリグ済みモデルは存在しません。Editorが動いていることやflat PoCが保存できたことは、Live2Dモデルが完成したことを意味しません。実モデル制作は引き続き **REQUIRES MANUAL LIVE2D WORK** です。
 
 この文書は2026-08-09時点のワークスペーススナップショットです。実装や検証が更新された場合は、コマンド出力と実行日時を添えてこの表を更新してください。
 
@@ -39,7 +39,7 @@ Live2D Cubism Editorは起動中で、人間から起動・使用の承認も得
 | tests | 5 files / 66 Vitest cases | PASS; FINAL DIFF AUDIT PENDING |
 | app choice | browser-first TypeScript＋Vite。Electron／PixiJSなし | IMPLEMENTED |
 | Cubism SDK for Web | package／Core／adapterなし | FUTURE WORK / BLOCKED FOR REAL RUNTIME |
-| Live2D character assets | PSD、`.cmo3`、`.moc3`、`.model3.json`、textures、motions、expressions、physicsなし | REQUIRES MANUAL LIVE2D WORK |
+| Live2D character assets | prototype one-leaf PSDsと理愛のone-ArtMesh CMO3 PoCは存在。production分離PSD、ノア独立CMO3、`.moc3`、`.model3.json`、motions、expressions、physicsなし | PROTOTYPE / REQUIRES MANUAL LIVE2D WORK |
 
 ### Live2D公式資料との照合
 
@@ -47,7 +47,7 @@ Live2D Cubism Editorは起動中で、人間から起動・使用の承認も得
 
 - [Notes on PSD creation](https://docs.live2d.com/en/cubism-editor-manual/precautions-for-psd-data/) は、モデル用PSDをRGB・8 bit/channel・sRGBで準備し、重複レイヤー名を避け、line／fill／clipping maskを1 partのレイヤーへまとめ、layer maskをimport copyに残さないよう案内しています。本リポジトリのlayer naming／8-bit sRGB／import-copy分離方針と一致します。
 - 同公式ページではPNGはmodeling guide／animation background等の例外用途とされます。したがって、承認済みflattened PNGを分離済みcharacter PSDの代わりに直接model textureとして扱いません。
-- [Import PSDs](https://docs.live2d.com/en/cubism-editor-manual/psd-import/) はPSD leafをArtMeshへ変換する工程を示します。現状はPSD leafがないため、Editor起動済みでもArtMesh作成開始条件を満たしません。
+- [Import PSDs](https://docs.live2d.com/en/cubism-editor-manual/psd-import/) はPSD leafをArtMeshへ変換する工程を示します。現在のprototype interaction PSDはone-leafとして理愛のArtMesh化まで確認済みですが、production向けの部位分離とリグ条件は満たしません。
 - [Standard Parameter List](https://docs.live2d.com/en/cubism-editor-manual/standard-parameter-list/) の標準ID／範囲を`docs/live2d-model-spec.md`の提案値と照合しました。実モデルのexported boundsは将来startup時に再検証し、文書値を無条件に適用しません。
 - [About Models (Web)](https://docs.live2d.com/en/cubism-sdk-manual/model-web/) は`.moc3`がparameterに対するvertex等の動きを持ち、`.model3.json`が関連ファイル参照をまとめる構成を説明しています。これらが存在しない現在のruntimeは引き続き`MOCK / NOT LIVE2D`です。
 

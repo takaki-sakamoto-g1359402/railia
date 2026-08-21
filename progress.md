@@ -118,3 +118,23 @@ Resume from `outputs/session-checkpoint-2026-08-14.md`.
 
 Resume from the Riai warp CMO3 named above; do not repeat PSD import or warp
 creation unless its one-ArtMesh/one-warp inventory fails on reopen.
+
+## 2026-08-21 — Mutual-gaze baked-pose end-of-day checkpoint
+
+- Created dedicated transparent Riai and Noa interaction PNGs with the mutual
+  gaze directions and smiles baked into their pixels. The canonical front-pose
+  assets were not overwritten.
+- Added a reproducible `--group=interaction` PSD build path. Both one-leaf PSDs
+  round-trip to their source RGBA bytes; the original base PSD pipeline also
+  remains deterministic.
+- Imported the Riai interaction PSD as a new one-ArtMesh model in Cubism 5.3.03
+  and saved `riai_look_noa_smile_poc_import_v001.cmo3` (1,701,277 bytes,
+  SHA-256 `5335b53702abdd0068054250c2843fbc6b20f4da1757cc63682bae306b54217d`).
+- Stopped on request while Cubism showed the Noa PSD model-selection dialog
+  with “new model from PSD” selected. OK was not activated; Noa CMO3, Animator
+  placement, CAN3, playback evidence, and GIF remain pending.
+- Final non-GUI verification passed with the bundled Node runtime: both PSD
+  rebuild groups, 5 files / 72 tests, TypeScript check, Vite production build,
+  and `git diff --check`.
+
+Resume from `outputs/session-checkpoint-2026-08-21.md`. Do not re-import Riai.

@@ -37,14 +37,41 @@ cutouts. They remain scene/relationship/UI mood references only:
 | `cutouts/noa_poc_cutout_v001.png` | `c204086a7ef8c22a649a49523253ef22b0ae33d6146a28cbe5494da8806f8d8f` | 1254 x 1254 RGBA; 953,365 transparent and 7,410 partial-alpha pixels |
 | `import/riai_poc_v001.psd` | `c5a2ad63677d8390cae570b589bf8bd0139cc3ef8b44585b535acbc6374a4e75` | RGB 8-bit prototype PSD; one Normal 100% leaf named `riai_poc_full` |
 | `import/noa_poc_v001.psd` | `31e115cf7df50bb726345865236cd5357b4cae1fee9d1d958b91119cd0f68d41` | RGB 8-bit prototype PSD; one Normal 100% leaf named `noa_poc_full` |
+| `interaction/riai_look_noa_smile_poc_v001.png` | `a3507f824a3eb3f5510b686d078613c2ef2b7b7866aaf8cf16cb04b661eee1cc` | 956 x 1645 RGBA; baked viewer-right/down gaze and closed-mouth smile; not a facial rig |
+| `interaction/noa_look_riai_smile_poc_v001.png` | `92b8de9423a57a872e325a576e7adb3b360874c4008de87e7e543b47e3f091ba` | 1254 x 1254 RGBA; baked viewer-left/up gaze and smile; not a facial rig |
+| `interaction/checkpoints/noa_look_riai_smile_poc_v001_pre_alpha_normalize.png` | `63a624279e7abd9848f293f1bbb11f807088aaa9fcd156671f760a433b496244` | 1,641,557-byte pre-normalization checkpoint retained only to audit the Noa alpha cleanup |
+| `import/riai_look_noa_smile_poc_v001.psd` | `f33a7d59e921d48b9a53c0acb86b99460611026faf2de4b073bd945b402d763b` | RGB 8-bit prototype PSD; one Normal 100% leaf named `riai_look_noa_smile_poc_full` |
+| `import/noa_look_riai_smile_poc_v001.psd` | `bae75d6e7b6af134306f64c69d475f3f6ebd9f9439b6e7d98a3f2fb2a8ec5553` | RGB 8-bit prototype PSD; one Normal 100% leaf named `noa_look_riai_smile_poc_full` |
 
-`scripts/build-live2d-poc-psd.mjs` reads both generated PSDs back and verifies
+`scripts/build-live2d-poc-psd.mjs` reads every generated PSD back and verifies
 dimensions, color mode, bit depth, one-leaf structure, names, blend/opacity,
-and byte-for-byte RGBA equality with their cutout PNGs. The PSD generator is
-prototype-only because Live2D officially guarantees PSD authoring from
-Photoshop and CLIP STUDIO PAINT, not from this code path.
+and byte-for-byte RGBA equality with its source PNG. It also rejects RGB-only
+files, missing transparency, and accidentally translucent matte extraction.
+Run `pnpm art:build-poc-psd` for the original front poses, or
+`pnpm art:build-poc-psd:interaction` for the baked mutual-gaze poses. The PSD
+generator is prototype-only because Live2D officially guarantees PSD authoring
+from Photoshop and CLIP STUDIO PAINT, not from this code path.
+
+The interaction assets deliberately bake gaze direction and smiles into
+flattened whole-character rasters. They can support truthful separate-model
+placement, breathing, sway, and lean PoC work, but they do not prove dynamic
+eye, mouth, face-angle, hair, ear, tail, hand, cloth, or crystal deformation.
+Their machine-readable hashes and alpha statistics are recorded in
+`import/interaction-psd-manifest.json`.
 
 ## Cubism import smoke test
+
+- Mutual-gaze Riai: **PASS** in Cubism Editor 5.3.03. The one-leaf interaction
+  PSD became one visible `riai_look_noa_smile_poc_full` ArtMesh and was saved
+  as `models/riai_look_noa_smile_poc_import_v001.cmo3`, 1,701,277 bytes,
+  SHA-256 `5335b53702abdd0068054250c2843fbc6b20f4da1757cc63682bae306b54217d`
+  at 2026-08-21 21:14:34 JST.
+- Mutual-gaze Noa: **IMPORT NOT YET CONFIRMED**. Cubism parsed the PSD and
+  displayed the model-selection dialog with “new model from PSD” selected,
+  but the user stopped the session before OK was activated. Evidence:
+  `evidence/noa_import_pending_model_selection_20260821.jpeg`, 31,644 bytes,
+  SHA-256 `4f9202f4fe1188f8c20d994a87781df6fdf0db961ddeab1768dc5a244ccceb28`.
+  This is not a Noa CMO3 save or import-pass claim.
 
 - Riai: **PASS** in Cubism Editor 5.3.03. The PSD created exactly one visible
   `riai_poc_full` ArtMesh on transparency with no warning/error log and no

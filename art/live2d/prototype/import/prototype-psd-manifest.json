@@ -1,6 +1,7 @@
 {
   "status": "GENERATED_PROTOTYPE_NOT_CANONICAL_MASTER",
-  "generatedAt": "2026-08-14T00:49:44.743Z",
+  "assetGroup": "base",
+  "generatedAt": "2026-08-21T12:29:47.926Z",
   "generator": {
     "library": "ag-psd",
     "version": "31.0.2",
@@ -17,7 +18,10 @@
       "height": 1643,
       "layerName": "riai_poc_full",
       "transparentPixels": 1008181,
-      "opaquePixels": 553164
+      "opaquePixels": 553164,
+      "partialAlphaPixels": 11006,
+      "nearOpaquePixels": 553164,
+      "nearOpaqueVisibleRatio": 0.9804916957654608
     },
     {
       "character": "noa",
@@ -29,7 +33,10 @@
       "height": 1254,
       "layerName": "noa_poc_full",
       "transparentPixels": 953365,
-      "opaquePixels": 611741
+      "opaquePixels": 611741,
+      "partialAlphaPixels": 7410,
+      "nearOpaquePixels": 611741,
+      "nearOpaqueVisibleRatio": 0.9880319986562244
     }
   ]
 }
