@@ -67,3 +67,74 @@ dialog. No unsaved production model exists, and no production file was modified.
 - Runtime exports: **NOT STARTED**
 - `python scripts/validate_delivery.py .`: **NOT RUN — validator absent**
 
+## 2026-08-22 — Pack-independent neutral-base reconstruction
+
+### Scope decision
+
+The missing Production Pack still prevents naming, canvas, layer-manifest, rig,
+and formal QA work. A reversible task that does not invent those contracts was
+selected instead: create front-facing flattened neutral-base candidates for
+later manual reconstruction and separation.
+
+These candidates are explicitly workbench inputs. They are not accepted as
+production artwork, layered PSDs, or evidence of a working Cubism model.
+
+### Identity and reference preservation
+
+- Copied the canonical Riai and Noa identity references non-destructively into
+  `art/live2d/reference/canonical/` and recorded source precedence and SHA-256
+  values there.
+- Used canonical images for identity and the committed breakdown sheets for
+  separation/motion guidance only.
+- Required two ears and one tail for each character; Riai remains an adult
+  white-haired fox woman, and Noa remains the small white fox companion.
+
+### Candidate generation and alpha correction
+
+- Generated a strict front, neutral, full-body Riai reconstruction candidate.
+- Generated a strict front, neutral, seated Noa reconstruction candidate.
+- The image tool returned RGB files with a baked checkerboard despite explicit
+  transparent-PNG requests. Two such results were rejected for production use.
+- Targeted edits replaced the checkerboard with an opaque green-screen matte.
+  Those files were preserved under
+  `art/live2d/production-workbench/neutral-bases/source/`.
+- Added `scripts/chroma-key-to-alpha.mjs` to convert the matte to true RGBA,
+  remove green spill, clear low-alpha/magenta fringe pixels, remove tiny
+  isolated components, preserve the source, and report hashes/statistics.
+- Added `scripts/render-alpha-review.mjs` to review each cutout over white,
+  mid-grey, and near-black backgrounds.
+
+### Measured output
+
+- Riai RGBA candidate:
+  `cutouts/riai_neutral_base_candidate_v001.png`
+  - 934 × 1683, visible bounds `(39,57)–(892,1632)`
+  - SHA-256
+    `0ee02e57e00619d5e610dc0d522ee1beaf82469627cc403c311b2886239e2fb8`
+  - 787,959 transparent / 8,863 partial / 775,100 opaque pixels
+- Noa RGBA candidate:
+  `cutouts/noa_neutral_base_candidate_v001.png`
+  - 1154 × 1363, visible bounds `(131,108)–(1082,1128)`
+  - SHA-256
+    `7e9b1d95f1f84142c2a3912e375b1f99922bed33fcbc1cc04a289da4a7563981`
+  - 1,002,958 transparent / 4,714 partial / 565,230 opaque pixels
+
+Visual review on white, grey, and near-black backgrounds found no remaining
+obvious green matte or full-canvas alpha contamination. Character identity and
+edge quality remain subject to manual review during actual separation.
+
+Independent code and synthetic-alpha review then rejected the v001 extractor
+for production use. Its normalized green-dominance estimate is foreground-colour
+dependent, it deletes partial magenta pixels and low-alpha wisps, and its
+unconditional small-component cleanup could remove detached ornaments. The
+clean-looking v001 cutouts are preserved as experimental comparison artifacts,
+not accepted transparent masters. Detailed findings are recorded in
+`logs/NEUTRAL_BASE_QA.md`; replacement with a linear-RGB trimap/local-foreground
+solver is required.
+
+### Remaining gate
+
+Production PSD reconstruction, hidden-overlap extension, Cubism rigging,
+physics, expressions, motions, visual QA, runtime export, and the mandated
+validator remain pending until the specified Production Pack is available.
+The goal is active and has not been declared complete.

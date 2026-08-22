@@ -1,0 +1,95 @@
+# Neutral-base reconstruction workbench
+
+Status: **EXPERIMENTAL PRE-SEPARATION CANDIDATES — ALPHA REWORK REQUIRED**
+
+This directory preserves two front-facing neutral-base candidates created while
+the mandatory Production Pack is still absent. They reduce later redraw and
+separation work, but they do not satisfy the goal by themselves.
+
+## Asset flow
+
+1. Canonical identity comes from `../../reference/canonical/`.
+2. Separation and motion guidance comes from
+   `../../reference/design-breakdowns/` only.
+3. Image-generation produced flattened character candidates. The tool returned
+   RGB files with a baked checkerboard even when transparency was requested.
+4. Targeted background edits produced the preserved green-screen files under
+   `source/`.
+5. `../../../../scripts/chroma-key-to-alpha.mjs` converted those files into
+   true 8-bit RGBA candidates under `cutouts/`. It estimates the matte from the
+   image border, removes green spill, rejects low-alpha/magenta fringe pixels,
+   and removes tiny isolated components without overwriting source files.
+6. `../../../../scripts/render-alpha-review.mjs` rendered each cutout over
+   white, mid-grey, and near-black backgrounds under `review/` for edge QA.
+
+Reproduce one conversion with:
+
+```sh
+pnpm art:chroma-key \
+  --input=art/live2d/production-workbench/neutral-bases/source/riai_neutral_base_green_v001.png \
+  --output=/tmp/riai_neutral_base_review.png
+```
+
+Render its three-background review with:
+
+```sh
+pnpm art:alpha-review \
+  --input=/tmp/riai_neutral_base_review.png \
+  --output=/tmp/riai_neutral_base_review_contact.png
+```
+
+## Current files and measured results
+
+| Character | RGBA candidate | Dimensions | Visible bounds | Output SHA-256 |
+| --- | --- | ---: | --- | --- |
+| Riai | `cutouts/riai_neutral_base_candidate_v001.png` | 934 × 1683 | `(39,57)–(892,1632)` | `0ee02e57e00619d5e610dc0d522ee1beaf82469627cc403c311b2886239e2fb8` |
+| Noa | `cutouts/noa_neutral_base_candidate_v001.png` | 1154 × 1363 | `(131,108)–(1082,1128)` | `7e9b1d95f1f84142c2a3912e375b1f99922bed33fcbc1cc04a289da4a7563981` |
+
+Alpha QA:
+
+- Riai: 787,959 fully transparent, 8,863 partial-alpha, and 775,100
+  fully opaque pixels.
+- Noa: 1,002,958 fully transparent, 4,714 partial-alpha, and 565,230
+  fully opaque pixels.
+- Both outputs are PNG color type 6 (RGBA), have non-empty visible bounds, and
+  look clean at full-frame scale on all three review backgrounds.
+- Independent synthetic review found that the v001 alpha estimator is
+  foreground-colour dependent and over-hardens thin navy/blue/gold/fur edges.
+  Therefore the alpha method and these v001 cutouts are **not production
+  approved**. See `../../../../logs/NEUTRAL_BASE_QA.md`.
+
+## Candidate review
+
+Riai preserves the white hair, sapphire eyes, two ears, one white tail, navy
+celestial robe, gold linework, blue crystals, full body, hands, and feet. The
+neutral symmetrical pose is suitable for planning, but the face and garment
+symmetry are slightly simplified relative to the canonical scene reference.
+
+Noa preserves the seated front view, two ears, one crystal-tipped tail, open
+neutral eyes, closed mouth, four visible paws, hood/cloak, chest brooch, chains,
+and blue/gold celestial language. The composition provides clear bilateral
+separation, but its dense ornament placement still needs reconciliation with
+the supplied layer manifest.
+
+## Known production limitations
+
+- Each candidate is one flattened RGBA raster, not a separated art stack.
+- The current RGBA conversion is an experimental v001 result with a failed
+  production alpha-method gate. Preserve it for comparison and rebuild it.
+- No hidden artwork exists beneath hair, ears, hood, cloak, limbs, crystals, or
+  tails.
+- Eye whites/irises/lids, mouth shapes, brows, hair sections, cloth sections,
+  chains, crystals, hands/paws, ears, and tails are not independently editable.
+- No Production Pack layer names, canvas contract, draw order, masks, deformers,
+  parameters, physics, expressions, motions, or export settings have been
+  applied.
+- Neither candidate has been imported or verified in Cubism.
+
+## Next safe step
+
+After the Production Pack is attached, read it in the requested order, map each
+manifest row to an approved reconstruction task, redraw and extend hidden
+overlaps, preserve a common canvas and alignment, then build
+`*_material_separation.psd` and one-layer-per-part `*_import.psd` stages. Do not
+rename these candidates to production deliverables or use their existence as a
+QA pass.

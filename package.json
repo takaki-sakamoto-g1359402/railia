@@ -9,8 +9,10 @@
     "node": ">=24.14.0 <25"
   },
   "scripts": {
+    "art:alpha-review": "node scripts/render-alpha-review.mjs",
     "art:build-poc-psd": "node scripts/build-live2d-poc-psd.mjs",
     "art:build-poc-psd:interaction": "node scripts/build-live2d-poc-psd.mjs --group=interaction",
+    "art:chroma-key": "node scripts/chroma-key-to-alpha.mjs",
     "dev": "vite --host 127.0.0.1",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 127.0.0.1",
