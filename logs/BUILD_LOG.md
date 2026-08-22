@@ -138,3 +138,59 @@ Production PSD reconstruction, hidden-overlap extension, Cubism rigging,
 physics, expressions, motions, visual QA, runtime export, and the mandated
 validator remain pending until the specified Production Pack is available.
 The goal is active and has not been declared complete.
+
+## 2026-08-22 — Session stop checkpoint: v002 alpha solver
+
+The user requested that work stop for the day and that all progress be recorded
+to GitHub. All active sub-agent work was interrupted before checkpointing. No
+Cubism model, production PSD, or runtime export was created or modified in this
+session.
+
+### Preserved WIP
+
+- Replaced the rejected v001 chroma-key implementation in
+  `scripts/chroma-key-to-alpha.mjs` with an unfinished v002 trimap and
+  local-foreground solver.
+- Added `tests/chroma-key-to-alpha.test.ts` with six focused regression cases:
+  colour/alpha ramps, detached ornaments, source-alpha rejection, unsafe-border
+  rejection, overwrite safety, and the v002 output/reporting contract.
+- Preserved
+  `art/live2d/production-workbench/neutral-bases/cutouts/riai_neutral_base_candidate_v002_diagnostic.png`
+  as explicit failed-QA evidence. It is not a production candidate.
+
+### Verification at stop
+
+- `node --check scripts/chroma-key-to-alpha.mjs`: **PASS** using the bundled
+  Node.js 24.19.0 runtime.
+- `pnpm exec vitest run tests/chroma-key-to-alpha.test.ts`: **FAIL** — 1 passed,
+  5 failed.
+- Primary failure: the v002 ramp fixture reports recomposition p95/p99
+  `0.1479`, above the `0.03`/`0.08` gates.
+- Other failures expose an over-strict requirement for a partial-alpha region,
+  missing rejection of a nonuniform border, and downstream contract tests
+  blocked by those QA failures.
+- Real Riai diagnostic: p95 `0.1477`, p99 `0.2015`, 4,419 green-edge
+  violations; output SHA-256
+  `277e91cbb79e9d8e14ebd437c4eead010629d72dcc29868964d1af3f5d46ff74`.
+- The diagnostic retained 34 components rather than silently deleting small
+  detached regions. Several are low-confidence background specks, so production
+  component policy still requires an explicit, reviewable decision.
+- `python scripts/validate_delivery.py .`: **NOT RUN** because the mandatory
+  Production Pack validator remains absent.
+
+### Exact restart point
+
+1. Open `scripts/chroma-key-to-alpha.mjs` at `renderOutput` and stop blending
+   recovered foreground colour back toward the seed for normal partial-alpha
+   pixels; preserve exact recomposition before applying any limited despill.
+2. Rerun `tests/chroma-key-to-alpha.test.ts` and fix the border-uniformity and
+   valid no-partial-alpha fixture policies without weakening production QA.
+3. Regenerate Riai and Noa as new versioned candidates only when the six tests
+   and built-in QA pass without `--allow-qa-failure=true`; render white/grey/
+   black review panels and inspect them visually.
+4. Continue searching for or attach the mandatory Production Pack. Once found,
+   follow its requested read order before naming layers, building PSDs, or
+   operating Cubism.
+
+Completion remains **NOT CLAIMED**. The active goal is paused by the user, not
+completed.
