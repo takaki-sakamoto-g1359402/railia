@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 1,
+  "assetId": "riai_hair",
+  "status": "WORKBENCH_MATERIAL_SEPARATION_ONLY",
+  "source": {
+    "path": "art/live2d/production-workbench/riai-secondary-motion/cutouts/riai_hair_separation_atlas_rgba_v001.png",
+    "sha256": "695fc521cf91cc52a42a9e3dacd8dc000c48594fd9ce85f4ee1a6bb8325b98f8"
+  },
+  "atlas": {
+    "width": 1024,
+    "height": 1536,
+    "seedAlphaExclusive": 32,
+    "minimumSeedArea": 64,
+    "expectedMainComponents": 16,
+    "connectivity": 8,
+    "requireEveryVisiblePixelAccounted": true,
+    "auditedDustPolicy": {
+      "mode": "reject_explicit_regions",
+      "maximumComponents": 4,
+      "maximumAreaPerComponent": 4,
+      "maximumTotalPixels": 8,
+      "allowedRegions": [
+        [0, 0, 4, 3],
+        [1020, 0, 1024, 3],
+        [0, 1533, 4, 1536],
+        [1020, 1533, 1024, 1536]
+      ]
+    }
+  },
+  "material": {
+    "rootGroup": "riai_hair_material_separation",
+    "categories": [
+      { "id": "front", "groupName": "riai_hair_front" },
+      { "id": "back_upper", "groupName": "riai_hair_back_upper" },
+      { "id": "back_lower", "groupName": "riai_hair_back_lower" },
+      { "id": "loose_strands", "groupName": "riai_hair_loose_strands" }
+    ]
+  },
+  "slots": [
+    {
+      "id": "front_side_slot_a",
+      "category": "front",
+      "roi": [0, 0, 350, 300],
+      "materialName": "hair_front_side_slot_a",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_viewer_left_side_mapping_unresolved"
+    },
+    {
+      "id": "front_center",
+      "category": "front",
+      "roi": [350, 0, 680, 300],
+      "materialName": "hair_front_center",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout"
+    },
+    {
+      "id": "front_side_slot_b",
+      "category": "front",
+      "roi": [680, 0, 1024, 300],
+      "materialName": "hair_front_side_slot_b",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_viewer_right_side_mapping_unresolved"
+    },
+    {
+      "id": "back_upper_slot_a",
+      "category": "back_upper",
+      "roi": [0, 300, 250, 690],
+      "materialName": "hair_back_upper_slot_a",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout"
+    },
+    {
+      "id": "back_upper_slot_b",
+      "category": "back_upper",
+      "roi": [250, 300, 510, 690],
+      "materialName": "hair_back_upper_slot_b",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout"
+    },
+    {
+      "id": "back_upper_slot_c",
+      "category": "back_upper",
+      "roi": [510, 300, 770, 690],
+      "materialName": "hair_back_upper_slot_c",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout"
+    },
+    {
+      "id": "back_upper_slot_d",
+      "category": "back_upper",
+      "roi": [770, 300, 1024, 690],
+      "materialName": "hair_back_upper_slot_d",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout"
+    },
+    {
+      "id": "back_lower_slot_a",
+      "category": "back_lower",
+      "roi": [0, 690, 250, 1130],
+      "materialName": "hair_back_lower_slot_a",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout"
+    },
+    {
+      "id": "back_lower_slot_b",
+      "category": "back_lower",
+      "roi": [250, 690, 510, 1130],
+      "materialName": "hair_back_lower_slot_b",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout"
+    },
+    {
+      "id": "back_lower_slot_c",
+      "category": "back_lower",
+      "roi": [510, 690, 770, 1130],
+      "materialName": "hair_back_lower_slot_c",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout"
+    },
+    {
+      "id": "back_lower_slot_d",
+      "category": "back_lower",
+      "roi": [770, 690, 1024, 1130],
+      "materialName": "hair_back_lower_slot_d",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout"
+    },
+    {
+      "id": "loose_strand_slot_a",
+      "category": "loose_strands",
+      "roi": [0, 1130, 230, 1536],
+      "materialName": "hair_loose_strand_slot_a",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout"
+    },
+    {
+      "id": "loose_strand_slot_b",
+      "category": "loose_strands",
+      "roi": [230, 1130, 400, 1536],
+      "materialName": "hair_loose_strand_slot_b",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout"
+    },
+    {
+      "id": "loose_strand_slot_c",
+      "category": "loose_strands",
+      "roi": [400, 1130, 610, 1536],
+      "materialName": "hair_loose_strand_slot_c",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout"
+    },
+    {
+      "id": "loose_strand_slot_d",
+      "category": "loose_strands",
+      "roi": [610, 1130, 790, 1536],
+      "materialName": "hair_loose_strand_slot_d",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout"
+    },
+    {
+      "id": "loose_strand_slot_e",
+      "category": "loose_strands",
+      "roi": [790, 1130, 1024, 1536],
+      "materialName": "hair_loose_strand_slot_e",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout"
+    }
+  ],
+  "productionImport": {
+    "enabled": false,
+    "blockers": [
+      "ATLAS_IS_A_MATERIAL_WORKBENCH_NOT_ALIGNED_CHARACTER_ART",
+      "OPAQUE_GREEN_CONTAMINATION_REQUIRES_RECONSTRUCTION",
+      "ANATOMICAL_LEFT_RIGHT_MAPPING_UNRESOLVED",
+      "TARGET_MODEL_PLACEMENT_UNRESOLVED",
+      "HIDDEN_OVERLAP_EXTENSION_NOT_VERIFIED",
+      "PRODUCTION_PACK_LAYER_NAMES_AND_HIERARCHY_UNAVAILABLE",
+      "SRGB_PROFILE_AND_CUBISM_MULTILAYER_IMPORT_NOT_VERIFIED"
+    ]
+  },
+  "outputs": {
+    "materialPsd": "art/live2d/production-workbench/riai-secondary-motion/psd/riai_hair_material_separation_WORKBENCH_v001.psd",
+    "materialManifest": "art/live2d/production-workbench/riai-secondary-motion/psd/riai_hair_material_separation_WORKBENCH_v001.manifest.json"
+  }
+}

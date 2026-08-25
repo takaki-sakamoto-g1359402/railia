@@ -1,0 +1,629 @@
+{
+  "schemaVersion": 1,
+  "algorithm": "RIAI_SECONDARY_COMPONENT_PSD_V001",
+  "assetId": "riai_hair",
+  "status": "MATERIAL_SEPARATION_WORKBENCH_NOT_CUBISM_IMPORT",
+  "source": {
+    "path": "art/live2d/production-workbench/riai-secondary-motion/cutouts/riai_hair_separation_atlas_rgba_v001.png",
+    "sha256": "695fc521cf91cc52a42a9e3dacd8dc000c48594fd9ce85f4ee1a6bb8325b98f8",
+    "width": 1024,
+    "height": 1536,
+    "format": "RGBA_PNG_8_BIT"
+  },
+  "configuration": {
+    "path": "art/live2d/production-workbench/riai-secondary-motion/config/riai-hair-material-v001.json",
+    "sha256": "da3108498b5566535251fdeca0f877a9264fa21a117fbf7a4b31bbce0e5c007a"
+  },
+  "detection": {
+    "positiveAlphaComponentCount": 337,
+    "seedComponentCount": 59,
+    "mainSeedComponentCount": 16,
+    "seedDustComponentCount": 43,
+    "visiblePixels": 422987,
+    "includedVisiblePixels": 422979,
+    "explicitlyRejectedSlotPixels": 0,
+    "explicitlyRejectedDustPixels": 8,
+    "accountedVisiblePixels": 422987,
+    "explicitlyRejectedDust": [
+      {
+        "componentId": 0,
+        "area": 4,
+        "bbox": [
+          0,
+          0,
+          3,
+          2
+        ],
+        "centroid": [
+          0.75,
+          0.25
+        ],
+        "reason": "atlas_edge_low_alpha_speck"
+      },
+      {
+        "componentId": 1,
+        "area": 2,
+        "bbox": [
+          1022,
+          0,
+          1024,
+          1
+        ],
+        "centroid": [
+          1022.5,
+          0
+        ],
+        "reason": "atlas_edge_low_alpha_speck"
+      },
+      {
+        "componentId": 335,
+        "area": 1,
+        "bbox": [
+          0,
+          1535,
+          1,
+          1536
+        ],
+        "centroid": [
+          0,
+          1535
+        ],
+        "reason": "atlas_edge_low_alpha_speck"
+      },
+      {
+        "componentId": 336,
+        "area": 1,
+        "bbox": [
+          1023,
+          1535,
+          1024,
+          1536
+        ],
+        "centroid": [
+          1023,
+          1535
+        ],
+        "reason": "atlas_edge_low_alpha_speck"
+      }
+    ]
+  },
+  "slots": [
+    {
+      "id": "front_side_slot_a",
+      "category": "front",
+      "materialName": "hair_front_side_slot_a",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_viewer_left_side_mapping_unresolved",
+      "mainSeedComponentId": 0,
+      "mainSeedArea": 14827,
+      "mainSeedBounds": [
+        170,
+        52,
+        296,
+        280
+      ],
+      "mainSeedCentroid": [
+        227.3738,
+        149.6092
+      ],
+      "assignedVisiblePixels": 16104,
+      "visibleBounds": [
+        169,
+        51,
+        297,
+        281
+      ],
+      "partialPixels": 4408,
+      "opaquePixels": 11696,
+      "greenDominantPixelsAlphaGt16Margin20": 7,
+      "rasterSha256": "3ba643254ed84d58325a9f581528a50df207b068b869c68e795f20f91c03b67b",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "front_center",
+      "category": "front",
+      "materialName": "hair_front_center",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout",
+      "mainSeedComponentId": 2,
+      "mainSeedArea": 21736,
+      "mainSeedBounds": [
+        424,
+        58,
+        599,
+        264
+      ],
+      "mainSeedCentroid": [
+        512.7946,
+        147.4559
+      ],
+      "assignedVisiblePixels": 23504,
+      "visibleBounds": [
+        423,
+        56,
+        600,
+        265
+      ],
+      "partialPixels": 5868,
+      "opaquePixels": 17636,
+      "greenDominantPixelsAlphaGt16Margin20": 13,
+      "rasterSha256": "53fddc7b550c18779b0f943dca7cc7603f219ac796dd27a6beba6843aea50a92",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "front_side_slot_b",
+      "category": "front",
+      "materialName": "hair_front_side_slot_b",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_viewer_right_side_mapping_unresolved",
+      "mainSeedComponentId": 1,
+      "mainSeedArea": 14900,
+      "mainSeedBounds": [
+        745,
+        55,
+        862,
+        293
+      ],
+      "mainSeedCentroid": [
+        807.3411,
+        158.7414
+      ],
+      "assignedVisiblePixels": 15914,
+      "visibleBounds": [
+        745,
+        54,
+        863,
+        294
+      ],
+      "partialPixels": 4490,
+      "opaquePixels": 11424,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "7ec903aa4b289a4e5cddf0236a1591913a1a875f1fba939533a636fd490312ed",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "back_upper_slot_a",
+      "category": "back_upper",
+      "materialName": "hair_back_upper_slot_a",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout",
+      "mainSeedComponentId": 13,
+      "mainSeedArea": 23206,
+      "mainSeedBounds": [
+        55,
+        310,
+        203,
+        659
+      ],
+      "mainSeedCentroid": [
+        126.5933,
+        458.341
+      ],
+      "assignedVisiblePixels": 25237,
+      "visibleBounds": [
+        54,
+        310,
+        204,
+        659
+      ],
+      "partialPixels": 6623,
+      "opaquePixels": 18614,
+      "greenDominantPixelsAlphaGt16Margin20": 137,
+      "rasterSha256": "63eca0552eb135df2397e5943526fc96a5d97d26963bb450e5e150bf1d933028",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "back_upper_slot_b",
+      "category": "back_upper",
+      "materialName": "hair_back_upper_slot_b",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout",
+      "mainSeedComponentId": 12,
+      "mainSeedArea": 35371,
+      "mainSeedBounds": [
+        283,
+        309,
+        462,
+        683
+      ],
+      "mainSeedCentroid": [
+        363.2002,
+        500.9453
+      ],
+      "assignedVisiblePixels": 38382,
+      "visibleBounds": [
+        282,
+        306,
+        462,
+        687
+      ],
+      "partialPixels": 8648,
+      "opaquePixels": 29734,
+      "greenDominantPixelsAlphaGt16Margin20": 196,
+      "rasterSha256": "065475c602167515060b14fbf0f50af0e47dbd57a7e599d42966a30652c6cd01",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "back_upper_slot_c",
+      "category": "back_upper",
+      "materialName": "hair_back_upper_slot_c",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout",
+      "mainSeedComponentId": 14,
+      "mainSeedArea": 34167,
+      "mainSeedBounds": [
+        551,
+        312,
+        736,
+        679
+      ],
+      "mainSeedCentroid": [
+        651.5477,
+        498.6325
+      ],
+      "assignedVisiblePixels": 37496,
+      "visibleBounds": [
+        548,
+        311,
+        737,
+        681
+      ],
+      "partialPixels": 8698,
+      "opaquePixels": 28798,
+      "greenDominantPixelsAlphaGt16Margin20": 228,
+      "rasterSha256": "8081a0b85fa5d7b3ce8b22b89c0eb17a12c208eefc0c6cf997255571f8c823cf",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "back_upper_slot_d",
+      "category": "back_upper",
+      "materialName": "hair_back_upper_slot_d",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout",
+      "mainSeedComponentId": 11,
+      "mainSeedArea": 27112,
+      "mainSeedBounds": [
+        799,
+        308,
+        966,
+        663
+      ],
+      "mainSeedCentroid": [
+        886.94,
+        481.6474
+      ],
+      "assignedVisiblePixels": 29672,
+      "visibleBounds": [
+        798,
+        306,
+        968,
+        664
+      ],
+      "partialPixels": 7612,
+      "opaquePixels": 22060,
+      "greenDominantPixelsAlphaGt16Margin20": 297,
+      "rasterSha256": "19315507b5f4c15105144f7e75c24ce035ff4cabc11b241ec1f3735e42bd3308",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "back_lower_slot_a",
+      "category": "back_lower",
+      "materialName": "hair_back_lower_slot_a",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout",
+      "mainSeedComponentId": 30,
+      "mainSeedArea": 43370,
+      "mainSeedBounds": [
+        40,
+        696,
+        228,
+        1110
+      ],
+      "mainSeedCentroid": [
+        125.7316,
+        915.285
+      ],
+      "assignedVisiblePixels": 46624,
+      "visibleBounds": [
+        39,
+        692,
+        228,
+        1111
+      ],
+      "partialPixels": 8717,
+      "opaquePixels": 37907,
+      "greenDominantPixelsAlphaGt16Margin20": 286,
+      "rasterSha256": "97d79a8ec2094f6cb2094d426fd2f1503df8bbcac7dfe0a0589a7985e0dc85f4",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "back_lower_slot_b",
+      "category": "back_lower",
+      "materialName": "hair_back_lower_slot_b",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout",
+      "mainSeedComponentId": 33,
+      "mainSeedArea": 49264,
+      "mainSeedBounds": [
+        281,
+        702,
+        494,
+        1112
+      ],
+      "mainSeedCentroid": [
+        377.0927,
+        910.3714
+      ],
+      "assignedVisiblePixels": 52300,
+      "visibleBounds": [
+        279,
+        697,
+        495,
+        1113
+      ],
+      "partialPixels": 8688,
+      "opaquePixels": 43612,
+      "greenDominantPixelsAlphaGt16Margin20": 548,
+      "rasterSha256": "4695652d21c47212ef6df32adbee4660bbb295003a87eaa87930d8659f087446",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "back_lower_slot_c",
+      "category": "back_lower",
+      "materialName": "hair_back_lower_slot_c",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout",
+      "mainSeedComponentId": 32,
+      "mainSeedArea": 48440,
+      "mainSeedBounds": [
+        533,
+        701,
+        745,
+        1110
+      ],
+      "mainSeedCentroid": [
+        644.4407,
+        906.2201
+      ],
+      "assignedVisiblePixels": 52039,
+      "visibleBounds": [
+        527,
+        696,
+        745,
+        1111
+      ],
+      "partialPixels": 9668,
+      "opaquePixels": 42371,
+      "greenDominantPixelsAlphaGt16Margin20": 738,
+      "rasterSha256": "8c024b0a48892cfca924fb2a3df5120dfcc12f793fc551f668ada3cca083db2e",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "back_lower_slot_d",
+      "category": "back_lower",
+      "materialName": "hair_back_lower_slot_d",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout",
+      "mainSeedComponentId": 31,
+      "mainSeedArea": 42545,
+      "mainSeedBounds": [
+        796,
+        700,
+        980,
+        1110
+      ],
+      "mainSeedCentroid": [
+        895.6434,
+        912.8279
+      ],
+      "assignedVisiblePixels": 45991,
+      "visibleBounds": [
+        793,
+        695,
+        980,
+        1111
+      ],
+      "partialPixels": 9199,
+      "opaquePixels": 36792,
+      "greenDominantPixelsAlphaGt16Margin20": 370,
+      "rasterSha256": "e01d9b7760f148589d12e5e2003bdd4af8e5809698725ee65d98fddcf969e87f",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "loose_strand_slot_a",
+      "category": "loose_strands",
+      "materialName": "hair_loose_strand_slot_a",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout",
+      "mainSeedComponentId": 52,
+      "mainSeedArea": 5365,
+      "mainSeedBounds": [
+        78,
+        1143,
+        173,
+        1446
+      ],
+      "mainSeedCentroid": [
+        127.0971,
+        1283.759
+      ],
+      "assignedVisiblePixels": 5978,
+      "visibleBounds": [
+        75,
+        1143,
+        174,
+        1448
+      ],
+      "partialPixels": 2748,
+      "opaquePixels": 3230,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "0a54e2fb790ac6ee4a2ca6025347fa19e81bc629b033425d4aa46673a4663897",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "loose_strand_slot_b",
+      "category": "loose_strands",
+      "materialName": "hair_loose_strand_slot_b",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout",
+      "mainSeedComponentId": 50,
+      "mainSeedArea": 7474,
+      "mainSeedBounds": [
+        276,
+        1139,
+        354,
+        1454
+      ],
+      "mainSeedCentroid": [
+        309.3464,
+        1283.1862
+      ],
+      "assignedVisiblePixels": 8698,
+      "visibleBounds": [
+        274,
+        1139,
+        355,
+        1454
+      ],
+      "partialPixels": 4235,
+      "opaquePixels": 4463,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "db1b6b8e879cc9beccdfc6abadb1a087374af04ef336a3d1b856cd6e5d7ee04a",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "loose_strand_slot_c",
+      "category": "loose_strands",
+      "materialName": "hair_loose_strand_slot_c",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout",
+      "mainSeedComponentId": 51,
+      "mainSeedArea": 7513,
+      "mainSeedBounds": [
+        468,
+        1139,
+        545,
+        1467
+      ],
+      "mainSeedCentroid": [
+        511.4245,
+        1303.8626
+      ],
+      "assignedVisiblePixels": 8262,
+      "visibleBounds": [
+        465,
+        1139,
+        546,
+        1468
+      ],
+      "partialPixels": 3258,
+      "opaquePixels": 5004,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "188112764ccc6035f16869fa60710de933b6807128b418141cd6092d9de4566b",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "loose_strand_slot_d",
+      "category": "loose_strands",
+      "materialName": "hair_loose_strand_slot_d",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout",
+      "mainSeedComponentId": 49,
+      "mainSeedArea": 7340,
+      "mainSeedBounds": [
+        663,
+        1138,
+        744,
+        1462
+      ],
+      "mainSeedCentroid": [
+        708.3811,
+        1285.6132
+      ],
+      "assignedVisiblePixels": 8452,
+      "visibleBounds": [
+        660,
+        1137,
+        746,
+        1462
+      ],
+      "partialPixels": 4079,
+      "opaquePixels": 4373,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "af06826a38cc133cce11415b28b8ed30196830e6997f7017a70beaf262aa946e",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "loose_strand_slot_e",
+      "category": "loose_strands",
+      "materialName": "hair_loose_strand_slot_e",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout",
+      "mainSeedComponentId": 53,
+      "mainSeedArea": 7514,
+      "mainSeedBounds": [
+        836,
+        1146,
+        924,
+        1466
+      ],
+      "mainSeedCentroid": [
+        883.4205,
+        1305.0925
+      ],
+      "assignedVisiblePixels": 8326,
+      "visibleBounds": [
+        835,
+        1145,
+        925,
+        1466
+      ],
+      "partialPixels": 4097,
+      "opaquePixels": 4229,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "c415b16af0f58b7d9f875616860883dd0acd3a0cefb01a900f157217ec67b887",
+      "includedInMaterialPsd": true
+    }
+  ],
+  "materialPsd": {
+    "path": "art/live2d/production-workbench/riai-secondary-motion/psd/riai_hair_material_separation_WORKBENCH_v001.psd",
+    "sha256": "d651b29c0cd83300ee17764ff1e7bcfdb52894b4763466dc1babdaefe9fe7d81",
+    "width": 1024,
+    "height": 1536,
+    "rasterLeafCount": 16,
+    "uniqueNamesValidated": true,
+    "pixelDataRoundTrip": "BYTE_FOR_BYTE_PASS",
+    "colorMode": "RGB",
+    "bitsPerChannel": 8,
+    "colorProfile": "UNTAGGED_BY_AG_PSD_REQUIRES_SRGB_AUTHORING_APP_RESAVE"
+  },
+  "productionImport": {
+    "status": "BLOCKED_FAIL_CLOSED",
+    "outputWritten": false,
+    "blockers": [
+      "ATLAS_IS_A_MATERIAL_WORKBENCH_NOT_ALIGNED_CHARACTER_ART",
+      "OPAQUE_GREEN_CONTAMINATION_REQUIRES_RECONSTRUCTION",
+      "ANATOMICAL_LEFT_RIGHT_MAPPING_UNRESOLVED",
+      "TARGET_MODEL_PLACEMENT_UNRESOLVED",
+      "HIDDEN_OVERLAP_EXTENSION_NOT_VERIFIED",
+      "PRODUCTION_PACK_LAYER_NAMES_AND_HIERARCHY_UNAVAILABLE",
+      "SRGB_PROFILE_AND_CUBISM_MULTILAYER_IMPORT_NOT_VERIFIED"
+    ]
+  }
+}

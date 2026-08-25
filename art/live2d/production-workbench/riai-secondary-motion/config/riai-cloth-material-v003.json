@@ -1,0 +1,300 @@
+{
+  "schemaVersion": 1,
+  "assetId": "riai_cloth",
+  "status": "WORKBENCH_MATERIAL_SEPARATION_ONLY",
+  "source": {
+    "path": "art/live2d/production-workbench/riai-secondary-motion/source/riai_cloth_separation_atlas_v003_alpha_sha256_fdfbc179025e.png",
+    "sha256": "fdfbc179025e1af4703d1dcc734e062279c9d52c0d2bbc590802b8abd16cb082"
+  },
+  "atlas": {
+    "width": 1628,
+    "height": 966,
+    "seedAlphaExclusive": 32,
+    "minimumSeedArea": 64,
+    "expectedMainComponents": 30,
+    "connectivity": 8,
+    "requireEveryVisiblePixelAccounted": true,
+    "auditedDustPolicy": {
+      "mode": "reject_explicit_regions",
+      "maximumComponents": 4,
+      "maximumAreaPerComponent": 4,
+      "maximumTotalPixels": 8,
+      "allowedRegions": [
+        [0, 0, 4, 3],
+        [1624, 0, 1628, 3],
+        [0, 963, 4, 966],
+        [1624, 963, 1628, 966]
+      ]
+    }
+  },
+  "material": {
+    "rootGroup": "riai_cloth_material_separation",
+    "categories": [
+      { "id": "hood", "groupName": "riai_cloth_hood" },
+      { "id": "upper_panels", "groupName": "riai_cloth_upper_panels" },
+      { "id": "lower_panels", "groupName": "riai_cloth_lower_panels" },
+      { "id": "accessories", "groupName": "riai_cloth_accessories" },
+      { "id": "rejected", "groupName": "riai_cloth_rejected_sources" }
+    ]
+  },
+  "slots": [
+    {
+      "id": "hood_outer",
+      "category": "hood",
+      "roi": [0, 0, 300, 310],
+      "materialName": "cloth_hood_outer",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout"
+    },
+    {
+      "id": "hood_inner",
+      "category": "hood",
+      "roi": [300, 0, 555, 310],
+      "materialName": "cloth_hood_inner",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout"
+    },
+    {
+      "id": "upper_panel_slot_a",
+      "category": "upper_panels",
+      "roi": [555, 0, 780, 340],
+      "materialName": "cloth_upper_panel_slot_a",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_side_mapping_unresolved"
+    },
+    {
+      "id": "upper_panel_slot_b",
+      "category": "upper_panels",
+      "roi": [780, 0, 980, 340],
+      "materialName": "cloth_upper_panel_slot_b",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_side_mapping_unresolved"
+    },
+    {
+      "id": "upper_panel_slot_c",
+      "category": "upper_panels",
+      "roi": [980, 0, 1150, 360],
+      "materialName": "cloth_upper_panel_slot_c",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_side_mapping_unresolved"
+    },
+    {
+      "id": "upper_panel_slot_d",
+      "category": "upper_panels",
+      "roi": [1150, 0, 1330, 360],
+      "materialName": "cloth_upper_panel_slot_d",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_side_mapping_unresolved"
+    },
+    {
+      "id": "upper_panel_slot_e",
+      "category": "upper_panels",
+      "roi": [1330, 0, 1628, 365],
+      "materialName": "cloth_upper_panel_slot_e",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout"
+    },
+    {
+      "id": "lower_panel_slot_a",
+      "category": "lower_panels",
+      "roi": [0, 310, 300, 645],
+      "materialName": "cloth_lower_panel_slot_a",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_side_mapping_unresolved"
+    },
+    {
+      "id": "lower_panel_slot_b",
+      "category": "lower_panels",
+      "roi": [300, 310, 555, 645],
+      "materialName": "cloth_lower_panel_slot_b",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_side_mapping_unresolved"
+    },
+    {
+      "id": "lower_panel_slot_c",
+      "category": "lower_panels",
+      "roi": [555, 340, 780, 668],
+      "materialName": "cloth_lower_panel_slot_c",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_side_mapping_unresolved"
+    },
+    {
+      "id": "lower_panel_slot_d",
+      "category": "lower_panels",
+      "roi": [780, 340, 980, 668],
+      "materialName": "cloth_lower_panel_slot_d",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_side_mapping_unresolved"
+    },
+    {
+      "id": "lower_panel_slot_e",
+      "category": "lower_panels",
+      "roi": [980, 360, 1150, 668],
+      "materialName": "cloth_lower_panel_slot_e",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_side_mapping_unresolved"
+    },
+    {
+      "id": "lower_panel_slot_f",
+      "category": "lower_panels",
+      "roi": [1150, 360, 1320, 668],
+      "materialName": "cloth_lower_panel_slot_f",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_side_mapping_unresolved"
+    },
+    {
+      "id": "lower_panel_slot_g",
+      "category": "lower_panels",
+      "roi": [1320, 365, 1440, 668],
+      "materialName": "cloth_lower_panel_slot_g",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_side_mapping_unresolved"
+    },
+    {
+      "id": "lower_panel_slot_h",
+      "category": "lower_panels",
+      "roi": [1440, 365, 1628, 668],
+      "materialName": "cloth_lower_panel_slot_h",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_side_mapping_unresolved"
+    },
+    {
+      "id": "waist_chain_olive_composite",
+      "category": "rejected",
+      "roi": [0, 645, 540, 966],
+      "materialName": "cloth_waist_chain_olive_composite_rejected",
+      "sourcePolicy": "reject",
+      "rejectionReason": "olive_green_contamination_and_fused_chain_composite",
+      "productionIntegrity": "rejected_requires_clean_independent_chain_redraw"
+    },
+    {
+      "id": "accessory_slot_a",
+      "category": "accessories",
+      "roi": [540, 668, 610, 966],
+      "materialName": "cloth_accessory_slot_a",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved"
+    },
+    {
+      "id": "accessory_slot_b",
+      "category": "accessories",
+      "roi": [610, 668, 680, 966],
+      "materialName": "cloth_accessory_slot_b",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved"
+    },
+    {
+      "id": "accessory_slot_c",
+      "category": "accessories",
+      "roi": [680, 668, 770, 966],
+      "materialName": "cloth_accessory_slot_c",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved"
+    },
+    {
+      "id": "accessory_slot_d",
+      "category": "accessories",
+      "roi": [770, 668, 815, 966],
+      "materialName": "cloth_accessory_slot_d",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved"
+    },
+    {
+      "id": "accessory_slot_e",
+      "category": "accessories",
+      "roi": [815, 668, 870, 966],
+      "materialName": "cloth_accessory_slot_e",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved"
+    },
+    {
+      "id": "accessory_slot_f",
+      "category": "accessories",
+      "roi": [870, 668, 915, 966],
+      "materialName": "cloth_accessory_slot_f",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved"
+    },
+    {
+      "id": "accessory_slot_g",
+      "category": "accessories",
+      "roi": [915, 668, 980, 966],
+      "materialName": "cloth_accessory_slot_g",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved"
+    },
+    {
+      "id": "accessory_slot_h",
+      "category": "accessories",
+      "roi": [980, 668, 1040, 966],
+      "materialName": "cloth_accessory_slot_h",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved"
+    },
+    {
+      "id": "accessory_slot_i",
+      "category": "accessories",
+      "roi": [1040, 668, 1210, 966],
+      "materialName": "cloth_accessory_slot_i",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved"
+    },
+    {
+      "id": "accessory_slot_j",
+      "category": "accessories",
+      "roi": [1210, 668, 1280, 966],
+      "materialName": "cloth_accessory_slot_j",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved"
+    },
+    {
+      "id": "accessory_slot_k",
+      "category": "accessories",
+      "roi": [1280, 668, 1380, 966],
+      "materialName": "cloth_accessory_slot_k",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved"
+    },
+    {
+      "id": "accessory_slot_l",
+      "category": "accessories",
+      "roi": [1380, 668, 1465, 966],
+      "materialName": "cloth_accessory_slot_l",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved"
+    },
+    {
+      "id": "accessory_slot_m",
+      "category": "accessories",
+      "roi": [1465, 668, 1530, 966],
+      "materialName": "cloth_accessory_slot_m",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved"
+    },
+    {
+      "id": "accessory_slot_n",
+      "category": "accessories",
+      "roi": [1530, 668, 1628, 966],
+      "materialName": "cloth_accessory_slot_n",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved"
+    }
+  ],
+  "productionImport": {
+    "enabled": false,
+    "blockers": [
+      "WAIST_CHAIN_OLIVE_COMPOSITE_EXCLUDED_REQUIRES_CLEAN_REDRAW",
+      "RESIDUAL_GREEN_CONTAMINATION_IN_INCLUDED_PARTS_REQUIRES_RECONSTRUCTION",
+      "ATLAS_IS_A_MATERIAL_WORKBENCH_NOT_ALIGNED_CHARACTER_ART",
+      "ANATOMICAL_LEFT_RIGHT_MAPPING_UNRESOLVED",
+      "TARGET_MODEL_PLACEMENT_UNRESOLVED",
+      "HIDDEN_OVERLAP_EXTENSION_NOT_VERIFIED",
+      "PRODUCTION_PACK_LAYER_NAMES_AND_HIERARCHY_UNAVAILABLE",
+      "SRGB_PROFILE_AND_CUBISM_MULTILAYER_IMPORT_NOT_VERIFIED"
+    ]
+  },
+  "outputs": {
+    "materialPsd": "art/live2d/production-workbench/riai-secondary-motion/psd/riai_cloth_material_separation_WORKBENCH_v003.psd",
+    "materialManifest": "art/live2d/production-workbench/riai-secondary-motion/psd/riai_cloth_material_separation_WORKBENCH_v003.manifest.json"
+  }
+}

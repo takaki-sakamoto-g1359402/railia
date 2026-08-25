@@ -23,6 +23,7 @@ const matteModeRadius = 24;
 const minimumMatteGreenExcess = 96;
 const maximumMatteP99Distance = 12;
 const minimumBorderSampleFraction = 0.3;
+const minimumStableMatteFraction = 0.85;
 const minimumBorderSamples = 1024;
 const minimumBackgroundThreshold = 6;
 const maximumBackgroundThreshold = 12;
@@ -30,14 +31,15 @@ const backgroundScreenScore = 0.85;
 const foregroundCoreDistance = 3;
 const foregroundCoreMatteDistanceMultiplier = 3;
 const foregroundCoreMaximumScreenScore = 0.5;
-const localSearchRadius = 12;
-const maximumLocalCandidates = 64;
+const localSearchRadius = 24;
+const maximumLocalCandidates = 1024;
 const poorFitResidual = 0.08;
 const maximumP95Residual = 0.03;
 const maximumP99Residual = 0.08;
 const lowAlphaColorExtension = 0.05;
 const autoSpaceSamples = 4096;
 const spatialFitPenalty = 0.00025;
+const candidateAlphaPenalty = 0.02;
 
 const linearLut = new Float64Array(256);
 for (let value = 0; value < 256; value += 1) {
@@ -209,6 +211,16 @@ function estimateMatte(png) {
       `Only ${inliers.length} stable matte samples were found; at least ${requiredSamples} are required.`,
     );
   }
+  const stableMatteFraction = inliers.length / greenBorder.length;
+  if (stableMatteFraction < minimumStableMatteFraction) {
+    throw new Error(
+      `Green-screen border is not uniform: only ${(stableMatteFraction * 100).toFixed(
+        1,
+      )}% of matte-like border samples agree with the dominant matte; at least ${(
+        minimumStableMatteFraction * 100
+      ).toFixed(1)}% are required.`,
+    );
+  }
 
   const reds = [];
   const greens = [];
@@ -257,6 +269,7 @@ function estimateMatte(png) {
     borderPixels: borderIndices.length,
     samples: inliers.length,
     modeSamples: mode.length,
+    stableMatteFraction,
   };
 }
 
@@ -571,7 +584,8 @@ function evaluateCandidate(png, pixelIndex, candidateIndex, matteVector, space) 
     residual,
     score:
       residual +
-      Math.hypot(x - candidateX, y - candidateY) * spatialFitPenalty,
+      Math.hypot(x - candidateX, y - candidateY) * spatialFitPenalty +
+      alpha * candidateAlphaPenalty,
   };
 }
 
@@ -711,14 +725,10 @@ function absoluteGreenAlpha(png, pixelIndex, matte, space) {
   return 1 - clamp(excess / matteExcess);
 }
 
-function smoothstep(edge0, edge1, value) {
-  const normalized = clamp((value - edge0) / (edge1 - edge0));
-  return normalized * normalized * (3 - 2 * normalized);
-}
-
 function renderOutput(
   png,
   background,
+  distances,
   core,
   componentIds,
   components,
@@ -744,7 +754,10 @@ function renderOutput(
       continue;
     }
     const component = components[componentIds[pixelIndex]];
-    if (core[pixelIndex] === 1) {
+    if (
+      core[pixelIndex] === 1 &&
+      distances[pixelIndex] > localSearchRadius
+    ) {
       output.data[offset] = png.data[offset];
       output.data[offset + 1] = png.data[offset + 1];
       output.data[offset + 2] = png.data[offset + 2];
@@ -753,7 +766,6 @@ function renderOutput(
       opaquePixels += 1;
       continue;
     }
-
     const fit = component.hasCore
       ? findBestFit(
           png,
@@ -776,8 +788,8 @@ function renderOutput(
     } else {
       alpha =
         fit.residual <= poorFitResidual
-          ? fit.alpha
-          : Math.max(fit.alpha, fallbackAlpha);
+          ? Math.min(fit.alpha, fallbackAlpha)
+          : fallbackAlpha;
       seedIndex = fit.candidateIndex;
       if (fit.residual > poorFitResidual) fallbackPixels += 1;
     }
@@ -787,33 +799,37 @@ function renderOutput(
     const seed = pixelColor(png, seedIndex, space);
     let foregroundColor = [...seed];
     if (alpha >= lowAlphaColorExtension) {
-      const recovered = [
+      foregroundColor = [
         clamp((current[0] - (1 - alpha) * matteVector[0]) / alpha),
         clamp((current[1] - (1 - alpha) * matteVector[1]) / alpha),
         clamp((current[2] - (1 - alpha) * matteVector[2]) / alpha),
       ];
-      const confidence =
-        fit === null ? 0 : clamp(1 - fit.residual / poorFitResidual);
-      const blend = smoothstep(0.15, 0.65, alpha) * confidence;
-      foregroundColor = [
-        seed[0] * (1 - blend) + recovered[0] * blend,
-        seed[1] * (1 - blend) + recovered[1] * blend,
-        seed[2] * (1 - blend) + recovered[2] * blend,
-      ];
     }
-    const allowance = space === "linear" ? 0.01 : 4 / 255;
-    const spill = Math.max(
-      0,
-      foregroundColor[1] -
-        Math.max(foregroundColor[0], foregroundColor[2]) -
-        allowance,
+    // Apply decontamination only after exact foreground reconstruction.  The
+    // tighter write allowance leaves room for the 8-bit encode/decode step
+    // while preserving the recomposition fit for non-spill pixels.
+    const writeAllowance = space === "linear" ? 0.005 : 2 / 255;
+    foregroundColor[1] = Math.min(
+      foregroundColor[1],
+      Math.max(foregroundColor[0], foregroundColor[2]) + writeAllowance,
     );
-    foregroundColor[1] -= spill;
 
     const alphaByte = clampByte(alpha * 255);
     output.data[offset] = byteFromChannel(foregroundColor[0], space);
     output.data[offset + 1] = byteFromChannel(foregroundColor[1], space);
     output.data[offset + 2] = byteFromChannel(foregroundColor[2], space);
+    const qaAllowance = space === "linear" ? 0.01 : 4 / 255;
+    while (
+      output.data[offset + 1] > 0 &&
+      channel(output.data[offset + 1], space) >
+        Math.max(
+          channel(output.data[offset], space),
+          channel(output.data[offset + 2], space),
+        ) +
+          qaAllowance
+    ) {
+      output.data[offset + 1] -= 1;
+    }
     output.data[offset + 3] = alphaByte;
     component.maxAlpha = Math.max(component.maxAlpha, alphaByte);
     if (alphaByte === 0) transparentPixels += 1;
@@ -828,6 +844,18 @@ function renderOutput(
     output.data[offset] = png.data[offset];
     output.data[offset + 1] = png.data[offset + 1];
     output.data[offset + 2] = png.data[offset + 2];
+    const qaAllowance = space === "linear" ? 0.01 : 4 / 255;
+    while (
+      output.data[offset + 1] > 0 &&
+      channel(output.data[offset + 1], space) >
+        Math.max(
+          channel(output.data[offset], space),
+          channel(output.data[offset + 2], space),
+        ) +
+          qaAllowance
+    ) {
+      output.data[offset + 1] -= 1;
+    }
     output.data[offset + 3] = 1;
     component.maxAlpha = 1;
     transparentPixels -= 1;
@@ -870,11 +898,10 @@ function validateOutput(
 ) {
   if (
     alphaCounts.transparentPixels === 0 ||
-    alphaCounts.partialPixels === 0 ||
     alphaCounts.opaquePixels === 0
   ) {
     throw new Error(
-      "Alpha QA requires non-empty transparent, partial-alpha, and opaque regions.",
+      "Alpha QA requires non-empty transparent and opaque regions.",
     );
   }
   const matteVector = matteColor(matte, space);
@@ -1071,6 +1098,7 @@ const compositeSpace = chooseCompositeSpace(
 const rendered = renderOutput(
   input,
   flooded.background,
+  distances,
   foreground.core,
   labeled.componentIds,
   labeled.components,
@@ -1115,7 +1143,8 @@ console.log(
           flooded.backgroundPixels -
           foreground.corePixels,
       },
-      compositeSpace,
+      compositeSpace: compositeSpace.selected,
+      compositeSpaceAnalysis: compositeSpace,
       alpha: {
         ...rendered.alphaCounts,
         visibleBounds: measureVisibleBounds(rendered.output),

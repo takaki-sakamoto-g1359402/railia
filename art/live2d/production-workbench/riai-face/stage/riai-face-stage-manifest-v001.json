@@ -1,0 +1,254 @@
+{
+  "status": "WORKBENCH_NOT_PRODUCTION_IMPORT",
+  "generatedAt": "2026-08-25T10:13:49.208Z",
+  "canvas": {
+    "width": 1254,
+    "height": 1254
+  },
+  "sources": {
+    "faceBase": "art/live2d/production-workbench/riai-face/cutouts/riai_face_base_patch_rgba_v002.png",
+    "faceBaseSha256": "eecfab5d73b7bd48ddcabd452862a484ea1de362462bc52d719bdce2fd880159",
+    "partsAtlas": "art/live2d/production-workbench/riai-face/cutouts/riai_face_parts_rgba_v002.png",
+    "partsAtlasSha256": "b9b7851002d9bf66448a6cbf2e14a0943a91b9e4a9760a761f1db3bb2294403f"
+  },
+  "outputs": {
+    "psd": "art/live2d/production-workbench/riai-face/stage/riai_face_stage_import_WORKBENCH_v001.psd",
+    "psdSha256": "503621e6af394cb09dbf438813cc421bcd9b9c696d21eeade83f3c2531f9bf8f",
+    "preview": "art/live2d/production-workbench/riai-face/stage/riai_face_stage_neutral_preview_v001.png",
+    "previewSha256": "1299922d99178635cbd8183e82881cb34dd5939cde6de94e624fc459ea836adf",
+    "expressionPreviews": {
+      "neutral": {
+        "path": "art/live2d/production-workbench/riai-face/stage/expressions/riai_face_stage_neutral_v001.png",
+        "sha256": "1299922d99178635cbd8183e82881cb34dd5939cde6de94e624fc459ea836adf"
+      },
+      "soft_smile": {
+        "path": "art/live2d/production-workbench/riai-face/stage/expressions/riai_face_stage_soft_smile_v001.png",
+        "sha256": "01490c6e8c8dd0af1f4ac9e4db2cf656597b9c0fe27c1013a4597e6d0e00be1c"
+      },
+      "blink_smile": {
+        "path": "art/live2d/production-workbench/riai-face/stage/expressions/riai_face_stage_blink_smile_v001.png",
+        "sha256": "f3d4628fce54ea46d63b81c81193aa2193fca67606d757cd5bf7ed90c0dc296c"
+      },
+      "open_happy": {
+        "path": "art/live2d/production-workbench/riai-face/stage/expressions/riai_face_stage_open_happy_v001.png",
+        "sha256": "c5eeab13fbc9422fd3110bab641befb6d8dcce5bfe0291e7234d95239035403c"
+      }
+    }
+  },
+  "sideConvention": "viewer-left=Riai anatomical R; viewer-right=Riai anatomical L",
+  "layers": [
+    {
+      "name": "FaceBase",
+      "source": "face_base",
+      "x": 0,
+      "y": 0,
+      "width": 1254,
+      "height": 1254,
+      "hidden": false
+    },
+    {
+      "name": "EyeWhite_R",
+      "source": "eye_white_r",
+      "x": 356,
+      "y": 458,
+      "width": 188,
+      "height": 138,
+      "hidden": false
+    },
+    {
+      "name": "Iris_R",
+      "source": "iris_r",
+      "x": 398,
+      "y": 468,
+      "width": 116,
+      "height": 131,
+      "hidden": false
+    },
+    {
+      "name": "EyeUpperLash_R",
+      "source": "upper_lash_r",
+      "x": 342,
+      "y": 446,
+      "width": 220,
+      "height": 49,
+      "hidden": false
+    },
+    {
+      "name": "EyeLowerLid_R",
+      "source": "lower_lid_r",
+      "x": 372,
+      "y": 578,
+      "width": 168,
+      "height": 30,
+      "hidden": false
+    },
+    {
+      "name": "EyeClosed_R",
+      "source": "closed_lid_r",
+      "x": 350,
+      "y": 520,
+      "width": 208,
+      "height": 34,
+      "hidden": true
+    },
+    {
+      "name": "Eyebrow_R",
+      "source": "eyebrow_r",
+      "x": 353,
+      "y": 382,
+      "width": 194,
+      "height": 43,
+      "hidden": false
+    },
+    {
+      "name": "EyeWhite_L",
+      "source": "eye_white_l",
+      "x": 710,
+      "y": 458,
+      "width": 188,
+      "height": 138,
+      "hidden": false
+    },
+    {
+      "name": "Iris_L",
+      "source": "iris_l",
+      "x": 744,
+      "y": 468,
+      "width": 116,
+      "height": 131,
+      "hidden": false
+    },
+    {
+      "name": "EyeUpperLash_L",
+      "source": "upper_lash_l",
+      "x": 695,
+      "y": 446,
+      "width": 220,
+      "height": 51,
+      "hidden": false
+    },
+    {
+      "name": "EyeLowerLid_L",
+      "source": "lower_lid_l",
+      "x": 714,
+      "y": 578,
+      "width": 168,
+      "height": 30,
+      "hidden": false
+    },
+    {
+      "name": "EyeClosed_L",
+      "source": "closed_lid_l",
+      "x": 696,
+      "y": 520,
+      "width": 208,
+      "height": 36,
+      "hidden": true
+    },
+    {
+      "name": "Eyebrow_L",
+      "source": "eyebrow_l",
+      "x": 704,
+      "y": 382,
+      "width": 196,
+      "height": 43,
+      "hidden": false
+    },
+    {
+      "name": "Nose",
+      "source": "nose",
+      "x": 613,
+      "y": 634,
+      "width": 28,
+      "height": 53,
+      "hidden": false
+    },
+    {
+      "name": "Cheek_R",
+      "source": "procedural_blush",
+      "x": 304,
+      "y": 655,
+      "width": 190,
+      "height": 90,
+      "hidden": false
+    },
+    {
+      "name": "Cheek_L",
+      "source": "procedural_blush",
+      "x": 760,
+      "y": 655,
+      "width": 190,
+      "height": 90,
+      "hidden": false
+    },
+    {
+      "name": "MouthNeutral",
+      "source": "mouth_neutral",
+      "x": 584,
+      "y": 766,
+      "width": 86,
+      "height": 8,
+      "hidden": false
+    },
+    {
+      "name": "MouthSmile",
+      "source": "mouth_smile",
+      "x": 579,
+      "y": 752,
+      "width": 96,
+      "height": 15,
+      "hidden": true
+    },
+    {
+      "name": "MouthUpper",
+      "source": "mouth_upper",
+      "x": 585,
+      "y": 749,
+      "width": 84,
+      "height": 24,
+      "hidden": true
+    },
+    {
+      "name": "MouthInner",
+      "source": "mouth_inner",
+      "x": 558,
+      "y": 758,
+      "width": 138,
+      "height": 96,
+      "hidden": true
+    },
+    {
+      "name": "TeethUpper",
+      "source": "teeth_upper",
+      "x": 568,
+      "y": 765,
+      "width": 118,
+      "height": 19,
+      "hidden": true
+    },
+    {
+      "name": "Tongue",
+      "source": "tongue",
+      "x": 584,
+      "y": 806,
+      "width": 86,
+      "height": 84,
+      "hidden": true
+    },
+    {
+      "name": "MouthLower",
+      "source": "mouth_lower",
+      "x": 596,
+      "y": 848,
+      "width": 59,
+      "height": 23,
+      "hidden": true
+    }
+  ],
+  "blockedForProduction": [
+    "Eye whites contain fused upper-lid line art.",
+    "Iris composites contain baked pupil and highlights.",
+    "Generated atlas blush components were rejected for green halos and replaced procedurally.",
+    "Strict sRGB ICC tagging requires a compatible painting application re-save."
+  ]
+}

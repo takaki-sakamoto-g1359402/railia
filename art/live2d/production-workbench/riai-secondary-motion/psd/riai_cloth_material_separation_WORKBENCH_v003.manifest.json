@@ -1,0 +1,1078 @@
+{
+  "schemaVersion": 1,
+  "algorithm": "RIAI_SECONDARY_COMPONENT_PSD_V001",
+  "assetId": "riai_cloth",
+  "status": "MATERIAL_SEPARATION_WORKBENCH_NOT_CUBISM_IMPORT",
+  "source": {
+    "path": "art/live2d/production-workbench/riai-secondary-motion/source/riai_cloth_separation_atlas_v003_alpha_sha256_fdfbc179025e.png",
+    "sha256": "fdfbc179025e1af4703d1dcc734e062279c9d52c0d2bbc590802b8abd16cb082",
+    "width": 1628,
+    "height": 966,
+    "format": "RGBA_PNG_8_BIT"
+  },
+  "configuration": {
+    "path": "art/live2d/production-workbench/riai-secondary-motion/config/riai-cloth-material-v003.json",
+    "sha256": "7e085821f7d49f15a9ddf783c572b6e16995034a6e9a080d7672d297e0447203"
+  },
+  "detection": {
+    "positiveAlphaComponentCount": 383,
+    "seedComponentCount": 33,
+    "mainSeedComponentCount": 30,
+    "seedDustComponentCount": 3,
+    "visiblePixels": 620026,
+    "includedVisiblePixels": 589137,
+    "explicitlyRejectedSlotPixels": 30882,
+    "explicitlyRejectedDustPixels": 7,
+    "accountedVisiblePixels": 620026,
+    "explicitlyRejectedDust": [
+      {
+        "componentId": 0,
+        "area": 2,
+        "bbox": [
+          0,
+          0,
+          2,
+          1
+        ],
+        "centroid": [
+          0.5,
+          0
+        ],
+        "reason": "atlas_edge_low_alpha_speck"
+      },
+      {
+        "componentId": 1,
+        "area": 1,
+        "bbox": [
+          1627,
+          0,
+          1628,
+          1
+        ],
+        "centroid": [
+          1627,
+          0
+        ],
+        "reason": "atlas_edge_low_alpha_speck"
+      },
+      {
+        "componentId": 381,
+        "area": 3,
+        "bbox": [
+          1626,
+          964,
+          1628,
+          966
+        ],
+        "centroid": [
+          1626.6667,
+          964.6667
+        ],
+        "reason": "atlas_edge_low_alpha_speck"
+      },
+      {
+        "componentId": 382,
+        "area": 1,
+        "bbox": [
+          0,
+          965,
+          1,
+          966
+        ],
+        "centroid": [
+          0,
+          965
+        ],
+        "reason": "atlas_edge_low_alpha_speck"
+      }
+    ]
+  },
+  "slots": [
+    {
+      "id": "hood_outer",
+      "category": "hood",
+      "materialName": "cloth_hood_outer",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout",
+      "mainSeedComponentId": 5,
+      "mainSeedArea": 38001,
+      "mainSeedBounds": [
+        48,
+        40,
+        292,
+        297
+      ],
+      "mainSeedCentroid": [
+        169.4894,
+        160.0292
+      ],
+      "assignedVisiblePixels": 38197,
+      "visibleBounds": [
+        48,
+        40,
+        293,
+        298
+      ],
+      "partialPixels": 1584,
+      "opaquePixels": 36613,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "4fb5bf68562b8fb8528a43a55d490f890718eedb386d6d1bf60a3d5ecbfd9c61",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "hood_inner",
+      "category": "hood",
+      "materialName": "cloth_hood_inner",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout",
+      "mainSeedComponentId": 6,
+      "mainSeedArea": 32846,
+      "mainSeedBounds": [
+        310,
+        45,
+        548,
+        263
+      ],
+      "mainSeedCentroid": [
+        428.221,
+        151.8747
+      ],
+      "assignedVisiblePixels": 33094,
+      "visibleBounds": [
+        310,
+        43,
+        548,
+        263
+      ],
+      "partialPixels": 1947,
+      "opaquePixels": 31147,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "0c73fe9684d9aaf1cd1047a1313e916f866afde0f7795ec2e930507e127ab8cd",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "upper_panel_slot_a",
+      "category": "upper_panels",
+      "materialName": "cloth_upper_panel_slot_a",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_side_mapping_unresolved",
+      "mainSeedComponentId": 2,
+      "mainSeedArea": 35104,
+      "mainSeedBounds": [
+        568,
+        22,
+        746,
+        330
+      ],
+      "mainSeedCentroid": [
+        672.2164,
+        198.1016
+      ],
+      "assignedVisiblePixels": 35357,
+      "visibleBounds": [
+        568,
+        21,
+        746,
+        331
+      ],
+      "partialPixels": 1835,
+      "opaquePixels": 33522,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "51b8b1e1f786f86de7aa79b42231f499dc7f5dba4fd46395e0b43a358201dbd0",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "upper_panel_slot_b",
+      "category": "upper_panels",
+      "materialName": "cloth_upper_panel_slot_b",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_side_mapping_unresolved",
+      "mainSeedComponentId": 3,
+      "mainSeedArea": 35398,
+      "mainSeedBounds": [
+        797,
+        22,
+        976,
+        331
+      ],
+      "mainSeedCentroid": [
+        871.479,
+        198.4757
+      ],
+      "assignedVisiblePixels": 35666,
+      "visibleBounds": [
+        797,
+        21,
+        977,
+        331
+      ],
+      "partialPixels": 1682,
+      "opaquePixels": 33984,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "610c837594fe9623b488654dd04f43c835c732a444847ff5e2a6d9ccd10bbde8",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "upper_panel_slot_c",
+      "category": "upper_panels",
+      "materialName": "cloth_upper_panel_slot_c",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_side_mapping_unresolved",
+      "mainSeedComponentId": 0,
+      "mainSeedArea": 34359,
+      "mainSeedBounds": [
+        982,
+        19,
+        1140,
+        342
+      ],
+      "mainSeedCentroid": [
+        1074.6415,
+        197.1295
+      ],
+      "assignedVisiblePixels": 34557,
+      "visibleBounds": [
+        980,
+        19,
+        1143,
+        342
+      ],
+      "partialPixels": 1898,
+      "opaquePixels": 32659,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "18b29952449cf62a03fb72d8bbf5c80132af35e392cc85e3c51c4d315605f6c0",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "upper_panel_slot_d",
+      "category": "upper_panels",
+      "materialName": "cloth_upper_panel_slot_d",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_side_mapping_unresolved",
+      "mainSeedComponentId": 1,
+      "mainSeedArea": 34519,
+      "mainSeedBounds": [
+        1163,
+        20,
+        1322,
+        343
+      ],
+      "mainSeedCentroid": [
+        1228.9928,
+        198.098
+      ],
+      "assignedVisiblePixels": 34707,
+      "visibleBounds": [
+        1163,
+        20,
+        1322,
+        343
+      ],
+      "partialPixels": 1829,
+      "opaquePixels": 32878,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "ced960c05ea0a4d5f43709ed7896ca37081c50f7cc97d805dcc3e00303e90d50",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "upper_panel_slot_e",
+      "category": "upper_panels",
+      "materialName": "cloth_upper_panel_slot_e",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout",
+      "mainSeedComponentId": 4,
+      "mainSeedArea": 61110,
+      "mainSeedBounds": [
+        1339,
+        25,
+        1620,
+        352
+      ],
+      "mainSeedCentroid": [
+        1478.6961,
+        210.2924
+      ],
+      "assignedVisiblePixels": 61386,
+      "visibleBounds": [
+        1339,
+        25,
+        1620,
+        354
+      ],
+      "partialPixels": 2108,
+      "opaquePixels": 59278,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "e41ebf34a20f247c5e58fc8838c1ab0bba5504e72a85d8cc8a6fa76e7e284ebf",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "lower_panel_slot_a",
+      "category": "lower_panels",
+      "materialName": "cloth_lower_panel_slot_a",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_side_mapping_unresolved",
+      "mainSeedComponentId": 7,
+      "mainSeedArea": 48119,
+      "mainSeedBounds": [
+        28,
+        323,
+        248,
+        636
+      ],
+      "mainSeedCentroid": [
+        150.3018,
+        494.998
+      ],
+      "assignedVisiblePixels": 48331,
+      "visibleBounds": [
+        28,
+        322,
+        248,
+        636
+      ],
+      "partialPixels": 1845,
+      "opaquePixels": 46486,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "4cb1999a90dd865557dbfb98991bf53997942fb11a5b4381ad435bb5bb9a77f3",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "lower_panel_slot_b",
+      "category": "lower_panels",
+      "materialName": "cloth_lower_panel_slot_b",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_side_mapping_unresolved",
+      "mainSeedComponentId": 8,
+      "mainSeedArea": 48346,
+      "mainSeedBounds": [
+        325,
+        327,
+        544,
+        641
+      ],
+      "mainSeedCentroid": [
+        422.379,
+        499.5742
+      ],
+      "assignedVisiblePixels": 48573,
+      "visibleBounds": [
+        325,
+        327,
+        544,
+        641
+      ],
+      "partialPixels": 1876,
+      "opaquePixels": 46697,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "c55d616e04994fd09dbf189ff331678f559d403a25b1d7480310af6cd6c7fe3f",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "lower_panel_slot_c",
+      "category": "lower_panels",
+      "materialName": "cloth_lower_panel_slot_c",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_side_mapping_unresolved",
+      "mainSeedComponentId": 10,
+      "mainSeedArea": 37887,
+      "mainSeedBounds": [
+        574,
+        348,
+        756,
+        667
+      ],
+      "mainSeedCentroid": [
+        674.6268,
+        525.3821
+      ],
+      "assignedVisiblePixels": 38135,
+      "visibleBounds": [
+        574,
+        348,
+        758,
+        668
+      ],
+      "partialPixels": 1857,
+      "opaquePixels": 36278,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "ffcd01ecfaa08673be2afa99204448c4b8aa8c575693bc7b9f4566e8324899ad",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "lower_panel_slot_d",
+      "category": "lower_panels",
+      "materialName": "cloth_lower_panel_slot_d",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_side_mapping_unresolved",
+      "mainSeedComponentId": 9,
+      "mainSeedArea": 37399,
+      "mainSeedBounds": [
+        787,
+        344,
+        967,
+        663
+      ],
+      "mainSeedCentroid": [
+        867.7049,
+        522.1794
+      ],
+      "assignedVisiblePixels": 37721,
+      "visibleBounds": [
+        784,
+        344,
+        968,
+        664
+      ],
+      "partialPixels": 1925,
+      "opaquePixels": 35796,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "86296eb455620a7e4f50b77253724968b575d171755344e2d430ef62e83c4776",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "lower_panel_slot_e",
+      "category": "lower_panels",
+      "materialName": "cloth_lower_panel_slot_e",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_side_mapping_unresolved",
+      "mainSeedComponentId": 11,
+      "mainSeedArea": 22998,
+      "mainSeedBounds": [
+        1026,
+        375,
+        1133,
+        663
+      ],
+      "mainSeedCentroid": [
+        1078.8298,
+        530.8377
+      ],
+      "assignedVisiblePixels": 23203,
+      "visibleBounds": [
+        1026,
+        375,
+        1136,
+        663
+      ],
+      "partialPixels": 1752,
+      "opaquePixels": 21451,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "1d777a1088b2db7f608b4b89b37eb3615e1c0b958f57ebe86308d0007a57c45d",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "lower_panel_slot_f",
+      "category": "lower_panels",
+      "materialName": "cloth_lower_panel_slot_f",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_side_mapping_unresolved",
+      "mainSeedComponentId": 12,
+      "mainSeedArea": 23189,
+      "mainSeedBounds": [
+        1155,
+        376,
+        1264,
+        664
+      ],
+      "mainSeedCentroid": [
+        1208.6851,
+        531.8738
+      ],
+      "assignedVisiblePixels": 23374,
+      "visibleBounds": [
+        1153,
+        375,
+        1264,
+        664
+      ],
+      "partialPixels": 1690,
+      "opaquePixels": 21684,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "0e653cdca083c18f4f55d9873b3454c9c33813ef66f72430390794263473a0db",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "lower_panel_slot_g",
+      "category": "lower_panels",
+      "materialName": "cloth_lower_panel_slot_g",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_side_mapping_unresolved",
+      "mainSeedComponentId": 14,
+      "mainSeedArea": 25534,
+      "mainSeedBounds": [
+        1323,
+        379,
+        1426,
+        665
+      ],
+      "mainSeedCentroid": [
+        1375.1069,
+        520.621
+      ],
+      "assignedVisiblePixels": 25722,
+      "visibleBounds": [
+        1322,
+        378,
+        1429,
+        665
+      ],
+      "partialPixels": 1460,
+      "opaquePixels": 24262,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "5c83512944c02f8bcb257a5104ee96f601e13991666e2700c021de8459f95d5a",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "lower_panel_slot_h",
+      "category": "lower_panels",
+      "materialName": "cloth_lower_panel_slot_h",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_side_mapping_unresolved",
+      "mainSeedComponentId": 13,
+      "mainSeedArea": 25742,
+      "mainSeedBounds": [
+        1455,
+        378,
+        1560,
+        665
+      ],
+      "mainSeedCentroid": [
+        1504.899,
+        520.4021
+      ],
+      "assignedVisiblePixels": 25878,
+      "visibleBounds": [
+        1453,
+        376,
+        1560,
+        665
+      ],
+      "partialPixels": 1456,
+      "opaquePixels": 24422,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "3d2cbc3fb860dccc5d920a2a331187735a61f8a4483c85cec46e1c688db618bc",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "waist_chain_olive_composite",
+      "category": "rejected",
+      "materialName": "cloth_waist_chain_olive_composite_rejected",
+      "sourcePolicy": "reject",
+      "rejectionReason": "olive_green_contamination_and_fused_chain_composite",
+      "productionIntegrity": "rejected_requires_clean_independent_chain_redraw",
+      "mainSeedComponentId": 15,
+      "mainSeedArea": 23913,
+      "mainSeedBounds": [
+        56,
+        650,
+        501,
+        934
+      ],
+      "mainSeedCentroid": [
+        280.076,
+        772.183
+      ],
+      "assignedVisiblePixels": 30882,
+      "visibleBounds": [
+        55,
+        649,
+        502,
+        934
+      ],
+      "partialPixels": 20694,
+      "opaquePixels": 10188,
+      "greenDominantPixelsAlphaGt16Margin20": 873,
+      "rasterSha256": "5f2d1ffc63ef177e5a522b3b1a10caa35db8045eaa2376be934df00addebc818",
+      "includedInMaterialPsd": false
+    },
+    {
+      "id": "accessory_slot_a",
+      "category": "accessories",
+      "materialName": "cloth_accessory_slot_a",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved",
+      "mainSeedComponentId": 16,
+      "mainSeedArea": 2516,
+      "mainSeedBounds": [
+        548,
+        669,
+        585,
+        874
+      ],
+      "mainSeedCentroid": [
+        567.19,
+        775.7269
+      ],
+      "assignedVisiblePixels": 2720,
+      "visibleBounds": [
+        548,
+        668,
+        585,
+        874
+      ],
+      "partialPixels": 1429,
+      "opaquePixels": 1291,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "4f69ed89d7600e752af692130dd2796bc8db18058981e1dcc4b5d1fa02f09abd",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "accessory_slot_b",
+      "category": "accessories",
+      "materialName": "cloth_accessory_slot_b",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved",
+      "mainSeedComponentId": 20,
+      "mainSeedArea": 3978,
+      "mainSeedBounds": [
+        629,
+        691,
+        670,
+        930
+      ],
+      "mainSeedCentroid": [
+        648.686,
+        820.7459
+      ],
+      "assignedVisiblePixels": 4155,
+      "visibleBounds": [
+        628,
+        691,
+        671,
+        930
+      ],
+      "partialPixels": 1586,
+      "opaquePixels": 2569,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "a7e98ab632bd2af31566a3d5954cd082de5bbbdfdfae24687fda32e8c130371c",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "accessory_slot_c",
+      "category": "accessories",
+      "materialName": "cloth_accessory_slot_c",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved",
+      "mainSeedComponentId": 21,
+      "mainSeedArea": 5106,
+      "mainSeedBounds": [
+        690,
+        692,
+        752,
+        944
+      ],
+      "mainSeedCentroid": [
+        720.8559,
+        810.227
+      ],
+      "assignedVisiblePixels": 5445,
+      "visibleBounds": [
+        687,
+        691,
+        752,
+        945
+      ],
+      "partialPixels": 2334,
+      "opaquePixels": 3111,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "7c6375fa4d18cae483e6e4c5a2fc15a278f4026d961d505009c654feea7b2cc5",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "accessory_slot_d",
+      "category": "accessories",
+      "materialName": "cloth_accessory_slot_d",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved",
+      "mainSeedComponentId": 26,
+      "mainSeedArea": 1548,
+      "mainSeedBounds": [
+        782,
+        716,
+        803,
+        872
+      ],
+      "mainSeedCentroid": [
+        792.0859,
+        804.5556
+      ],
+      "assignedVisiblePixels": 1654,
+      "visibleBounds": [
+        781,
+        716,
+        803,
+        872
+      ],
+      "partialPixels": 795,
+      "opaquePixels": 859,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "13a3b37af243e3d6111beb8b601d2f3ba315a09a1b45dc99be25bd6ce1d95b1e",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "accessory_slot_e",
+      "category": "accessories",
+      "materialName": "cloth_accessory_slot_e",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved",
+      "mainSeedComponentId": 24,
+      "mainSeedArea": 2117,
+      "mainSeedBounds": [
+        830,
+        706,
+        859,
+        912
+      ],
+      "mainSeedCentroid": [
+        843.6065,
+        818.4785
+      ],
+      "assignedVisiblePixels": 2317,
+      "visibleBounds": [
+        830,
+        706,
+        860,
+        913
+      ],
+      "partialPixels": 1528,
+      "opaquePixels": 789,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "69d2b15803bd6fd74648b7867e0e8ebc1c4773b8b37456fb996298bebec8ef4f",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "accessory_slot_f",
+      "category": "accessories",
+      "materialName": "cloth_accessory_slot_f",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved",
+      "mainSeedComponentId": 22,
+      "mainSeedArea": 2165,
+      "mainSeedBounds": [
+        882,
+        693,
+        904,
+        922
+      ],
+      "mainSeedCentroid": [
+        892.3912,
+        813.8753
+      ],
+      "assignedVisiblePixels": 2298,
+      "visibleBounds": [
+        882,
+        693,
+        904,
+        922
+      ],
+      "partialPixels": 1612,
+      "opaquePixels": 686,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "fd66f7356ff6dd3d29c99240eac50b370c7e1b673e95a7daab19360c1ec9507a",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "accessory_slot_g",
+      "category": "accessories",
+      "materialName": "cloth_accessory_slot_g",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved",
+      "mainSeedComponentId": 28,
+      "mainSeedArea": 2882,
+      "mainSeedBounds": [
+        921,
+        719,
+        962,
+        922
+      ],
+      "mainSeedCentroid": [
+        940.7196,
+        835.1266
+      ],
+      "assignedVisiblePixels": 3092,
+      "visibleBounds": [
+        921,
+        718,
+        962,
+        922
+      ],
+      "partialPixels": 1776,
+      "opaquePixels": 1316,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "f804c364d5e9dc530dab5f9d89edc180fb71ce3f67c56922c01203765549af1f",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "accessory_slot_h",
+      "category": "accessories",
+      "materialName": "cloth_accessory_slot_h",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved",
+      "mainSeedComponentId": 29,
+      "mainSeedArea": 1404,
+      "mainSeedBounds": [
+        1002,
+        724,
+        1027,
+        836
+      ],
+      "mainSeedCentroid": [
+        1014.3276,
+        784.5969
+      ],
+      "assignedVisiblePixels": 1480,
+      "visibleBounds": [
+        1001,
+        724,
+        1027,
+        836
+      ],
+      "partialPixels": 601,
+      "opaquePixels": 879,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "e729e4a624578c114c325fe8565a7d9d8d8306a11e708ca38ebc6a36bf44fcbd",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "accessory_slot_i",
+      "category": "accessories",
+      "materialName": "cloth_accessory_slot_i",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved",
+      "mainSeedComponentId": 23,
+      "mainSeedArea": 10897,
+      "mainSeedBounds": [
+        1053,
+        693,
+        1190,
+        936
+      ],
+      "mainSeedCentroid": [
+        1119.599,
+        784.0894
+      ],
+      "assignedVisiblePixels": 11598,
+      "visibleBounds": [
+        1053,
+        693,
+        1190,
+        937
+      ],
+      "partialPixels": 4550,
+      "opaquePixels": 7048,
+      "greenDominantPixelsAlphaGt16Margin20": 5,
+      "rasterSha256": "e5708837d3abe0d6fd04142b11c8c02bd81849806e1a9fd34e9d55be482466e9",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "accessory_slot_j",
+      "category": "accessories",
+      "materialName": "cloth_accessory_slot_j",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved",
+      "mainSeedComponentId": 30,
+      "mainSeedArea": 2549,
+      "mainSeedBounds": [
+        1226,
+        728,
+        1260,
+        871
+      ],
+      "mainSeedCentroid": [
+        1242.3068,
+        805.5477
+      ],
+      "assignedVisiblePixels": 2617,
+      "visibleBounds": [
+        1225,
+        727,
+        1260,
+        871
+      ],
+      "partialPixels": 611,
+      "opaquePixels": 2006,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "531e22ab147a062eedb1a6065c3b20fd8879ee3be7c30314426e13b615602678",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "accessory_slot_k",
+      "category": "accessories",
+      "materialName": "cloth_accessory_slot_k",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved",
+      "mainSeedComponentId": 31,
+      "mainSeedArea": 1880,
+      "mainSeedBounds": [
+        1321,
+        739,
+        1354,
+        909
+      ],
+      "mainSeedCentroid": [
+        1336.7606,
+        833.5149
+      ],
+      "assignedVisiblePixels": 2038,
+      "visibleBounds": [
+        1321,
+        739,
+        1354,
+        909
+      ],
+      "partialPixels": 1244,
+      "opaquePixels": 794,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "666bfb62c08ff06e93e4eab2aa9421e1b5eb9414bf69db55b917a48695992213",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "accessory_slot_l",
+      "category": "accessories",
+      "materialName": "cloth_accessory_slot_l",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved",
+      "mainSeedComponentId": 27,
+      "mainSeedArea": 2146,
+      "mainSeedBounds": [
+        1402,
+        716,
+        1453,
+        884
+      ],
+      "mainSeedCentroid": [
+        1426.8527,
+        811.4683
+      ],
+      "assignedVisiblePixels": 2292,
+      "visibleBounds": [
+        1402,
+        716,
+        1453,
+        885
+      ],
+      "partialPixels": 1447,
+      "opaquePixels": 845,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "742d83a145ad05293be05a2e43def5f3780b4d67ee94d135dacbf4a0b33b8b99",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "accessory_slot_m",
+      "category": "accessories",
+      "materialName": "cloth_accessory_slot_m",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved",
+      "mainSeedComponentId": 25,
+      "mainSeedArea": 2371,
+      "mainSeedBounds": [
+        1479,
+        707,
+        1512,
+        902
+      ],
+      "mainSeedCentroid": [
+        1494.9802,
+        815.2459
+      ],
+      "assignedVisiblePixels": 2533,
+      "visibleBounds": [
+        1478,
+        707,
+        1512,
+        902
+      ],
+      "partialPixels": 1412,
+      "opaquePixels": 1121,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "3c0b8f2b73eb1f0a5a740a176fdc12e91ec41a1bcad65df31281d14400e19483",
+      "includedInMaterialPsd": true
+    },
+    {
+      "id": "accessory_slot_n",
+      "category": "accessories",
+      "materialName": "cloth_accessory_slot_n",
+      "sourcePolicy": "include",
+      "rejectionReason": null,
+      "productionIntegrity": "candidate_atlas_layout_role_unresolved",
+      "mainSeedComponentId": 32,
+      "mainSeedArea": 943,
+      "mainSeedBounds": [
+        1555,
+        744,
+        1568,
+        871
+      ],
+      "mainSeedCentroid": [
+        1560.9968,
+        809.7762
+      ],
+      "assignedVisiblePixels": 997,
+      "visibleBounds": [
+        1555,
+        744,
+        1568,
+        871
+      ],
+      "partialPixels": 817,
+      "opaquePixels": 180,
+      "greenDominantPixelsAlphaGt16Margin20": 0,
+      "rasterSha256": "8d4a64c886c25e0ab2709d348b0f5ea737fb7e7177de7925261a61819beee701",
+      "includedInMaterialPsd": true
+    }
+  ],
+  "materialPsd": {
+    "path": "art/live2d/production-workbench/riai-secondary-motion/psd/riai_cloth_material_separation_WORKBENCH_v003.psd",
+    "sha256": "3d949ff2c332fe8133be985883ede960dd022e83b67483f61bb0340d3c5ed7d9",
+    "width": 1628,
+    "height": 966,
+    "rasterLeafCount": 29,
+    "uniqueNamesValidated": true,
+    "pixelDataRoundTrip": "BYTE_FOR_BYTE_PASS",
+    "colorMode": "RGB",
+    "bitsPerChannel": 8,
+    "colorProfile": "UNTAGGED_BY_AG_PSD_REQUIRES_SRGB_AUTHORING_APP_RESAVE"
+  },
+  "productionImport": {
+    "status": "BLOCKED_FAIL_CLOSED",
+    "outputWritten": false,
+    "blockers": [
+      "WAIST_CHAIN_OLIVE_COMPOSITE_EXCLUDED_REQUIRES_CLEAN_REDRAW",
+      "RESIDUAL_GREEN_CONTAMINATION_IN_INCLUDED_PARTS_REQUIRES_RECONSTRUCTION",
+      "ATLAS_IS_A_MATERIAL_WORKBENCH_NOT_ALIGNED_CHARACTER_ART",
+      "ANATOMICAL_LEFT_RIGHT_MAPPING_UNRESOLVED",
+      "TARGET_MODEL_PLACEMENT_UNRESOLVED",
+      "HIDDEN_OVERLAP_EXTENSION_NOT_VERIFIED",
+      "PRODUCTION_PACK_LAYER_NAMES_AND_HIERARCHY_UNAVAILABLE",
+      "SRGB_PROFILE_AND_CUBISM_MULTILAYER_IMPORT_NOT_VERIFIED"
+    ]
+  }
+}

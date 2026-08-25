@@ -194,3 +194,105 @@ session.
 
 Completion remains **NOT CLAIMED**. The active goal is paused by the user, not
 completed.
+
+## 2026-08-25 — Riai face and secondary-motion workbench checkpoint
+
+### Scope and source policy
+
+Work resumed toward the Riai face-expression milestone and later hair/cloth
+secondary motion. Two additional user-approved breakdown images were preserved
+under `art/live2d/reference/design-breakdowns/` and recorded in that folder's
+README. All breakdown sheets remain design/separation references only; paper,
+labels, arrows, guides, and sample-sheet backgrounds are excluded from
+production artwork.
+
+The mandatory Production Pack and `scripts/validate_delivery.py` are still not
+present after the prior exhaustive audit. Accordingly, all outputs in this
+checkpoint are explicitly **WORKBENCH_NOT_PRODUCTION_IMPORT**. No project-specific
+layer manifest, parameter matrix, QA checklist, or validator result has been
+invented.
+
+### Alpha solver recovery
+
+- Completed the v002 trimap/local-foreground solver in
+  `scripts/chroma-key-to-alpha.mjs`.
+- The six focused alpha regression tests now pass within the full suite.
+- The previous 1/6 failing checkpoint is superseded by the 89/89 passing test
+  run below; the original failed diagnostic remains preserved as evidence.
+
+### Riai face material separation and staging
+
+- `riai_material_separation.psd`
+  - 1536 x 1024 RGBA8, 26 unique full-canvas raster leaves
+  - SHA-256
+    `04e1dd712475c6d93fbcd4c1ecfac9f86d3f3ae60989b52333a6c08ac4609f5c`
+  - PSD round-trip, unique names, and per-layer RGBA equality verified
+  - Original green-contaminated blush rejected; independent procedural cheek
+    layers substituted and documented
+- `riai_face_stage_import_WORKBENCH_v001.psd`
+  - 1254 x 1254, 23 uniquely named raster leaves
+  - SHA-256
+    `503621e6af394cb09dbf438813cc421bcd9b9c696d21eeade83f3c2531f9bf8f`
+  - Neutral, soft-smile, blink-smile, and open-happy preview composites generated
+
+Remaining face blockers are deliberately fail-closed: eye white and upper lid
+are fused in source candidates, iris/pupil/highlights are baked together,
+approved anatomical side mapping and final placement remain subject to Cubism
+visual verification, and no production `riai_import.psd` was emitted.
+
+### Riai hair and cloth separation
+
+- Hair material PSD:
+  - 1024 x 1536, 16 unique raster leaves
+  - SHA-256
+    `d651b29c0cd83300ee17764ff1e7bcfdb52894b4763466dc1babdaefe9fe7d81`
+  - 422,979 visible pixels included and eight corner-noise pixels explicitly
+    rejected/accounted
+- Cloth material PSD:
+  - 1628 x 966, 29 unique raster leaves
+  - SHA-256
+    `3d949ff2c332fe8133be985883ede960dd022e83b67483f61bb0340d3c5ed7d9`
+  - 589,137 visible pixels included; 30,882 contaminated waist-chain pixels and
+    seven corner-noise pixels explicitly rejected/accounted
+
+Both secondary-motion PSDs passed manifest accounting and PSD RGBA round-trip
+checks, but remain rejected for production import. Hair still contains 2,820
+opaque green-baked pixels inside strands; the cloth accessory region contains
+878 such pixels. Clean transparent reconstruction or controlled repainting is
+required before meshing, deformers, or physics.
+
+### Automated verification
+
+- `pnpm test`: **PASS** — 9 files, 89/89 tests
+- `pnpm typecheck`: **PASS**
+- `pnpm build`: **PASS** — Vite 8.2.1, 20 modules transformed
+- `git diff --check`: **PASS**
+- Manifest reconciliation: **PASS** — four PSD manifests present and 17/17
+  referenced hashes matched
+- Runtime actually used: Node.js 24.19.0, pnpm 11.19.0
+
+### Cubism checkpoint
+
+- Live2D Cubism Editor 5.3.03 trial was restarted safely; no unsaved model was
+  present.
+- The user manually cleared the trial continuation dialog after Java/Swing
+  controls rejected remote input.
+- Cubism is now visibly open at the empty modelling workspace.
+- The Riai face-stage PSD has **not** yet been confirmed imported; no ArtMesh,
+  parameter, deformer, expression, physics, `.cmo3`, or runtime export was
+  created in this checkpoint.
+
+### Exact restart point
+
+1. Open `riai_face_stage_import_WORKBENCH_v001.psd` in Cubism and visually
+   confirm all 23 raster leaves as separate ArtMeshes.
+2. Save the first versioned workbench `.cmo3` before mesh generation.
+3. Build and test eye open, gaze X/Y, brows, mouth form/open, smile, and cheek
+   parameters using the standard Live2D IDs; capture proof screenshots.
+4. Regenerate or repaint the rejected hair/cloth contamination before importing
+   those PSDs for secondary-motion deformers and physics.
+5. Continue to treat production exports and formal QA as unavailable until the
+   requested Production Pack and validator exist.
+
+Completion remains **NOT CLAIMED**. Riai and Noa production models and runtime
+exports are still pending.

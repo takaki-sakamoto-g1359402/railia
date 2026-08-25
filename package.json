@@ -10,6 +10,8 @@
   },
   "scripts": {
     "art:alpha-review": "node scripts/render-alpha-review.mjs",
+    "art:build-riai-face-material": "node scripts/build-riai-face-psds.mjs --mode=material",
+    "art:build-riai-face-stage": "node scripts/build-riai-face-stage.mjs",
     "art:build-poc-psd": "node scripts/build-live2d-poc-psd.mjs",
     "art:build-poc-psd:interaction": "node scripts/build-live2d-poc-psd.mjs --group=interaction",
     "art:chroma-key": "node scripts/chroma-key-to-alpha.mjs",

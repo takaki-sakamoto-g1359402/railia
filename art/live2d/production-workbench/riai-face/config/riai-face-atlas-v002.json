@@ -1,0 +1,362 @@
+{
+  "schemaVersion": 1,
+  "status": "WORKBENCH_MATERIAL_SEPARATION_ONLY",
+  "source": {
+    "path": "art/live2d/production-workbench/riai-face/cutouts/riai_face_parts_rgba_v002.png",
+    "sha256": "b9b7851002d9bf66448a6cbf2e14a0943a91b9e4a9760a761f1db3bb2294403f"
+  },
+  "atlas": {
+    "width": 1536,
+    "height": 1024,
+    "seedAlphaExclusive": 16,
+    "minimumSeedArea": 8,
+    "expectedMainComponents": 26,
+    "connectivity": 8,
+    "requireEveryVisiblePixelAccounted": true,
+    "unmappedVisiblePolicy": {
+      "mode": "reject_audited_dust",
+      "maximumComponents": 4,
+      "maximumAreaPerComponent": 2,
+      "maximumTotalPixels": 6,
+      "allowedRegions": [
+        [0, 0, 2, 1],
+        [1534, 0, 1536, 1],
+        [0, 1023, 1, 1024],
+        [1535, 1023, 1536, 1024]
+      ]
+    }
+  },
+  "qa": {
+    "greenDominanceMargin": 20,
+    "greenCheckAlphaExclusive": 16,
+    "maximumGreenDominantPixelsPerIncludedSourceSlot": 0
+  },
+  "material": {
+    "rootGroup": "riai_face_material_separation",
+    "categories": [
+      {
+        "id": "cheeks",
+        "groupName": "riai_face_cheeks"
+      },
+      {
+        "id": "mouth",
+        "groupName": "riai_face_mouth"
+      },
+      {
+        "id": "nose",
+        "groupName": "riai_face_nose"
+      },
+      {
+        "id": "brows",
+        "groupName": "riai_face_brows"
+      },
+      {
+        "id": "eyes",
+        "groupName": "riai_face_eyes"
+      }
+    ]
+  },
+  "slots": [
+    {
+      "id": "eye_white_slot_a",
+      "category": "eyes",
+      "roi": [50, 100, 280, 280],
+      "materialName": "eye_white_lid_fused_slot_a",
+      "sourcePolicy": "include",
+      "productionIntegrity": "blocked_fused_eye_white_and_lid",
+      "importName": null
+    },
+    {
+      "id": "eye_white_slot_b",
+      "category": "eyes",
+      "roi": [300, 100, 520, 280],
+      "materialName": "eye_white_lid_fused_slot_b",
+      "sourcePolicy": "include",
+      "productionIntegrity": "blocked_fused_eye_white_and_lid",
+      "importName": null
+    },
+    {
+      "id": "iris_slot_a",
+      "category": "eyes",
+      "roi": [520, 100, 700, 280],
+      "materialName": "iris_pupil_highlights_fused_slot_a",
+      "sourcePolicy": "include",
+      "productionIntegrity": "blocked_baked_pupil_and_highlights",
+      "importName": null
+    },
+    {
+      "id": "iris_slot_b",
+      "category": "eyes",
+      "roi": [700, 100, 900, 280],
+      "materialName": "iris_pupil_highlights_fused_slot_b",
+      "sourcePolicy": "include",
+      "productionIntegrity": "blocked_baked_pupil_and_highlights",
+      "importName": null
+    },
+    {
+      "id": "upper_lash_slot_a",
+      "category": "eyes",
+      "roi": [900, 100, 1175, 250],
+      "materialName": "upper_lash_slot_a",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_unapproved_side",
+      "importName": null
+    },
+    {
+      "id": "upper_lash_slot_b",
+      "category": "eyes",
+      "roi": [1175, 100, 1450, 250],
+      "materialName": "upper_lash_slot_b",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_unapproved_side",
+      "importName": null
+    },
+    {
+      "id": "lower_lid_slot_a",
+      "category": "eyes",
+      "roi": [900, 260, 1175, 350],
+      "materialName": "lower_lid_slot_a",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_unapproved_side",
+      "importName": null
+    },
+    {
+      "id": "lower_lid_slot_b",
+      "category": "eyes",
+      "roi": [1175, 260, 1450, 350],
+      "materialName": "lower_lid_slot_b",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_unapproved_side",
+      "importName": null
+    },
+    {
+      "id": "highlight_main_slot_a",
+      "category": "eyes",
+      "roi": [525, 280, 640, 350],
+      "materialName": "highlight_main_slot_a",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_duplicates_baked_highlight",
+      "importName": null
+    },
+    {
+      "id": "highlight_main_slot_b",
+      "category": "eyes",
+      "roi": [775, 280, 875, 350],
+      "materialName": "highlight_main_slot_b",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_duplicates_baked_highlight",
+      "importName": null
+    },
+    {
+      "id": "highlight_sub_slot_a",
+      "category": "eyes",
+      "roi": [525, 350, 620, 410],
+      "materialName": "highlight_sub_slot_a",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_duplicates_baked_highlight",
+      "importName": null
+    },
+    {
+      "id": "highlight_sub_slot_b",
+      "category": "eyes",
+      "roi": [790, 350, 875, 410],
+      "materialName": "highlight_sub_slot_b",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_duplicates_baked_highlight",
+      "importName": null
+    },
+    {
+      "id": "eyebrow_slot_a",
+      "category": "brows",
+      "roi": [50, 400, 300, 500],
+      "materialName": "eyebrow_slot_a",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_unapproved_side",
+      "importName": null
+    },
+    {
+      "id": "eyebrow_slot_b",
+      "category": "brows",
+      "roi": [300, 400, 575, 500],
+      "materialName": "eyebrow_slot_b",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_unapproved_side",
+      "importName": null
+    },
+    {
+      "id": "closed_lid_slot_a",
+      "category": "eyes",
+      "roi": [875, 425, 1175, 550],
+      "materialName": "closed_lid_slot_a",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_unapproved_side_and_role",
+      "importName": null
+    },
+    {
+      "id": "closed_lid_slot_b",
+      "category": "eyes",
+      "roi": [1175, 425, 1450, 550],
+      "materialName": "closed_lid_slot_b",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_unapproved_side_and_role",
+      "importName": null
+    },
+    {
+      "id": "nose_mark",
+      "category": "nose",
+      "roi": [625, 450, 750, 590],
+      "materialName": "nose_mark_candidate",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_unplaced",
+      "importName": null
+    },
+    {
+      "id": "mouth_upper",
+      "category": "mouth",
+      "roi": [700, 600, 875, 700],
+      "materialName": "mouth_upper_candidate",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_unplaced",
+      "importName": null
+    },
+    {
+      "id": "mouth_line_smile",
+      "category": "mouth",
+      "roi": [350, 600, 580, 720],
+      "materialName": "mouth_line_smile_candidate",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_variant_unapproved",
+      "importName": null
+    },
+    {
+      "id": "mouth_line_neutral",
+      "category": "mouth",
+      "roi": [125, 600, 320, 720],
+      "materialName": "mouth_line_neutral_candidate",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_variant_unapproved",
+      "importName": null
+    },
+    {
+      "id": "mouth_lower",
+      "category": "mouth",
+      "roi": [700, 690, 875, 770],
+      "materialName": "mouth_lower_candidate",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_unplaced",
+      "importName": null
+    },
+    {
+      "id": "cheek_blush_atlas_slot_a",
+      "category": "cheeks",
+      "roi": [900, 700, 1175, 950],
+      "materialName": "cheek_blush_atlas_rejected_slot_a",
+      "sourcePolicy": "reject",
+      "rejectionReason": "green_matte_contamination",
+      "replacementRequired": true,
+      "productionIntegrity": "rejected_green_fringe",
+      "importName": null
+    },
+    {
+      "id": "cheek_blush_atlas_slot_b",
+      "category": "cheeks",
+      "roi": [1175, 700, 1450, 950],
+      "materialName": "cheek_blush_atlas_rejected_slot_b",
+      "sourcePolicy": "reject",
+      "rejectionReason": "green_matte_contamination",
+      "replacementRequired": true,
+      "productionIntegrity": "rejected_green_fringe",
+      "importName": null
+    },
+    {
+      "id": "mouth_inner",
+      "category": "mouth",
+      "roi": [100, 740, 375, 950],
+      "materialName": "mouth_inner_candidate",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_unplaced",
+      "importName": null
+    },
+    {
+      "id": "mouth_tongue",
+      "category": "mouth",
+      "roi": [400, 740, 600, 950],
+      "materialName": "mouth_tongue_candidate",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_unplaced",
+      "importName": null
+    },
+    {
+      "id": "mouth_teeth_upper",
+      "category": "mouth",
+      "roi": [625, 790, 900, 900],
+      "materialName": "mouth_teeth_upper_candidate",
+      "sourcePolicy": "include",
+      "productionIntegrity": "candidate_unplaced",
+      "importName": null
+    }
+  ],
+  "proceduralLayers": [
+    {
+      "id": "cheek_blush_procedural_slot_a",
+      "enabled": true,
+      "category": "cheeks",
+      "replacesSlot": "cheek_blush_atlas_slot_a",
+      "materialName": "cheek_blush_procedural_slot_a",
+      "importName": null,
+      "generator": {
+        "type": "elliptical_radial_v1",
+        "center": [1051, 833],
+        "radius": [82, 56],
+        "color": [244, 137, 168],
+        "maximumAlpha": 82,
+        "falloffExponent": 1.75
+      }
+    },
+    {
+      "id": "cheek_blush_procedural_slot_b",
+      "enabled": true,
+      "category": "cheeks",
+      "replacesSlot": "cheek_blush_atlas_slot_b",
+      "materialName": "cheek_blush_procedural_slot_b",
+      "importName": null,
+      "generator": {
+        "type": "elliptical_radial_v1",
+        "center": [1308, 832],
+        "radius": [82, 56],
+        "color": [244, 137, 168],
+        "maximumAlpha": 82,
+        "falloffExponent": 1.75
+      }
+    }
+  ],
+  "sideMap": {
+    "status": "unresolved",
+    "slotA": null,
+    "slotB": null,
+    "requiredForImport": true
+  },
+  "targetPlacement": {
+    "status": "unresolved",
+    "mode": "atlas_layout_only",
+    "requiredForImport": true
+  },
+  "importPolicy": {
+    "enabled": false,
+    "rootGroup": "riai",
+    "blockers": [
+      "FUSED_EYE_WHITE_AND_LID_COMPONENTS",
+      "BAKED_PUPIL_AND_HIGHLIGHTS_INSIDE_IRIS_COMPONENTS",
+      "SOURCE_ATLAS_GREEN_FRINGE_REQUIRES_REGENERATION",
+      "ANATOMICAL_LEFT_RIGHT_MAPPING_UNRESOLVED",
+      "TARGET_FACE_PLACEMENT_UNRESOLVED",
+      "PRODUCTION_PACK_LAYER_NAMES_AND_HIERARCHY_UNAVAILABLE",
+      "SRGB_PROFILE_AND_CUBISM_MULTILAYER_IMPORT_NOT_VERIFIED"
+    ]
+  },
+  "outputs": {
+    "materialPsd": "art/live2d/production-workbench/riai-face/psd/riai_material_separation.psd",
+    "materialManifest": "art/live2d/production-workbench/riai-face/psd/riai_material_separation.manifest.json",
+    "importPsd": "art/live2d/production-workbench/riai-face/psd/riai_import.psd"
+  }
+}
