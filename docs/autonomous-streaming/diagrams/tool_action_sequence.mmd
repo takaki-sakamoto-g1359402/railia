@@ -1,0 +1,35 @@
+sequenceDiagram
+    participant V as Viewer
+    participant Y as YouTube
+    participant O as Observation Bus
+    participant S as Safety Firewall
+    participant W as World State
+    participant A as RIAI Kernel
+    participant R as Action Router
+    participant P as Policy Engine
+    participant T as Tool Adapter
+    participant X as Verifier
+    participant N as Noa Supervisor
+
+    V->>Y: Chat message
+    Y->>O: chat.message
+    O->>S: normalize + classify
+    S->>W: safe observation + provenance
+    W->>A: context update
+    A->>R: action.proposed
+    R->>P: risk + policy check
+    P-->>R: allow / constrain / human / deny
+
+    opt high-risk review
+        R->>N: review proposal
+        N-->>R: approve / veto / escalate
+    end
+
+    alt approved
+        R->>T: execute
+        T-->>X: result + read-back evidence
+        X->>W: post-state
+        X-->>R: verified / failed
+    else denied
+        R->>W: record denial
+    end
