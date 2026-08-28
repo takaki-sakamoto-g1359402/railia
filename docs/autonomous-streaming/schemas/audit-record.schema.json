@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://riai.local/schemas/audit-record.json",
+  "title": "Riai Audit Record",
+  "type": "object",
+  "required": ["audit_id", "timestamp", "session_id", "actor", "event_type"],
+  "properties": {
+    "audit_id": {"type": "string", "format": "uuid"},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "session_id": {"type": "string"},
+    "trace_id": {"type": ["string", "null"]},
+    "actor": {"enum": ["riai", "noa", "human", "system"]},
+    "event_type": {"type": "string", "minLength": 1},
+    "input_refs": {"type": "array", "items": {"type": "string"}},
+    "decision": {"type": ["string", "null"]},
+    "policy_decision": {"type": ["string", "null"]},
+    "action_id": {"type": ["string", "null"]},
+    "tool": {"type": ["string", "null"]},
+    "result": {"type": ["string", "null"]},
+    "verification": {"type": ["string", "null"]},
+    "latency_ms": {"type": ["number", "null"], "minimum": 0},
+    "redactions": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}
