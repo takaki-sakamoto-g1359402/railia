@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://riai.local/schemas/verification-result.json",
+  "title": "Riai Verification Result",
+  "type": "object",
+  "required": ["verification_id", "action_id", "status", "evidence", "timestamp"],
+  "properties": {
+    "verification_id": {"type": "string", "format": "uuid"},
+    "action_id": {"type": "string", "format": "uuid"},
+    "status": {"enum": ["verified", "failed", "uncertain", "timeout"]},
+    "expected": {},
+    "actual": {},
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["kind"],
+        "properties": {
+          "kind": {"enum": ["api_response", "state_readback", "file_hash", "stream_health", "screenshot_vlm", "human_confirmation", "custom"]},
+          "ref": {"type": ["string", "null"]},
+          "summary": {"type": ["string", "null"]}
+        },
+        "additionalProperties": true
+      }
+    },
+    "retry_recommended": {"type": "boolean"},
+    "rollback_recommended": {"type": "boolean"},
+    "timestamp": {"type": "string", "format": "date-time"}
+  },
+  "additionalProperties": false
+}
