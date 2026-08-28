@@ -1,7 +1,7 @@
 # Riai Autonomous Streaming Architecture — Implementation Specification v1.0
 
-Version: 1.0  
-Target: PoC → production-ready autonomous VTuber streaming system  
+Version: 1.0
+Target: PoC → production-ready autonomous VTuber streaming system
 Core principle: **API-first / observable / verifiable / safety-gated / recoverable**
 
 ## 1. Purpose
