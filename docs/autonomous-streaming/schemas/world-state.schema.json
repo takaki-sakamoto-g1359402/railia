@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://riai.local/schemas/world-state.json",
+  "title": "Riai World State",
+  "type": "object",
+  "required": ["session_id", "runtime_state", "stream", "agent", "safety", "tools"],
+  "properties": {
+    "session_id": {"type": "string"},
+    "runtime_state": {
+      "enum": ["BOOTING", "IDLE", "PREPARING_STREAM", "LIVE_LISTENING", "THINKING", "SPEAKING", "TOOL_EXECUTING", "VERIFYING", "RECOVERING", "SAFE_MODE", "STOPPING", "STOPPED"]
+    },
+    "stream": {
+      "type": "object",
+      "properties": {
+        "is_live": {"type": "boolean"},
+        "obs_connected": {"type": "boolean"},
+        "youtube_connected": {"type": "boolean"},
+        "current_scene": {"type": ["string", "null"]},
+        "stream_health": {"enum": ["unknown", "good", "warning", "critical"]},
+        "dropped_frames": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": true
+    },
+    "agent": {
+      "type": "object",
+      "properties": {
+        "current_goal": {"type": ["string", "null"]},
+        "active_plan_id": {"type": ["string", "null"]},
+        "active_topic": {"type": ["string", "null"]}
+      },
+      "additionalProperties": true
+    },
+    "safety": {
+      "type": "object",
+      "required": ["mode", "kill_switch"],
+      "properties": {
+        "mode": {"enum": ["normal", "restricted", "safe_mode"]},
+        "kill_switch": {"type": "boolean"}
+      },
+      "additionalProperties": true
+    },
+    "tools": {"type": "object"},
+    "perception": {"type": "object"},
+    "resources": {"type": "object"}
+  },
+  "additionalProperties": true
+}

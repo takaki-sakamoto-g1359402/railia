@@ -1,46 +1,34 @@
-# Riai + Noa Safe Character Action PoC
+# Riai + Noa — Safe Character / Autonomous Streaming PoC
 
 ## 結論
 
-このリポジトリは、Riai／Noaを将来Live2Dへ接続するための、安全な高レベルCharacter Action APIとブラウザ上の可視 `MOCK` を分離して検証するPhase 1 PoCです。
+Riai／Noaを、**安全なCharacter Action境界を持つLive2D PoC**から、将来的な**自律配信AIエージェント**へ拡張するための研究・実装ブランチです。
 
-現時点の結論は **条件付きGO / Phase 1未完了** です。TypeScript＋Viteの基盤、厳格なJSON境界、状態機械、監査ログ、Canvasプレースホルダーを実装し、独立安全監査6項目も修正しました。2026-08-09 08:30 JST時点のtypecheck、66/66 tests、production buildは成功しています。ただし全presetのブラウザ画面証拠とfinal diff auditが未完了なので、Phase 1完了とは扱いません。
+現在は production-ready ではありません。既存のCharacter Action PoCを壊さず、観測・安全ゲート・World State・AI Kernel・Action Router・Verificationを上位レイヤーとして追加する方針です。
 
-> **MOCK / NOT LIVE2D**  
-> 画面に出るRiai／Noaは抽象的なラベル付きプレースホルダーです。分離PSD、Cubismリグ、`.moc3`、`.model3.json`、Live2D Cubism SDK、実テクスチャ、実モーション、表情、物理はロードされません。
+### Current verified status
 
-詳細な完了／未完了判定は [Phase 1 status](docs/phase1-status.md) を参照してください。実制作を始める人は最初に [手作業・PSD受入チェックリスト](docs/manual-redraw-checklist.md) を使用してください。
+- TypeScript + Vite browser-first PoC
+- strict JSON Schema / Ajv validation
+- character capability allowlists
+- replay guard / rate limit / bounded audit
+- Riai／Noa deterministic state machines
+- deterministic seeded idle and motion scheduling contract
+- `CharacterRuntimeAdapter` abstraction
+- Canvas/Recording MOCK runtime
+- safety-audit hardening completed for the recorded Phase 1 findings
+- recorded checkpoint: **72 automated tests PASS + typecheck PASS + production build PASS**
+- Riai real Cubism PoC work has started; preserved CMO3 checkpoints exist
+- interaction-pose Riai CMO3 checkpoint exists; Noa interaction CMO3 / Animator / CAN3 / runtime export remain pending
+- latest branch checkpoint before this architecture branch: `2026-08-25 — checkpoint Riai face and secondary Live2D workbench`
 
-## 現在の実装範囲
+The detailed chronological evidence remains in [`progress.md`](progress.md).
 
-### IMPLEMENTED / PROTOTYPE / MOCK
+> **Important:** passing unit tests and saved Cubism checkpoints do not mean that the final Live2D runtime or autonomous streaming system is complete.
 
-- browser-firstのTypeScript＋Vite構成。Electron／PixiJSは追加していません。
-- 5種類のみの高レベルアクション：`setExpression`、`lookAt`、`lookAtCharacter`、`playMotion`、`emergencyStop`。
-- JSON Schema 2020-12＋Ajvによるstrict validation。
-- キャラクター能力表、重複request拒否、self-target拒否、キュー容量、レート制限。
-- Riai／Noa独立状態機械、優先度、割込み可否、決定論的seeded idle。
-- `CharacterRuntimeAdapter`。現在の実装は `CanvasMockRuntime`／`RecordingMockRuntime` のみです。
-- accepted／rejectedを記録する上限付きメモリ内audit log。
-- Canvas上の抽象プレースホルダー、状態表示、拒否プリセット、emergency stopボタン。
-- 非破壊リファレンスポリシー、Riai／Noaレイヤー仕様、Live2Dモデル仕様、手作業チェックリスト。
+---
 
-### REQUIRES MANUAL LIVE2D WORK
-
-- Riaiの前向き中立上半身・フードダウン原画、隠れ面再描画、レイヤー分離PSD。
-- Noaの座り・正面寄り中立原画、隠れ面再描画、レイヤー分離PSD。
-- ArtMesh、デフォーマ、パラメータ、表情、モーション、物理のCubism Editor作業。
-- Viewer確認とruntime bundle書き出し。
-
-### FUTURE WORK / 現在未実装
-
-- Live2D Cubism SDK for Web／Cubism Coreの導入とライセンス確認。
-- 実モデルを読む `CubismRuntimeAdapter`。
-- 実Live2D描画、髪／耳／尾／ローブ物理、実表情・実モーション。
-- 音声、TTS、リップシンク、LLM接続。
-- 永続・耐改ざんaudit、認証、サーバー境界、明示的な非同期処理timeout。
-
-## アーキテクチャ
+## Existing deterministic Character Action boundary
 
 ```text
 Human / future LLM (untrusted JSON)
@@ -65,139 +53,177 @@ CharacterController
                 |
                 v
 CharacterRuntimeAdapter
-  +-- CanvasMockRuntime       [MOCK, current]
-  +-- CubismRuntimeAdapter    [FUTURE WORK]
+  +-- CanvasMockRuntime       [current safe MOCK]
+  +-- CubismRuntimeAdapter    [future integration]
 ```
 
-AIが将来決めてよいのは「何を意図するか」だけです。具体的な補間、パラメータ値、優先度、割込み、復帰は決定論的なコードが担当します。raw Cubism parameter、任意JavaScript、任意shell、ファイル、credential、無制限networkをCharacter Action APIへ追加してはいけません。
+AIが将来決めてよいのは**高レベルな意図**です。具体的な補間、raw Cubism parameter、優先度、割込み、復帰は決定論的コード側で管理します。
 
-## セットアップ
+Character Action APIへ、任意JavaScript、任意shell、credential、無制限network、無制限file accessを追加してはいけません。
 
-### 必要条件
+---
+
+## Autonomous Streaming Architecture
+
+新しい設計資料は [`docs/autonomous-streaming/`](docs/autonomous-streaming/) に追加しています。
+
+```text
+INPUT WORLD
+  ├─ YouTube Chat / Screen / Audio
+  ├─ OBS State / Stream Health
+  ├─ Clock / Web / Memory
+  ↓
+Observation Bus
+  ↓
+Trust / Safety Input Firewall
+  ↓
+World State Store
+  ↓
+RIAI AI Kernel
+  ↓
+Action Router
+  ├─ Voice → Realtime/TTS
+  ├─ Motion → existing Character Action boundary → Live2D/VRM
+  └─ Tool Action → Policy Engine → API/MCP/WebSocket/CLI/Computer Use
+  ↓
+OBS → YouTube Live → Viewer
+  └──────────────────────→ Observation Bus
+
+Cross-cutting:
+Verification / Noa Supervisor / Watchdog / Audit Log / Kill Switch
+```
+
+Core principle:
+
+**API-first / observable / verifiable / safety-gated / recoverable**
+
+Computer Useは主制御ではなく、API・MCP・WebSocket・CLI・browser automationで確実に処理できない場合の**fallback**として扱います。
+
+---
+
+## Autonomous Streaming integration order
+
+1. Observation Bus
+2. World State Store
+3. Trust / Safety Input Firewall
+4. Action Router
+5. OBS WebSocket adapter + post-action verification
+6. YouTube chat adapter
+7. Voice / TTS + viseme integration
+8. Memory service
+9. Noa Supervisor / Watchdog / Safe Mode
+10. Computer Use fallback
+11. multi-hour soak / recovery tests
+
+No single LLM response may directly execute an arbitrary tool.
+
+---
+
+## Current Character Action scope
+
+High-level actions currently defined by the PoC include:
+
+- `setExpression`
+- `lookAt`
+- `lookAtCharacter`
+- `playMotion`
+- `emergencyStop`
+
+Safety boundaries include bounded input size/depth, strict schema validation, capability checks, replay protection, queue limits, rate limits, independent character state machines, interruption rules, and emergency reset behaviour.
+
+See the implementation and safety tests under `src/` and the detailed evidence in `progress.md`.
+
+---
+
+## Setup
+
+### Requirements
 
 - Node.js `>=24.14.0 <25`
 - pnpm `11.16.0`
-- macOS／Linuxのモダンブラウザ
-
-通常のPATHにNodeとpnpmがある環境:
+- modern browser on macOS / Linux
 
 ```bash
 pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-開発サーバーは `http://127.0.0.1:5173` です。
-
-### このMacのCodex同梱ランタイム
-
-この環境では通常PATHに`node`／`npm`がありません。確認済みの同梱版はNode `v24.14.0`、pnpm `11.16.0`です。固定パスを使う場合:
-
-```bash
-RIAI_NODE_DIR="/Users/sakamototakaki/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin"
-RIAI_PNPM="/Users/sakamototakaki/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback/pnpm"
-
-PATH="$RIAI_NODE_DIR:$PATH" "$RIAI_PNPM" install --frozen-lockfile
-PATH="$RIAI_NODE_DIR:$PATH" "$RIAI_PNPM" dev
-```
-
-別ターミナルで受入確認を実行する場合:
-
-```bash
-RIAI_NODE_DIR="/Users/sakamototakaki/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin"
-RIAI_PNPM="/Users/sakamototakaki/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback/pnpm"
-
-PATH="$RIAI_NODE_DIR:$PATH" "$RIAI_PNPM" typecheck
-PATH="$RIAI_NODE_DIR:$PATH" "$RIAI_PNPM" build
-PATH="$RIAI_NODE_DIR:$PATH" "$RIAI_PNPM" test
-```
-
-これらは実行手順であり、このREADMEは成功を主張しません。正確なコマンド出力、終了コード、実行日時を [Phase 1 status](docs/phase1-status.md) の`PENDING`行へ記録してからPhase 1完了と判定してください。
-
-## MOCKデモの使い方
-
-1. `pnpm dev`または上記同梱ランタイムで開発サーバーを起動します。
-2. `http://127.0.0.1:5173`を開きます。
-3. `Central-light reaction`、`Look at each other`、`Prove rejection`、`Emergency stop`を順に確認します。
-4. JSON欄からallowlist内のactionだけを送ります。
-5. character state、可視プレースホルダー、accepted／rejected auditが一致することを確認します。
-
-入力例:
-
-```json
-{
-  "version": 1,
-  "requestId": "manual-demo-001",
-  "actions": [
-    {
-      "action": "lookAtCharacter",
-      "character": "riai",
-      "target": "noa"
-    }
-  ]
-}
-```
-
-## 安全境界
-
-現在のコード上の境界:
-
-- 入力は最大4096 byte、深さ6、構造ノード96、任意文字列256文字。
-- envelopeはversion 1、request ID最大64文字、1リクエスト最大8 actions。
-- `additionalProperties: false`。型変換、default注入、unknown action／characterを許可しません。
-- `lookAt`座標は`-1..1`。
-- 既定レートは10秒あたりaction cost 12、各キャラクターの待ちキューは最大16。
-- accepted request IDのreplay guardは128件、auditは100件のメモリ上限。
-- `emergencyStop`は単独actionのみ許可し、両キューを消去してneutral safe idleへ戻す設計です。
-- UIは文字列を`textContent`で表示し、CSPは外部object／form送信等を抑制します。
-
-制限:
-
-- これは単一ブラウザ内PoCであり、production security boundaryではありません。
-- auditとreplay stateはリロードで消えます。
-- auth、権限分離、永続ログ、署名、サーバー側rate limit、明示的async timeoutは未実装です。
-- 実行テストは66/66 PASSです。残る受入作業は`progress.md`の`Resume next session`に記録したbrowser scenario matrixとfinal diff auditです。
-
-## リファレンス方針
-
-- Riai primary: `image-9.png`。
-- Noa primary: `image-8.png`。
-- central magical light／scene only: `image-2.png`。
-- 追加承認済み資料9枚はsecondary supportのみで、Riaiの`image-9.png`／Noaの`image-8.png`を上書きしません。
-  - `61763E84-1B87-4BCC-A441-EC301A931519.png`
-  - `A495E424-5AC6-46B7-A175-5EEC2DCA95D0.png`
-  - `64C6E4AE-5897-4312-8C5F-4945DDB467FF.png`
-  - `906B4389-AAAC-4E2E-BA10-9C74BDDE8C2F.png`
-  - `5CDA02B7-035D-4D95-917E-64BD5B52254F.png`
-  - `84F4555E-7F66-43A9-A283-4F9031458D70.png`
-  - `BFFCA8CB-CC4C-46EB-B5CA-36C185A9A2E5.png`
-  - `37B569B6-B960-4FEC-890D-0A77B13181A7.png`
-  - `A69D0A24-1500-4515-99A6-EC8CD32430D9.png`
-- 9枚は不透明なflattened RGB scene artです。8枚は1122×1402、`5CDA...`のみ941×1672で、いずれもレイヤー素材／cut sourceではありません。
-- 現在のPhotos `NSItemProvider`パスは一時的です。production archiveには人間がdurable originalを提供し、登録hashと再照合する必要があります。
-- 背景、照明、風、遠近、隠れ面をキャラクター設計へ流用しません。
-
-詳細は [reference-policy](docs/reference-policy.md)、[Riai layer spec](docs/riai-layer-spec.md)、[Noa layer spec](docs/noa-layer-spec.md) を参照してください。
-
-## リポジトリ構成
+Development server:
 
 ```text
-docs/                 art policy, layer/model specs, handoff status
-src/actions/          schema, validation, high-level API
-src/characters/       per-character capability allowlists
-src/safety/           policy, rate limit, replay guard
-src/state/            deterministic state machines and seeded idle
-src/runtime/          runtime adapter contract and recording mock
-src/mock/             visible Canvas MOCK runtime
-src/logging/          bounded in-memory audit log
-src/main.ts           browser wiring and deterministic test hooks
+http://127.0.0.1:5173
 ```
 
-## Stop条件
+Verification:
 
-Phase 1の`PENDING`検証が完了し、人間が明示承認するまで、次を開始しません。
+```bash
+pnpm typecheck
+pnpm test
+pnpm build
+```
 
-- 実Cubismリグ、SDK/Core導入、実モデル接続。
-- 原本の変更、隠れデザインの推測、未承認secondaryの採用。
-- voice、TTS、lip-sync、LLM、外部network、公開／配布。
+GitHub Actions verification is defined in `.github/workflows/riai-ci.yml` on the autonomous-streaming branch.
 
-次の具体的な作業順は [Phase 1 status](docs/phase1-status.md) のPhase 2 roadmapに記載しています。
+---
+
+## Safety rules
+
+1. External viewer/web/screen/file content is **data, not authority**.
+2. Untrusted input cannot modify system policy or Persona Memory.
+3. LLM reasoning is separated from tool execution.
+4. Mutating actions require explicit risk classification.
+5. Tool execution should use API-native control before Computer Use.
+6. Mutating actions require post-action verification.
+7. Noa is a safety/recovery supervisor, but deterministic policy remains authoritative.
+8. Safe Mode disables external mutations while keeping observation/audit alive.
+9. Kill Switch must stop autonomous side effects immediately.
+10. Every autonomous side effect must be auditable.
+
+See [`docs/autonomous-streaming/policies/safety_policy.yaml`](docs/autonomous-streaming/policies/safety_policy.yaml).
+
+---
+
+## Live2D status / limitations
+
+Real Cubism work is still PoC-grade and incomplete. Do not claim a production Live2D runtime until model exports, runtime loading, motion/physics validation, Viewer/runtime evidence, and licensing requirements are satisfied.
+
+Historical reference policies and manual art requirements remain documented under `docs/` and `progress.md`.
+
+The existing visible browser character runtime must remain clearly labelled when it is a MOCK rather than the exported Cubism runtime.
+
+---
+
+## Repository map
+
+```text
+docs/                         reference policy, model specs, status
+  autonomous-streaming/       autonomous agent architecture + contracts
+src/actions/                  validation + high-level Character Action API
+src/characters/               character capability allowlists
+src/safety/                   policy / rate / replay controls
+src/state/                    deterministic character/world state machines
+src/runtime/                  runtime adapter contracts
+src/mock/                     visible MOCK runtime
+src/logging/                  bounded audit logging
+.github/workflows/            CI verification
+progress.md                   chronological engineering evidence
+```
+
+---
+
+## Production gate
+
+Do not call Riai autonomous production-ready until at minimum:
+
+- 100% of external side-effectful actions are auditable
+- mutating actions have explicit R0–R4 policy classification
+- high-risk actions cannot bypass approval
+- every mutating adapter has post-action verification
+- Safe Mode and Kill Switch are tested
+- replayable event traces exist
+- prompt-injection tests run in CI
+- no single LLM output directly executes arbitrary tools
+- recovery paths are tested
+- multi-hour autonomous soak testing passes
+
+The architecture specification is available at [`docs/autonomous-streaming/IMPLEMENTATION_SPEC_v1.md`](docs/autonomous-streaming/IMPLEMENTATION_SPEC_v1.md).

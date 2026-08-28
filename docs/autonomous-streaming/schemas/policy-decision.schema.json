@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://riai.local/schemas/policy-decision.json",
+  "title": "Riai Policy Decision",
+  "type": "object",
+  "required": ["decision_id", "action_id", "decision", "risk", "reasons", "timestamp"],
+  "properties": {
+    "decision_id": {"type": "string", "format": "uuid"},
+    "action_id": {"type": "string", "format": "uuid"},
+    "decision": {"enum": ["allow", "allow_with_limits", "require_human", "deny"]},
+    "risk": {"enum": ["R0", "R1", "R2", "R3", "R4"]},
+    "reasons": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "constraints": {"type": ["object", "null"], "additionalProperties": true},
+    "reviewer": {"enum": ["policy_engine", "noa", "human", "combined"]},
+    "timestamp": {"type": "string", "format": "date-time"}
+  },
+  "additionalProperties": false
+}
