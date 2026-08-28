@@ -1,0 +1,38 @@
+stateDiagram-v2
+    [*] --> BOOTING
+    BOOTING --> IDLE: dependencies_ready
+    IDLE --> PREPARING_STREAM: start_requested
+    PREPARING_STREAM --> LIVE_LISTENING: preflight_ok
+    PREPARING_STREAM --> SAFE_MODE: preflight_failed
+
+    LIVE_LISTENING --> THINKING: input_requires_response
+    THINKING --> SPEAKING: voice_response
+    THINKING --> TOOL_EXECUTING: action_policy_approved
+    THINKING --> SAFE_MODE: critical_risk_detected
+
+    SPEAKING --> LIVE_LISTENING: speech_complete
+    SPEAKING --> THINKING: interrupted / barge_in
+
+    TOOL_EXECUTING --> VERIFYING: execution_complete
+    TOOL_EXECUTING --> RECOVERING: execution_failed
+
+    VERIFYING --> LIVE_LISTENING: verified
+    VERIFYING --> RECOVERING: mismatch
+
+    RECOVERING --> TOOL_EXECUTING: retry_allowed
+    RECOVERING --> SAFE_MODE: retry_exhausted_or_unsafe
+    SAFE_MODE --> LIVE_LISTENING: human_reset_and_checks_pass
+
+    IDLE --> STOPPING: kill_switch
+    PREPARING_STREAM --> STOPPING: kill_switch
+    LIVE_LISTENING --> STOPPING: kill_switch
+    THINKING --> STOPPING: kill_switch
+    SPEAKING --> STOPPING: kill_switch
+    TOOL_EXECUTING --> STOPPING: kill_switch
+    VERIFYING --> STOPPING: kill_switch
+    RECOVERING --> STOPPING: kill_switch
+    SAFE_MODE --> STOPPING: kill_switch
+
+    LIVE_LISTENING --> STOPPING: stop_requested
+    STOPPING --> STOPPED
+    STOPPED --> [*]
