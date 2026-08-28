@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://riai.local/schemas/event-envelope.json",
+  "title": "Riai Event Envelope",
+  "type": "object",
+  "required": ["event_id", "event_type", "timestamp", "source", "trace_id", "session_id", "trust", "payload"],
+  "properties": {
+    "event_id": {"type": "string", "format": "uuid"},
+    "event_type": {"type": "string", "minLength": 1},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "source": {"type": "string", "minLength": 1},
+    "trace_id": {"type": "string", "minLength": 1},
+    "session_id": {"type": "string", "minLength": 1},
+    "trust": {
+      "type": "object",
+      "required": ["level", "prompt_injection_risk"],
+      "properties": {
+        "level": {"enum": ["trusted", "mixed", "untrusted"]},
+        "prompt_injection_risk": {"enum": ["none", "low", "medium", "high", "critical"]}
+      },
+      "additionalProperties": true
+    },
+    "payload": {"type": "object"}
+  },
+  "additionalProperties": false
+}
